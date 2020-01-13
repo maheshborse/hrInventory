@@ -14,7 +14,9 @@ namespace HRMSInventoryMangement.Models
         public int user_id { get; set; }
         public DateTime created_date { get; set; }
 
-        public int isdeleted { get; set; }
+        public int isdeleted { get; set; } 
+
+
 
     }
 }

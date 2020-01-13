@@ -2694,11 +2694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\HRMSInventoryMangement\\HRMSInventoryMangement.csproj",
+      "projectUniqueName": "E:\\Inventories\\HRMSInventoryMangementApi\\HRMSInventoryMangement.csproj",
       "projectName": "HRMSInventoryMangement",
-      "projectPath": "E:\\HRMSInventoryMangement\\HRMSInventoryMangement.csproj",
+      "projectPath": "E:\\Inventories\\HRMSInventoryMangementApi\\HRMSInventoryMangement.csproj",
       "packagesPath": "C:\\Users\\snehab\\.nuget\\packages\\",
-      "outputPath": "E:\\HRMSInventoryMangement\\obj\\",
+      "outputPath": "E:\\Inventories\\HRMSInventoryMangementApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
