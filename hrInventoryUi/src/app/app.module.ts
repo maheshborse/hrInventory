@@ -31,7 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { AlertModule } from './modules/_alert/alert.module';
 import { SnackbarComponent } from './modules/_alert/alert.component';
 import { DemoMaterialModule } from './demo-material-module';
-
+import { EditProductComponent } from './modules/product/edit-product/edit-product/edit-product.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import { DemoMaterialModule } from './demo-material-module';
     ChatMsgComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,
-    
+    EditProductComponent
   ],
   imports: [
     BrowserModule,
@@ -65,10 +65,10 @@ import { DemoMaterialModule } from './demo-material-module';
     NgbTabsetModule,
     FormsModule,
     DemoMaterialModule,
-    AlertModule
+    AlertModule,
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent],
-  entryComponents:[SnackbarComponent]
+  entryComponents:[SnackbarComponent,EditProductComponent]
 })
 export class AppModule { }

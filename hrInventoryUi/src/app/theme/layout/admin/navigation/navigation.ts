@@ -40,16 +40,6 @@ const NavigationItems = [
         url: '/dashboard/analytics',
         breadcrumbs: false
       },
-      // {
-      //   id: 'user',
-      //   title: 'User',
-      //   type: 'item',
-      //   icon: 'feather icon-home',
-      //   url: '/users',
-      //   breadcrumbs: true
-      // },
-
-      
       
     ],
     
@@ -71,6 +61,12 @@ const NavigationItems = [
             title: ' Product Category',
             type: 'item',
             url: '/category'
+          },
+          {
+            id: 'product',
+            title: 'Product',
+            type: 'item',
+            url: '/product'
           },
         ]
       }

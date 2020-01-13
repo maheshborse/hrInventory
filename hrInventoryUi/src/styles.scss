@@ -38,3 +38,6 @@ Snackbar
   /******************
   Snackbar
   ******************/
+  .cdk-overlay-container {
+    z-index: 3000 !important;
+  }

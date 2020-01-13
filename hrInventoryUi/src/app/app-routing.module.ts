@@ -17,7 +17,6 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./demo/dashboard/dashboard.module').then(module => module.DashboardModule)
       },
-      
       // {
       //   path: 'layout',
       //   loadChildren: () => import('./demo/pages/layout/layout.module').then(module => module.LayoutModule)
@@ -25,6 +24,10 @@ const routes: Routes = [
       {
         path: 'category',
         loadChildren: () => import('./modules/category/category.module').then(module => module.CategoryModule)
+      },
+      {
+        path: 'product',
+        loadChildren: () => import('./modules/product/product.module').then(module => module.ProductModule)
       },
       // {
       //   path: 'forms',
