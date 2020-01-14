@@ -1,1 +1,49 @@
-<p>edit-product works!</p>
+<!-- <h2 mat-dialog-title>New Product</h2>
+<hr>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <mat-form-field>
+          <input matInput [(ngModel)] = "firstName"  placeholder="Product Name">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-5"> 
+            <mat-form-field>
+                <input matInput placeholder="Last Name" [(ngModel)]="lastName" >
+            </mat-form-field>
+        </div>  
+    </div>
+   
+</mat-dialog-content> -->
+<h2 mat-dialog-title>New Product</h2>
+<hr>
+<div class="form-container">
+    <div class="row">
+        <div class="col-sm-6 ">
+            <mat-form-field>
+            <input matInput placeholder="Product Name">
+            </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+            <mat-form-field>
+                <mat-select placeholder="Category Name">
+                <mat-option value="option">Option</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <br>
+    <mat-form-field>
+      <textarea matInput placeholder="Product Description"></textarea>
+    </mat-form-field>
+    <br>
+    <hr>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close mat-raised-button color="warn" class="customButton" >Cancel</button>
+        <button mat-button [mat-dialog-close]="true" mat-raised-button color="primary" class="customButton" cdkFocusInitial>Save</button>
+      </mat-dialog-actions>
+    
+  </div>

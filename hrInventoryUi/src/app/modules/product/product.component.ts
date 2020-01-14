@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit {
   openDialog(element:user){
     
     const dialogRef = this.dialog.open(EditProductComponent,{
-      width: '640px',
+      width: '500px',
       panelClass: 'full-width-dialog',
       disableClose: true,
        data: element
