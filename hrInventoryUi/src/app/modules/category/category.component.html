@@ -1,3 +1,44 @@
 <app-card [hidHeader]="true">
-    sdasdas
+   
+
+    <div class="row tableheader">
+        <div class="col-sm-8">
+            <i class="material-icons search-icon searchIcon">search</i>
+            <input matInput [(ngModel)]="searchKey" (keyup)="applyFilter()"  type="text" name="search" placeholder="Search.."></div>
+        <div class="col-sm-4">
+            <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog()">
+            Add Product
+         </button>
+        </div>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+        <ng-container matColumnDef="category_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.category_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category_description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.category_description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef > Action </th>
+            <td mat-cell *matCellDef="let element">
+                <i (click)="openDialog(element)" class="material-icons" style="cursor: pointer;">mode_edit</i>
+                <i (click)="openDialog(element)" class="material-icons" style="cursor: pointer;">delete</i>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+
+    </table>
+
+    <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="false">
+    </mat-paginator>
 </app-card>
