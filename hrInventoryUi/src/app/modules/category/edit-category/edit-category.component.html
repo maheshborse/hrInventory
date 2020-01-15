@@ -1,1 +1,23 @@
-<p>edit-category works!</p>
+<h2 mat-dialog-title>New Category</h2>
+<hr>
+<div class="form-container">
+    <div class="row">
+        <div class="col-sm-6 ">
+            <mat-form-field>
+            <input matInput placeholder="Category Name">
+            </mat-form-field>
+        </div>
+       
+    </div>
+    <br>
+    <mat-form-field>
+      <textarea matInput placeholder="Category Description"></textarea>
+    </mat-form-field>
+    <br>
+    <hr>
+    <mat-dialog-actions align="end">
+       <button mat-button [mat-dialog-close]="true" mat-raised-button color="primary" class="customButton" cdkFocusInitial>Add Category</button>
+    </mat-dialog-actions>
+    
+  </div>
+  

@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { category } from 'src/app/shared/models/category';
 import { MatSort, MatPaginator, MatTableDataSource, MatDialog, MatIconModule} from '@angular/material';
 import { EditCategoryComponent } from './edit-category/edit-category.component';
+import Swal from 'sweetalert2';
+
+import { DataSource } from '@angular/cdk/table';
+import { Observable } from 'rxjs';
 
 const Category_Data:category[]=[
   {category_name:"ABC",category_description:"aaaaaaaaaaaaaaaaaaaaaa"},
@@ -22,6 +26,7 @@ export class CategoryComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['category_name', 'category_description','action'];
+  
   dataSource: MatTableDataSource<category>;
   searchKey:string;
 
@@ -35,21 +40,18 @@ export class CategoryComponent implements OnInit {
   }
 
   openDialog(element:category){
-    
     const dialogRef = this.dialog.open(EditCategoryComponent,{
-      width: '640px',
+      width: '500px',
       panelClass: 'full-width-dialog',
       disableClose: true,
       data: element
     });
-    
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result.category_name}`);
     });
-
- 
   }
 
+  
   onSearchClear(){
     this.searchKey="";
     this.applyFilter();
@@ -59,4 +61,28 @@ export class CategoryComponent implements OnInit {
     this.dataSource.filter=this.searchKey.trim().toLowerCase();
   }
 
+  delete(){
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+    
+  }
+
 }
+
+

@@ -32,6 +32,10 @@ import { AlertModule } from './modules/_alert/alert.module';
 import { SnackbarComponent } from './modules/_alert/alert.component';
 import { DemoMaterialModule } from './demo-material-module';
 import { EditProductComponent } from './modules/product/edit-product/edit-product/edit-product.component';
+import { EditCategoryComponent } from './modules/category/edit-category/edit-category.component';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -52,7 +56,7 @@ import { EditProductComponent } from './modules/product/edit-product/edit-produc
     ChatMsgComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,
-    EditProductComponent
+    EditProductComponent,EditCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -66,9 +70,11 @@ import { EditProductComponent } from './modules/product/edit-product/edit-produc
     FormsModule,
     DemoMaterialModule,
     AlertModule,
+    HttpClientModule
   ],
   providers: [NavigationItem],
   bootstrap: [AppComponent],
-  entryComponents:[SnackbarComponent,EditProductComponent]
+  entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent]
+  
 })
 export class AppModule { }

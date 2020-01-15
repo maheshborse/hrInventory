@@ -5,7 +5,7 @@ import { CategoryRoutingModule } from '../category/category-routing.module';
 import { CategoryComponent } from './category.component';
 import {SharedModule} from '../../theme/shared/shared.module';
 import { EditCategoryComponent } from './edit-category/edit-category.component';
-import { MatTableModule, MatSortModule, MatButtonModule, MatPaginatorModule, MatFormFieldModule, MatIconModule } from '@angular/material';
+import { MatTableModule, MatSortModule, MatButtonModule, MatPaginatorModule, MatFormFieldModule,  MatDialogModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -17,8 +17,9 @@ import { MatTableModule, MatSortModule, MatButtonModule, MatPaginatorModule, Mat
     MatSortModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatIconModule
+    MatDialogModule,
   ],
-  declarations: [CategoryComponent, EditCategoryComponent]
+  declarations: [CategoryComponent],
+ 
 })
 export class CategoryModule { }
