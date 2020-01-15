@@ -58,7 +58,11 @@ const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () => import('./modules/authentication/authentication.module').then(module => module.AuthenticationModule)
-      }
+      },
+      {
+        path: 'login',
+        loadChildren: () => import('./modules/authentication/auth-signin/auth-signin.module').then(module => module.AuthSigninModule)
+      },
     ]
   }
 ];
