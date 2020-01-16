@@ -27,13 +27,16 @@ import { ToggleFullScreenDirective } from './theme/shared/full-screen/toggle-ful
 /* Menu Items */
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from './modules/_alert/alert.module';
 import { SnackbarComponent } from './modules/_alert/alert.component';
 import { DemoMaterialModule } from './demo-material-module';
 import { EditProductComponent } from './modules/product/edit-product/edit-product/edit-product.component';
 import { EditCategoryComponent } from './modules/category/edit-category/edit-category.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductCategoryService } from './shared/services/product-category.service';
+
+
 
 
 
@@ -56,7 +59,8 @@ import { HttpClientModule } from '@angular/common/http';
     ChatMsgComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,
-    EditProductComponent,EditCategoryComponent
+    EditProductComponent,EditCategoryComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -70,9 +74,10 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     DemoMaterialModule,
     AlertModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [NavigationItem],
+  providers: [NavigationItem,ProductCategoryService],
   bootstrap: [AppComponent],
   entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent]
   

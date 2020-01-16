@@ -1,24 +1,30 @@
+<form name="categoryForm" [formGroup]="categoryForm">
 <h2 mat-dialog-title>New Category</h2>
 <hr>
 <div class="form-container">
     <div class="row">
         <div class="col-sm-6 ">
             <mat-form-field>
-            <input matInput placeholder="Category Name">
+           
+            <input matInput placeholder="Category Name" [formControl]="categoryNameValidator" required>
+            <mat-error *ngIf="categoryNameValidator.invalid">This field is mandatory.</mat-error>
             </mat-form-field>
         </div>
        
     </div>
     <br>
     <mat-form-field>
-      <textarea matInput placeholder="Category Description"></textarea>
+      <textarea matInput placeholder="Category Description" [formControl]="categoryDescriptionValidator" required></textarea>
+      <mat-error *ngIf="categoryDescriptionValidator.invalid">This field is mandatory.</mat-error>
     </mat-form-field>
     <br>
     <hr>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close mat-raised-button color="warn" class="customButton" >Cancel</button>
-        <button mat-button [mat-dialog-close]="true" mat-raised-button color="primary" class="customButton" cdkFocusInitial>Save</button>
+        <button mat-button [mat-dialog-close]="true" mat-raised-button color="primary" class="customButton" cdkFocusInitial [disabled]="categoryForm.status !== 'VALID'">Save</button>
     </mat-dialog-actions>
     
   </div>
+</form>
+
   

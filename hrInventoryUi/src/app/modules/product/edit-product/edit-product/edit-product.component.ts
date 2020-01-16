@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-product',
@@ -11,5 +12,15 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  productNameValidator: FormControl =  new FormControl('', [Validators.required]);
+  productDescriptionValidator: FormControl =  new FormControl('', [Validators.required]);
+  categryNameValidator: FormControl =  new FormControl('', [Validators.required]);
+
+  productForm: FormGroup = new FormGroup({
+    productName: this.productNameValidator,
+    ProductDescription: this.productDescriptionValidator,
+    categryName:this.productDescriptionValidator
+  });
 
 }

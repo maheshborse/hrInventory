@@ -18,32 +18,36 @@
     </div>
    
 </mat-dialog-content> -->
+<form name="productForm" [formGroup]="productForm"></form>
 <h2 mat-dialog-title>New Product</h2>
 <hr>
 <div class="form-container">
     <div class="row">
         <div class="col-sm-6 ">
             <mat-form-field>
-            <input matInput placeholder="Product Name">
+            <input matInput placeholder="Product Name" [formControl]="productNameValidator" required>
+            <mat-error *ngIf="productNameValidator.invalid">This field is mandatory.</mat-error>
             </mat-form-field>
         </div>
         <div class="col-sm-4">
             <mat-form-field>
-                <mat-select placeholder="Category Name">
+                <mat-select placeholder="Category Name" [formControl]="categryNameValidator" required>
                 <mat-option value="option">Option</mat-option>
+                <mat-error *ngIf="categryNameValidator.invalid">This field is mandatory.</mat-error>
                 </mat-select>
             </mat-form-field>
         </div>
     </div>
     <br>
     <mat-form-field>
-      <textarea matInput placeholder="Product Description"></textarea>
+      <textarea matInput placeholder="Product Description" [formControl]="productDescriptionValidator" required></textarea>
+      <mat-error *ngIf="productDescriptionValidator.invalid">This field is mandatory.</mat-error>
     </mat-form-field>
     <br>
     <hr>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close mat-raised-button color="warn" class="customButton" >Cancel</button>
-        <button mat-button [mat-dialog-close]="true" mat-raised-button color="primary" class="customButton" cdkFocusInitial>Save</button>
+        <button mat-button [mat-dialog-close]="true" mat-raised-button color="primary" class="customButton" cdkFocusInitial [disabled]="productForm.status !== 'VALID'">Save</button>
       </mat-dialog-actions>
     
   </div>

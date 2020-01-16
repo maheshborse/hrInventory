@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ProductRoutingModule } from '../product/product-routing.module';
 import { ProductComponent } from './product.component';
 import {SharedModule} from '../../theme/shared/shared.module';
-import { MatTableModule, MatPaginatorModule} from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatIconModule} from '@angular/material';
 import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from '@angular/material/button';
-import { EditProductComponent } from './edit-product/edit-product/edit-product.component';
+
 
 @NgModule({
   imports: [
@@ -16,7 +16,9 @@ import { EditProductComponent } from './edit-product/edit-product/edit-product.c
     MatTableModule,
     MatSortModule,
     MatButtonModule,
-    SharedModule
+    SharedModule,
+    MatIconModule,
+    
   ],
   declarations: [ProductComponent],
 

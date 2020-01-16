@@ -1,0 +1,9 @@
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\bin\Debug\netstandard2.0\InventoryDataAccess.deps.json
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\bin\Debug\netstandard2.0\InventoryDataAccess.dll
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\bin\Debug\netstandard2.0\InventoryDataAccess.pdb
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\obj\Debug\netstandard2.0\InventoryDataAccess.csprojAssemblyReference.cache
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\obj\Debug\netstandard2.0\InventoryDataAccess.csproj.CoreCompileInputs.cache
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\obj\Debug\netstandard2.0\InventoryDataAccess.AssemblyInfoInputs.cache
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\obj\Debug\netstandard2.0\InventoryDataAccess.AssemblyInfo.cs
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\obj\Debug\netstandard2.0\InventoryDataAccess.dll
+E:\HRMSInventoryManagement(Sprint1)\hrInventory\HRMSInventoryMangementApi\InventoryDataAccess\obj\Debug\netstandard2.0\InventoryDataAccess.pdb

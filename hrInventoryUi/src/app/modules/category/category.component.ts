@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs';
+import { ProductCategoryService } from 'src/app/shared/services/product-category.service';
 
 const Category_Data:category[]=[
   {category_name:"ABC",category_description:"aaaaaaaaaaaaaaaaaaaaaa"},
@@ -28,11 +29,17 @@ export class CategoryComponent implements OnInit {
   displayedColumns: string[] = ['category_name', 'category_description','action'];
   
   dataSource: MatTableDataSource<category>;
+ 
   searchKey:string;
 
-  constructor(public dialog: MatDialog) { 
+  constructor(public dialog: MatDialog,private productCategoryService:ProductCategoryService) { 
     this.dataSource = new MatTableDataSource(Category_Data);
+   //this.dataSource = new MatTableDataSource(this.productCategoryService.connect());
   }
+  // connect():Observable<category[]>{
+  //   return this.productCategoryService.getCategory();
+  // }
+
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
@@ -83,6 +90,7 @@ export class CategoryComponent implements OnInit {
     
   }
 
-}
+  
 
+}
 
