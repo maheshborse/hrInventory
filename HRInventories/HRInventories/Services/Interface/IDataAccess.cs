@@ -11,5 +11,11 @@ namespace HRInventories.Services.Interface
         Task AddCategory(Catagory Catogory);
 
         Task<List<Catagory>> GetCategories();
+
+        Catagory GetCatagorybyID(long Id);
+
+        void UpdateCatagory(Catagory catagory, Catagory item);
+
+        void DeleteCatagory(Catagory catagory);
     }
 }

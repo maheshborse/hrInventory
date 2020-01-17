@@ -46,16 +46,41 @@ namespace HRInventories.Controllers
         
         }
 
-        //public IActionResult Delete(long id)
-        //{
-        //    Catagory Catagories = _iDataAccess.Get(id);
-        //    if (interview == null)
-        //    {
-        //        return NotFound("The Interview record couldn't be found.");
-        //    }
+        [HttpGet("{id}", Name = "Get")]
+        public IActionResult Get(long id)
+        {
+            try
+            {
+                Catagory catagory = _iDataAccess.GetCatagorybyID(id);
+                return Ok(catagory);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory(long id, [FromBody] Catagory categories)
+        {
+            try
+            {
+                Catagory catagoryToUpdate = _iDataAccess.GetCatagorybyID(id);
+                _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
+                return Ok("Successfully updated");
+            }
 
-        //    _dataRepository.Delete(interview);
-        //    return NoContent();
-        //}
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategory(long id)
+        {
+            Catagory catagory = _iDataAccess.GetCatagorybyID(id);
+            _iDataAccess.DeleteCatagory(catagory);
+            return Ok("deleted");
+        }
     }
 }

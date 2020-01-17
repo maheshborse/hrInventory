@@ -39,6 +39,7 @@ namespace HRInventories.Services
             {
             }
         }
+
         public async Task<List<Catagory>> GetCategories()
         {
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
@@ -46,36 +47,32 @@ namespace HRInventories.Services
                     return await context.Catagory.ToListAsync();
             }
         }
-        //public async Task<List<Catagory>> GetCategory(long categoryid)
-        //{
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-        //        //return await context.Catagory.Where(k => k.Categoryid == categoryid).FirstOrDefaultAsync();
-        //    }
-        //}
-
-        public Task<List<Catagory>> GetCategory(int categoryid)
+        public Catagory GetCatagorybyID(long Id)
         {
-            throw new NotImplementedException();
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                return context.Catagory.FirstOrDefault(e => e.Categoryid == Id);
+            }
         }
-        //public async Task UpdateUnit(Catagory catogory)
-        //{
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-        //        var dbUnit = await context.Catagory.Where(k => k.Categoryid == unit.Id && k.OrgId == organizationId).FirstOrDefaultAsync();
-        //        if (dbUnit != null)
-        //        {
-        //            dbUnit.DisplayName = unit.Name; // unit.DisplayName; removed DisplayName from UI, so will set display name as unit name
-        //            dbUnit.Name = unit.Name;
-        //            //dbUnit.IsDeleted = unit.IsDeleted;
-        //            dbUnit.UpdatedTime = DateTime.Now;
-        //            await context.SaveChangesAsync();
-        //        }
-        //        else
-        //        {
-        //            throw new UnitNotFoundException(organizationId, unit.Id);
-        //        }
-        //    }
-        //}
+        public void UpdateCatagory(Catagory catagory, Catagory item)
+        {
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                catagory.Categoryname = item.Categoryname;
+                catagory.Categorydescription = item.Categorydescription;
+                catagory.Userid = item.Userid;
+                catagory.Createddate = item.Createddate;
+                catagory.Isdeleted = item.Isdeleted;
+                context.SaveChanges();
+            }
+        }
+        public void DeleteCatagory(Catagory catagory)
+        {
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                context.Catagory.Remove(catagory);
+                context.SaveChanges();
+            }
+        }
     }
 }
