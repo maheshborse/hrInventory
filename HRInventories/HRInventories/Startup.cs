@@ -29,13 +29,29 @@ namespace HRInventories
         public void ConfigureServices(IServiceCollection services)
         {
             AddDataAccessDI(services);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
             ///services.AddEntityFrameworkNpgsql().AddDbContext<HRInventoryDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
             
             string connString = Configuration.GetSection("Connectionstrings").GetSection("DatabaseConnection").Value;
             Connectionstrings connectionString = new Connectionstrings() { DatabaseConnection = connString };
             services.AddDbContext<HRInventoryDBContext>(options => options.UseNpgsql(connString));
             services.AddSingleton(connectionString);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                      .AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+                      .AllowCredentials()
+                .Build());
+            });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Core Api", Description = "Swagger Core Api" });
+
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +61,15 @@ namespace HRInventories
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+           
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Core Api");
+            }
+            );
             app.UseMvc();
         }
         private void AddDataAccessDI(IServiceCollection services)
