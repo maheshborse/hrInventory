@@ -129,22 +129,26 @@ namespace HRInventories.Services
                 return context.Product.FirstOrDefault(e => e.Productid == id);
             }
         }
-        public void UpdateProduct(Product product, Product item)
+        public Product UpdateProduct(Product item)
         {
             try
             {
+                var dbCategory = new Product();
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    product.Productname = item.Productname;
-                    product.Productdescription = item.Productdescription;
-                    product.Userid = item.Userid;
-                    product.Createddate = item.Createddate;
-                    //catagory.Isdeleted = item.Isdeleted;
+                    dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();
+                    dbCategory.Productname = item.Productname;
+                    dbCategory.Productdescription = item.Productdescription;
+                    dbCategory.Userid = item.Userid;
+                    dbCategory.Createddate = item.Createddate;
+                    dbCategory.Isdeleted = item.Isdeleted;
                     context.SaveChanges();
                 }
+                return dbCategory;
             }
             catch (Exception ex)
             {
+                return null;
             }
         }
         public void DeleteProduct(Product product)

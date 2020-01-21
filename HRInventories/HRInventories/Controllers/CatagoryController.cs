@@ -24,7 +24,7 @@ namespace HRInventories.Controllers
             try
             {
                 await _iDataAccess.AddCategory(categories);
-                return Ok("Successfully Inserted");
+                return NoContent();
             }
             catch(Exception ex)
             {

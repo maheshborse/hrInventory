@@ -24,7 +24,7 @@ namespace HRInventories.Controllers
             try
             {
                 await _iDataAccess.AddProduct(products);
-                return Ok("Successfully Inserted");
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -64,9 +64,9 @@ namespace HRInventories.Controllers
         {
             try
             {
-                Product productToUpdate = _iDataAccess.GetProductbyID(id);
-                _iDataAccess.UpdateProduct(productToUpdate, products);
-                return Ok("Successfully updated");
+
+                Product productsToUpdate = _iDataAccess.UpdateProduct(products);
+                return NoContent();
             }
 
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace HRInventories.Controllers
         {
             Product product = _iDataAccess.GetProductbyID(id);
             _iDataAccess.DeleteProduct(product);
-            return Ok("deleted");
+            return NoContent();
         }
     }
 }
