@@ -13,6 +13,7 @@ namespace HRInventories.Models
         }
 
         
+
         public virtual DbSet<Catagory> Catagory { get; set; }
         public virtual DbSet<Product> Product { get; set; }
 
@@ -67,10 +68,7 @@ namespace HRInventories.Models
 
                 entity.Property(e => e.Productid).HasColumnName("productid");
 
-                entity.Property(e => e.Categoryid)
-                    .IsRequired()
-                    .HasColumnName("categoryid")
-                    .HasMaxLength(50);
+                entity.Property(e => e.Categoryid).HasColumnName("categoryid");
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
@@ -93,6 +91,12 @@ namespace HRInventories.Models
                     .IsRequired()
                     .HasColumnName("userid")
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.Categoryid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("product_categoryid_fkey");
             });
         }
     }

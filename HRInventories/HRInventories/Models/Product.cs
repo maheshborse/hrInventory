@@ -5,12 +5,14 @@ namespace HRInventories.Models
 {
     public partial class Product
     {
-        public long Productid { get; set; }
+        public int Productid { get; set; }
+        public long Categoryid { get; set; }
         public string Productname { get; set; }
         public string Productdescription { get; set; }
-        public long Categoryid { get; set; }
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
+
+        public virtual Catagory Category { get; set; }
     }
 }

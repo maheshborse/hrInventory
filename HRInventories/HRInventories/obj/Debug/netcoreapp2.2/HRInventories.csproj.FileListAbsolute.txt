@@ -11,3 +11,4 @@ E:\finalhrgit\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HR
 E:\finalhrgit\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.RazorTargetAssemblyInfo.cache
 E:\finalhrgit\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.dll
 E:\finalhrgit\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.pdb
+E:\finalhrgit\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.csprojAssemblyReference.cache
