@@ -42,16 +42,23 @@ namespace HRInventories.Services
 
         public async Task<List<Catagory>> GetCategories()
         {
-            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            try
             {
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
                     return await context.Catagory.ToListAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
-        public Catagory GetCatagorybyID(long Id)
+        public Catagory GetCatagorybyID(long id)
         {
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                return context.Catagory.FirstOrDefault(e => e.Categoryid == Id);
+                return context.Catagory.FirstOrDefault(e => e.Categoryid == id);
             }
         }
         public Catagory UpdateCatagory(Catagory item)
@@ -74,6 +81,77 @@ namespace HRInventories.Services
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
                 context.Catagory.Remove(catagory);
+                context.SaveChanges();
+            }
+        }
+        public async Task AddProduct(Product product)
+        {
+            try
+            {
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
+                    Product products = new Product()
+                    {
+                        // removed DisplayName from UI, so will set display name as unit name
+                        Productname = product.Productname,
+                        Productdescription = product.Productdescription,
+                        Userid = product.Userid,
+                        Categoryid=product.Categoryid,
+                        Createddate = product.Createddate,
+                        Isdeleted = product.Isdeleted
+                    };
+                    await context.Product.AddAsync(products);
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        public async Task<List<Product>> GetProducts()
+        {
+            try
+            {
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
+                    return await context.Product.ToListAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public Product GetProductbyID(long id)
+        {
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                return context.Product.FirstOrDefault(e => e.Productid == id);
+            }
+        }
+        public void UpdateProduct(Product product, Product item)
+        {
+            try
+            {
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
+                    product.Productname = item.Productname;
+                    product.Productdescription = item.Productdescription;
+                    product.Userid = item.Userid;
+                    product.Createddate = item.Createddate;
+                    //catagory.Isdeleted = item.Isdeleted;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        public void DeleteProduct(Product product)
+        {
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                context.Product.Remove(product);
                 context.SaveChanges();
             }
         }
