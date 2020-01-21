@@ -12,7 +12,7 @@ import{ProductCategoryService} from '../../../shared/services/product-category.s
 export class EditCategoryComponent implements OnInit {
  
   dummyCategory =  {
-    categoryid: '',
+    categoryid: 0,
     categoryname:"",
     categorydescription:"",
     Userid: 1,
@@ -46,7 +46,7 @@ export class EditCategoryComponent implements OnInit {
 
 
   clickEditOrSave(){
-   if (this.dummyCategory.categoryid === "") {
+   if (this.dummyCategory.categoryid === 0) {
     this.dummyCategory.isdeleted="1";
     this.productCategoryService.postRequest(this.dummyCategory)
     .subscribe(

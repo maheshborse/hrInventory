@@ -53,7 +53,7 @@ export class CategoryComponent implements OnInit {
       data: element
     });
     dialogRef.afterClosed().subscribe(result => {
-     if(result !== ""){
+      if(result !== ""){
         this.categoryList();
         this.notificationService.success("Successfully Saved user.")
       }

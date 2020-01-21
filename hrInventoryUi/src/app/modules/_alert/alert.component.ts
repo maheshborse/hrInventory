@@ -25,7 +25,7 @@ export class AlertComponent implements OnInit, OnDestroy {
                 let panelclass=this.cssClass(alert)
                 // add alert to array
                 this.alerts.push(alert);
-                this.snackbar.open("Success","",{
+                this.snackbar.open(alert.message,"",{
                     panelClass: panelclass,
                     duration:2000,
                     verticalPosition:"top",
