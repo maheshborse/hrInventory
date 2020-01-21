@@ -12,10 +12,20 @@ namespace HRInventories.Services.Interface
 
         Task<List<Catagory>> GetCategories();
 
-        Catagory GetCatagorybyID(long Id);
+        Catagory GetCatagorybyID(long id);
 
         void UpdateCatagory(Catagory catagory, Catagory item);
 
         void DeleteCatagory(Catagory catagory);
+
+        Task AddProduct(Product product);
+
+        Task<List<Product>> GetProducts();
+
+        Product GetProductbyID(long id);
+
+        void UpdateProduct(Product product, Product item);
+
+        void DeleteProduct(Product product);
     }
 }
