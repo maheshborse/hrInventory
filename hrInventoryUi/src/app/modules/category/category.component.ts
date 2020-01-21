@@ -3,19 +3,13 @@ import { category } from 'src/app/shared/models/category';
 import { MatSort, MatPaginator, MatTableDataSource, MatDialog, MatIconModule} from '@angular/material';
 import { EditCategoryComponent } from './edit-category/edit-category.component';
 import Swal from 'sweetalert2';
+import {ProductCategoryService} from '../../shared/services/product-category.service'
 
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs';
-import { ProductCategoryService } from 'src/app/shared/services/product-category.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
-const Category_Data:category[]=[
-  {category_name:"ABC",category_description:"aaaaaaaaaaaaaaaaaaaaaa"},
-  {category_name:"PQR",category_description:"bbbbbbbbbbbbbbbbbbbbbb"},
-  {category_name:"IOP", category_description:"ccccccccccccccccccccc"},
-  {category_name:"JKL",category_description:"dddddddddddddddddddddd"},
-  {category_name:"FGH",category_description:"eeeeeeeeeeeeeeeeeeeeee"},
-  {category_name:"SDF",category_description:"ffffffffffffffffffffff"}
-];
 
 @Component({
   selector: 'app-category',
@@ -27,23 +21,28 @@ export class CategoryComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['category_name', 'category_description','action'];
-  
-  dataSource: MatTableDataSource<category>;
- 
+  dataSource = new MatTableDataSource();
   searchKey:string;
+  durationInSeconds = 5;
 
-  constructor(public dialog: MatDialog,private productCategoryService:ProductCategoryService) { 
-    this.dataSource = new MatTableDataSource(Category_Data);
-   //this.dataSource = new MatTableDataSource(this.productCategoryService.connect());
+  constructor(public dialog: MatDialog,private productCategoryService:ProductCategoryService,private _snackBar: MatSnackBar,public notificationService:NotificationService) { 
+     this.categoryList();
   }
-  // connect():Observable<category[]>{
-  //   return this.productCategoryService.getCategory();
-  // }
-
-
+  
   ngOnInit() {
+    this.categoryList();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  categoryList(){
+    
+    this.productCategoryService.getCategory()
+     .subscribe(
+      data => {
+        this.dataSource.data = data;
+       }
+      );
   }
 
   openDialog(element:category){
@@ -54,25 +53,21 @@ export class CategoryComponent implements OnInit {
       data: element
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result.category_name}`);
+     if(result !== ""){
+        this.categoryList();
+        this.notificationService.success("Successfully Saved user.")
+      }
     });
   }
 
-  
-  onSearchClear(){
-    this.searchKey="";
-    this.applyFilter();
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  applyFilter(){
-    this.dataSource.filter=this.searchKey.trim().toLowerCase();
-  }
-
-  delete(){
-
+  delete(id:number){
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: "You won't delete this ?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -80,17 +75,18 @@ export class CategoryComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+        this.productCategoryService.deleteRequest(id)
+        .subscribe(
+            success => {
+              this.notificationService.error("Successfully Deleted")
+              this.categoryList();
+            },
+            error => {  
+            }       
+          );
       }
     })
     
   }
-
-  
-
 }
 

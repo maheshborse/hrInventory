@@ -14,7 +14,7 @@ namespace HRInventories.Services.Interface
 
         Catagory GetCatagorybyID(long Id);
 
-        void UpdateCatagory(Catagory catagory, Catagory item);
+        Catagory UpdateCatagory(Catagory item);
 
         void DeleteCatagory(Catagory catagory);
     }

@@ -26,3 +26,17 @@ E:\HRFinal\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInv
 E:\HRFinal\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.RazorTargetAssemblyInfo.cache
 E:\HRFinal\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.dll
 E:\HRFinal\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.pdb
+E:\hrInventory\HRInventories\HRInventories\bin\Debug\netcoreapp2.2\HRInventories.deps.json
+E:\hrInventory\HRInventories\HRInventories\bin\Debug\netcoreapp2.2\HRInventories.runtimeconfig.json
+E:\hrInventory\HRInventories\HRInventories\bin\Debug\netcoreapp2.2\HRInventories.runtimeconfig.dev.json
+E:\hrInventory\HRInventories\HRInventories\bin\Debug\netcoreapp2.2\HRInventories.dll
+E:\hrInventory\HRInventories\HRInventories\bin\Debug\netcoreapp2.2\HRInventories.pdb
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.csproj.CoreCompileInputs.cache
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.RazorAssemblyInfo.cache
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.RazorAssemblyInfo.cs
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.AssemblyInfoInputs.cache
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.AssemblyInfo.cs
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.RazorTargetAssemblyInfo.cache
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.dll
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.pdb
+E:\hrInventory\HRInventories\HRInventories\obj\Debug\netcoreapp2.2\HRInventories.csprojAssemblyReference.cache

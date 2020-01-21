@@ -64,9 +64,9 @@ namespace HRInventories.Controllers
         {
             try
             {
-                Catagory catagoryToUpdate = _iDataAccess.GetCatagorybyID(id);
-                _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
-                return Ok("Successfully updated");
+                Catagory catagoryToUpdate = _iDataAccess.UpdateCatagory(categories);
+               // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
+                return NoContent();
             }
 
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace HRInventories.Controllers
         {
             Catagory catagory = _iDataAccess.GetCatagorybyID(id);
             _iDataAccess.DeleteCatagory(catagory);
-            return Ok("deleted");
+            return NoContent();
         }
     }
 }

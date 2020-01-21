@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
 
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import{ProductCategoryService} from '../../../shared/services/product-category.service'
 
 @Component({
   selector: 'app-edit-category',
@@ -8,17 +10,63 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
   styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
+ 
+  dummyCategory =  {
+    categoryid: '',
+    categoryname:"",
+    categorydescription:"",
+    Userid: 1,
+    creadtedDate:new Date(),
+    isdeleted:"1"
+  }
 
-  constructor() { }
+
+  constructor( public dialogRef: MatDialogRef<EditCategoryComponent>,
+    private productCategoryService:ProductCategoryService, @Optional()  @Inject(MAT_DIALOG_DATA) data:any) {
+    
+      if(data){
+      this.dummyCategory.categoryid = data.categoryid;
+      this.dummyCategory.categoryname = data.categoryname;
+      this.dummyCategory.categorydescription = data.categorydescription;
+      this.dummyCategory.Userid = 1;
+      this.dummyCategory.creadtedDate = new Date();
+      this.dummyCategory.isdeleted="1";
+    }
+
+   }
 
   ngOnInit() {
   }
 
   categoryNameValidator: FormControl =  new FormControl('', [Validators.required]);
-  categoryDescriptionValidator: FormControl =  new FormControl('', [Validators.required]);
-
+  
   categoryForm: FormGroup = new FormGroup({
     category_name: this.categoryNameValidator,
-    category_description: this.categoryDescriptionValidator
   });
+
+
+  clickEditOrSave(){
+   if (this.dummyCategory.categoryid === "") {
+    this.dummyCategory.isdeleted="1";
+    this.productCategoryService.postRequest(this.dummyCategory)
+    .subscribe(
+      success => {
+       this.dialogRef.close(this.dummyCategory);
+      },
+      error => {
+       
+      }
+    );
+   } else{
+      this.productCategoryService.patchRequest(this.dummyCategory)
+      .subscribe(
+        success => {
+         this.dialogRef.close(this.dummyCategory);
+        },
+        error => {
+         
+        }
+      );
+    }
+  }
 }

@@ -21,28 +21,26 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private authService: AuthenticationService,private router: Router){}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        //const url = environment.baseUrl;
-        // add authorization header with jwt token if available
-        return next.handle(request);
-        // let token="";
-        
-        // if(localStorage.getItem('user'))
+        const url = environment.baseUrl;
+        let token = '';
+
+        // if (localStorage.getItem('user'))
         // {
-        //     let user=JSON.parse(localStorage.getItem('user'));
-        //     token=user.access_Token; 
+        //     const user = JSON.parse(localStorage.getItem('user'));
+        //     token = user.access_Token;
         // }
 
-        // if (request.url.toString().indexOf("assets/i18n")<1) {
-        //     request = request.clone({
-        //         url: url + request.url,
-                
-        //         setHeaders: {
-        //             "Authorization": `Bearer ${token}`,                    
-        //             "Content-Type": "application/json"                
-        //         }
-        //     });
-        // }
-        // return next.handle(request)
+        if (request.url.toString().indexOf('assets/i18n') < 1) {
+            request = request.clone({
+                url: url + request.url,
+
+                // setHeaders: {
+                //     'Authorization': `Bearer ${token}`,
+                //     'Content-Type': 'application/json',
+                // },
+            });
+        }
+        return next.handle(request)
         
         //***************** For Refresh Token */
         

@@ -37,6 +37,7 @@ export class NotificationService {
     }
 
     error(message: string, alertId?: string) {
+        debugger;
         this.alert(new Alert({ message, type: AlertType.Error, alertId }));
     }
 

@@ -1,5 +1,8 @@
 export interface category {
-    
-    category_name: string;
-    category_description:string;
-    }
+    Categoryid :number;
+    Categoryname: string;
+    Categorydescription:string;
+    Userid: number;
+    Createddate:Date;
+    Isdeleted:string;
+}

@@ -33,8 +33,10 @@ import { SnackbarComponent } from './modules/_alert/alert.component';
 import { DemoMaterialModule } from './demo-material-module';
 import { EditProductComponent } from './modules/product/edit-product/edit-product/edit-product.component';
 import { EditCategoryComponent } from './modules/category/edit-category/edit-category.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProductCategoryService } from './shared/services/product-category.service';
+import { JwtInterceptor } from './shared/helpers/jwt.interceptor';
+import { AuthenticationService } from './shared/services/authentication.service';
 
 
 
@@ -77,7 +79,15 @@ import { ProductCategoryService } from './shared/services/product-category.servi
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [NavigationItem,ProductCategoryService],
+  providers: [NavigationItem,ProductCategoryService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    AuthenticationService
+  ],
+  
   bootstrap: [AppComponent],
   entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent]
   

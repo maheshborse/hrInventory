@@ -54,17 +54,20 @@ namespace HRInventories.Services
                 return context.Catagory.FirstOrDefault(e => e.Categoryid == Id);
             }
         }
-        public void UpdateCatagory(Catagory catagory, Catagory item)
+        public Catagory UpdateCatagory(Catagory item)
         {
+            var dbCategory = new Catagory();
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                catagory.Categoryname = item.Categoryname;
-                catagory.Categorydescription = item.Categorydescription;
-                catagory.Userid = item.Userid;
-                catagory.Createddate = item.Createddate;
-                catagory.Isdeleted = item.Isdeleted;
+                dbCategory =  context.Catagory.Where(k => k.Categoryid == item.Categoryid).FirstOrDefault();
+                dbCategory.Categoryname = item.Categoryname;
+                dbCategory.Categorydescription = item.Categorydescription;
+                dbCategory.Userid = item.Userid;
+                dbCategory.Createddate = item.Createddate;
+                dbCategory.Isdeleted = item.Isdeleted;
                 context.SaveChanges();
             }
+            return dbCategory;
         }
         public void DeleteCatagory(Catagory catagory)
         {
