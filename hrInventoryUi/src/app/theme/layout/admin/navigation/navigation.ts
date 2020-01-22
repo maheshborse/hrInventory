@@ -69,9 +69,25 @@ const NavigationItems = [
             url: '/product'
           },
         ]
+      },
+      {
+        id: '',
+        title: 'Transaction Pages',
+        type: 'collapse',
+        icon: 'feather icon-box',
+        children: [
+          {
+            id: 'purchase',
+            title: 'Purchase Order',
+            type: 'item',
+            url: '/purchase'
+          },
+          
+        ]
       }
     ]
   },
+ 
 ];
 
 @Injectable()

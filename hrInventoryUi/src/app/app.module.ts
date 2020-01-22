@@ -37,9 +37,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProductCategoryService } from './shared/services/product-category.service';
 import { JwtInterceptor } from './shared/helpers/jwt.interceptor';
 import { AuthenticationService } from './shared/services/authentication.service';
-
-
-
+import { ProductService } from './shared/services/product.service';
 
 
 @NgModule({
@@ -79,7 +77,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [NavigationItem,ProductCategoryService,
+  providers: [NavigationItem,ProductCategoryService,ProductService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

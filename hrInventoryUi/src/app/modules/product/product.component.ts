@@ -4,15 +4,10 @@ import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { product } from 'src/app/shared/models/product';
 import { EditProductComponent } from './edit-product/edit-product/edit-product.component';
 import Swal from 'sweetalert2';
+import { ProductService } from 'src/app/shared/services/product.service';
+import { ProductCategoryService } from 'src/app/shared/services/product-category.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
-const ELEMENT_DATA: product[] = [
-  {id:1,productName:"Pen",categryName:"Stationery",ProductDescription:"Test"},
-  {id:2,productName:"duster",categryName:"Stationery",ProductDescription:"Test"},
-  {id:3,productName:"pencile",categryName:"Stationery",ProductDescription:"Test"},
-  {id:4,productName:"notebook",categryName:"Stationery",ProductDescription:"Test"},
-  {id:5,productName:"coffeemug",categryName:"Stationery",ProductDescription:"Test"},
-  {id:6,productName:"Pen",categryName:"Stationery",ProductDescription:"Test"}
-];
 
 @Component({
   selector: 'app-product',
@@ -24,15 +19,39 @@ export class ProductComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['productName', 'categryName','ProductDescription','action'];
-  dataSource: MatTableDataSource<product>;
+  dataSource = new MatTableDataSource();
+  categoryData : any;
+  categoryName:any;
  
-  constructor(public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+  constructor(public dialog: MatDialog,private productService:ProductService,private productCategoryService: ProductCategoryService,private notificationService : NotificationService) {
+    this.productList();
   }
 
   ngOnInit() {
+    this.productList();
+    this.catategorydetails();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  productList(){
+    this.productService.getProduct()
+     .subscribe(
+      data => {
+        this.dataSource.data = data;
+      }
+     );
+  }
+
+  catategorydetails(){
+    this.productCategoryService.getCategory()
+    .subscribe(
+      data => {
+        this.categoryData = data;
+      },
+      error => {
+      }
+    )
   }
 
   openDialog(element:product){
@@ -44,6 +63,10 @@ export class ProductComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result.lastName}`);
+      if(result !== ""){
+        this.productList();
+        this.notificationService.success("Successfully Saved")
+      }
     });
   }
 
@@ -51,8 +74,7 @@ export class ProductComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  delete(){
-
+  delete(id:any){
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -63,13 +85,16 @@ export class ProductComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+        this.productService.deleteRequest(id)
+        .subscribe(
+          success => {
+            this.notificationService.error("Successfully Deleted")
+            this.productList();
+          },
+          error => {  
+          }       
+        );
       }
     })
-    
   }
 }

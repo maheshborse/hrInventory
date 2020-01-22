@@ -1,7 +1,10 @@
 export interface product {
-  id:number,
-  productName:string;
-  categryName:string;
-  ProductDescription:string;
+  Productid:number,
+  Productname:string;
+  Productdescription:string;
+  Categoryid:string;
+  Userid:string;
+  Createddate:Date;
+  Isdeleted:string
       
 }
