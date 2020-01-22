@@ -29,6 +29,12 @@ const routes: Routes = [
         path: 'product',
         loadChildren: () => import('./modules/product/product.module').then(module => module.ProductModule)
       },
+
+      {
+        path: 'purchase',
+        loadChildren: () => import('./modules/purchase/purchase.module').then(module => module.PurchaseModule)
+      }
+      
       // {
       //   path: 'forms',
       //   loadChildren: () => import('./demo/pages/form-elements/form-elements.module').then(module => module.FormElementsModule)
