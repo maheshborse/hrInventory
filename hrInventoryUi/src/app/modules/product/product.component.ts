@@ -29,7 +29,6 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.productList();
-    this.catategorydetails();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -42,18 +41,7 @@ export class ProductComponent implements OnInit {
       }
      );
   }
-
-  catategorydetails(){
-    this.productCategoryService.getCategory()
-    .subscribe(
-      data => {
-        this.categoryData = data;
-      },
-      error => {
-      }
-    )
-  }
-
+  
   openDialog(element:product){
     const dialogRef = this.dialog.open(EditProductComponent,{
       width: '500px',
