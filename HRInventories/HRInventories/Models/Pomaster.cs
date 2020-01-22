@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace HRInventories.Models
 {
-    public partial class Product
+    public partial class Pomaster
     {
-        public Product()
+        public Pomaster()
         {
             Podetail = new HashSet<Podetail>();
         }
 
-        public int Productid { get; set; }
-        public long Categoryid { get; set; }
-        public string Productname { get; set; }
-        public string Productdescription { get; set; }
+        public long Poid { get; set; }
+        public DateTime Podate { get; set; }
+        public double Totalamount { get; set; }
+        public double Discount { get; set; }
+        public double Finalamount { get; set; }
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
-
-       
-        public virtual Catagory Category { get; set; }
-       
+      
         public virtual ICollection<Podetail> Podetail { get; set; }
     }
 }

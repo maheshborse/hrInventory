@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRInventories.Models;
 using HRInventories.Services.Interface;
-using HRInventories.UIModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,19 +11,19 @@ namespace HRInventories.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class PomasterController : ControllerBase
     {
-        IProductDataAccess _iProductDataAccess;
-        public ProductController(IProductDataAccess productDataAccess)
+        IPomasterDataAccess _iPomasterDataAccess;
+        public PomasterController(IPomasterDataAccess pomasterDataAccess)
         {
-            _iProductDataAccess = productDataAccess;
+            _iPomasterDataAccess = pomasterDataAccess;
         }
         [HttpPost]
-        public async Task<IActionResult> InsertProduct([FromBody]ProductModel products)
+        public async Task<IActionResult> InsertPomaster([FromBody]Pomaster pomaster)
         {
             try
             {
-                await _iProductDataAccess.AddProduct(products);
+                await _iPomasterDataAccess.AddPomaster(pomaster);
                 return NoContent();
             }
             catch (Exception ex)
@@ -33,12 +32,12 @@ namespace HRInventories.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetCategories()
         {
             try
             {
-                List<ProductModel> Products = await _iProductDataAccess.GetProducts();
-                return Ok(Products);
+                List<Pomaster> pomasters = await _iPomasterDataAccess.GetPomasters();
+                return Ok(pomasters);
             }
             catch (Exception ex)
             {
@@ -47,13 +46,13 @@ namespace HRInventories.Controllers
 
         }
 
-        [HttpGet("{id}", Name = "GetProduct")]
-        public IActionResult GetProduct(long id)
+        [HttpGet("{id}", Name = "GetPomaster")]
+        public IActionResult GetPomaster(long id)
         {
             try
             {
-                Product product = _iProductDataAccess.GetProductbyID(id);
-                return Ok(product);
+                Pomaster pomaster = _iPomasterDataAccess.GetPomasterbyID(id);
+                return Ok(pomaster);
             }
             catch (Exception ex)
             {
@@ -61,12 +60,12 @@ namespace HRInventories.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(long id, [FromBody] Product products)
+        public IActionResult UpdateCategory(long id, [FromBody] Pomaster pomaster)
         {
             try
             {
-
-                Product productsToUpdate = _iProductDataAccess.UpdateProduct(products);
+                Pomaster pomasterToUpdate = _iPomasterDataAccess.UpdatePomaster(pomaster);
+                // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
                 return NoContent();
             }
 
@@ -77,10 +76,10 @@ namespace HRInventories.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(long id)
+        public IActionResult DeleteCategory(long id)
         {
-            Product product = _iProductDataAccess.GetProductbyID(id);
-            _iProductDataAccess.DeleteProduct(product);
+            Pomaster catagory = _iPomasterDataAccess.GetPomasterbyID(id);
+            _iPomasterDataAccess.DeletePomaster(catagory);
             return NoContent();
         }
     }

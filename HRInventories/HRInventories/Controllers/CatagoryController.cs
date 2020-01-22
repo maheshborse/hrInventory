@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRInventories.Models;
 using HRInventories.Services.Interface;
+using HRInventories.UIModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,17 +14,17 @@ namespace HRInventories.Controllers
     [ApiController]
     public class CatagoryController : ControllerBase
     {
-        IDataAccess _iDataAccess;
-        public CatagoryController(IDataAccess dataAccess)
+        ICatagoryDataAccess _iCatagoryDataAccess;
+        public CatagoryController(ICatagoryDataAccess catagoryDataAccess)
         {
-            _iDataAccess = dataAccess;
+            _iCatagoryDataAccess = catagoryDataAccess;
         }
         [HttpPost]
-        public async Task<IActionResult> InsertCategory([FromBody]Catagory categories)
+        public async Task<IActionResult> InsertCategory([FromBody]CatagoryModel categories)
         {
             try
             {
-                await _iDataAccess.AddCategory(categories);
+                await _iCatagoryDataAccess.AddCategory(categories);
                 return NoContent();
             }
             catch(Exception ex)
@@ -36,7 +37,7 @@ namespace HRInventories.Controllers
         {
             try
             {
-                List<Catagory> Categories = await _iDataAccess.GetCategories();
+                List<Catagory> Categories = await _iCatagoryDataAccess.GetCategories();
                 return Ok(Categories);
             }
                 catch (Exception ex)
@@ -46,12 +47,12 @@ namespace HRInventories.Controllers
         
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(long id)
+        [HttpGet("{id}", Name = "GetCatagory")]
+        public IActionResult GetCatagory(long id)
         {
             try
             {
-                Catagory catagory = _iDataAccess.GetCatagorybyID(id);
+                Catagory catagory = _iCatagoryDataAccess.GetCatagorybyID(id);
                 return Ok(catagory);
             }
             catch (Exception ex)
@@ -60,11 +61,11 @@ namespace HRInventories.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateCategory(long id, [FromBody] Catagory categories)
+        public IActionResult UpdateCategory(long id, [FromBody]CatagoryModel categories)
         {
             try
             {
-                Catagory catagoryToUpdate = _iDataAccess.UpdateCatagory(categories);
+                Catagory catagoryToUpdate = _iCatagoryDataAccess.UpdateCatagory(categories);
                // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
                 return NoContent();
             }
@@ -78,8 +79,8 @@ namespace HRInventories.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(long id)
         {
-            Catagory catagory = _iDataAccess.GetCatagorybyID(id);
-            _iDataAccess.DeleteCatagory(catagory);
+            Catagory catagory = _iCatagoryDataAccess.GetCatagorybyID(id);
+            _iCatagoryDataAccess.DeleteCatagory(catagory);
             return NoContent();
         }
     }

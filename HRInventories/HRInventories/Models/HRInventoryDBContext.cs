@@ -10,21 +10,22 @@ namespace HRInventories.Models
         Connectionstrings _connectionstring;
         public HRInventoryDBContext(Connectionstrings connectionstring)
         {
+             
             _connectionstring = connectionstring;
         }
 
-        
+
 
         public virtual DbSet<Catagory> Catagory { get; set; }
+        public virtual DbSet<Podetail> Podetail { get; set; }
+        public virtual DbSet<Pomaster> Pomaster { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         private static ILoggerFactory _loggerFactory = new LoggerFactory().AddConsole();
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-               // optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=HRInventoryDB;Username=postgres;Password=postgres@123;Integrated Security=true;Pooling=true");
                 optionsBuilder.UseNpgsql(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
             }
         }
@@ -58,6 +59,81 @@ namespace HRInventories.Models
                     .IsRequired()
                     .HasColumnName("isdeleted")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Userid)
+                    .IsRequired()
+                    .HasColumnName("userid")
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Podetail>(entity =>
+            {
+                entity.ToTable("podetail");
+
+                entity.Property(e => e.Podetailid).HasColumnName("podetailid");
+
+                entity.Property(e => e.Amount).HasColumnName("amount");
+
+                entity.Property(e => e.Createddate).HasColumnName("createddate");
+
+                entity.Property(e => e.Discount).HasColumnName("discount");
+
+                entity.Property(e => e.Isdeleted)
+                    .IsRequired()
+                    .HasColumnName("isdeleted")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Poid).HasColumnName("poid");
+
+                entity.Property(e => e.Porate).HasColumnName("porate");
+
+                entity.Property(e => e.Productid)
+                    .HasColumnName("productid")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Userid)
+                    .IsRequired()
+                    .HasColumnName("userid")
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.Po)
+                    .WithMany(p => p.Podetail)
+                    .HasForeignKey(d => d.Poid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("podetail_poid_fkey");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Podetail)
+                    .HasForeignKey(d => d.Productid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("podetail_productid_fkey");
+            });
+
+            modelBuilder.Entity<Pomaster>(entity =>
+            {
+                entity.HasKey(e => e.Poid)
+                    .HasName("pomaster_pkey");
+
+                entity.ToTable("pomaster");
+
+                entity.Property(e => e.Poid).HasColumnName("poid");
+
+                entity.Property(e => e.Createddate).HasColumnName("createddate");
+
+                entity.Property(e => e.Discount).HasColumnName("discount");
+
+                entity.Property(e => e.Finalamount).HasColumnName("finalamount");
+
+                entity.Property(e => e.Isdeleted)
+                    .IsRequired()
+                    .HasColumnName("isdeleted")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Podate).HasColumnName("podate");
+
+                entity.Property(e => e.Totalamount).HasColumnName("totalamount");
 
                 entity.Property(e => e.Userid)
                     .IsRequired()

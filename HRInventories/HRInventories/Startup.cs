@@ -74,7 +74,9 @@ namespace HRInventories
         }
         private void AddDataAccessDI(IServiceCollection services)
         {
-            services.AddSingleton<IDataAccess, DataAccess>();
+            services.AddSingleton<ICatagoryDataAccess, CatagoryDataAccess>();
+            services.AddSingleton<IProductDataAccess, ProductDataAccess>();
+            services.AddSingleton<IPomasterDataAccess, PomasterDataAccess>();
         }
     }
 }
