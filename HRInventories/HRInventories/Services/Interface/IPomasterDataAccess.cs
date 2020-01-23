@@ -1,4 +1,5 @@
 ﻿using HRInventories.Models;
+using HRInventories.UIModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,17 @@ namespace HRInventories.Services.Interface
 {
     public interface IPomasterDataAccess
     {
-        Task AddPomaster(Pomaster pomaster);
+        //Task AddPo(PodetailModel podetail);
 
-        Task<List<Pomaster>> GetPomasters();
+        Task AddPo(POViewModel pOViewModel);
 
-        Pomaster GetPomasterbyID(long id);
+        //Task<List<POViewModel>> GetPomasters();
 
-        Pomaster UpdatePomaster(Pomaster item);
 
-        void DeletePomaster(Pomaster pomaster);
+        //Pomaster GetPomasterbyID(long id);
+
+        //Pomaster UpdatePomaster(Pomaster item);
+
+        //void DeletePomaster(Pomaster pomaster);
     }
 }
