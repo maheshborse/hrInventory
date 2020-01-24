@@ -15,6 +15,6 @@ namespace HRInventories.UIModels
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
-        public PodetailModel PodetailModels { get; set; }
+        public List<PodetailModel> PodetailModels { get; set; }
     }
 }

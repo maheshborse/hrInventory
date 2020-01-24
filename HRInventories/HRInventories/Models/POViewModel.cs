@@ -35,6 +35,7 @@ namespace HRInventories.Models
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
-       
+        public int dbOperation { get; set; }
+
     }
 }

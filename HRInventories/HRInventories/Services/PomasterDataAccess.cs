@@ -60,32 +60,37 @@ namespace HRInventories.Services
             {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    var sql = from s in context.Pomaster
-                              join g in context.Podetail on s.Poid equals g.Poid
-                              select new PomasterModel()
-                              {
-                                  Poid = s.Poid,
-                                  Discount = s.Discount,
-                                  Totalamount = s.Totalamount,
-                                  Finalamount = s.Finalamount,
-                                  Userid = s.Userid,
-                                  Createddate = s.Createddate,
-                                  Isdeleted = s.Isdeleted,
-                                  PodetailModels = new PodetailModel()
-                                  {
-                                      Podetailid = g.Podetailid,
-                                      Poid = g.Poid,
-                                      Productid = g.Productid,
-                                      Quantity = g.Quantity,
-                                      Porate = g.Porate,
-                                      Amount = g.Amount,
-                                      Discount = g.Discount,
-                                      Userid = g.Userid,
-                                      Createddate = g.Createddate,
-                                      Isdeleted = g.Isdeleted
-                                  }
+                    //var sql = from s in context.Pomaster
+                    //          join g in context.Podetail on s.Poid equals g.Poid
+                    var sql = context.Pomaster.Include(p => p.Podetail).Select(s =>
+                                 new PomasterModel()
+                                 {
+                                     Poid = s.Poid,
+                                     Discount = s.Discount,
+                                     Totalamount = s.Totalamount,
+                                     Finalamount = s.Finalamount,
+                                     Userid = s.Userid,
+                                     Createddate = s.Createddate,
+                                     Isdeleted = s.Isdeleted,
+                                     PodetailModels = s.Podetail.Select(g => new PodetailModel
+                                     {
+                                         Podetailid = g.Podetailid,
+                                         Poid = g.Poid,
+                                         Productid = g.Productid,
+                                         Quantity = g.Quantity,
+                                         Porate = g.Porate,
+                                         Amount = g.Amount,
+                                         Discount = g.Discount,
+                                         Userid = g.Userid,
+                                         Createddate = g.Createddate,
+                                         Isdeleted = g.Isdeleted
 
-                              };
+                                     }
+                                     ).ToList()
+                               
+                                   
+
+                               });
                     return await sql.ToListAsync();
 
                 }
@@ -95,6 +100,39 @@ namespace HRInventories.Services
                 return null;
             }
         }
+        //public async Task<List<POViewModel>> GetPo(int poid)
+        //{
+        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+        //    {
+        //        var pomaster = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
+
+        //        if (pomaster == null)
+        //        {
+        //            return null;
+        //        } 
+        //        else
+        //        {
+        //            var sql = from s in context.Pomaster
+        //                      join g in context.Podetail on s.Poid equals g.Poid
+        //                      select new POViewModel()
+        //                      {
+        //                          podetailModel = new List<Podetails>() {
+        //                              new Podetails() {
+        //                              Quantity = g.Quantity,
+        //                              Poid=g.Poid,
+        //                              Podetailid=g.Podetailid,
+        //                              Porate = g.Porate,
+        //                              Amount = g.Amount,
+        //                              Discount = g.Discount,
+        //                              Userid = g.Userid,
+        //                              Createddate = g.Createddate,
+        //                              Isdeleted = g.Isdeleted} }
+        //                      };
+
+        //            return await sql.ToListAsync();
+        //        }
+        //    }
+        //}
         public async Task UpdatePo(POViewModel pOViewModel)
         {
             try
@@ -115,9 +153,29 @@ namespace HRInventories.Services
                     await context.SaveChangesAsync();
                     foreach (var item in pOViewModel.podetailModel)
                     {
-                        Podetail podetail = new Podetail()
-                        { Poid = dbGroup.Poid, Productid = item.Productid, Porate = item.Porate, Amount = item.Amount, Discount = item.Discount, Quantity = item.Quantity, Userid = item.Userid, Createddate = item.Createddate, Isdeleted = item.Isdeleted };
-                        await context.Podetail.AddAsync(podetail);
+                        if (item.dbOperation == 1)
+                        {
+                            Podetail podetail = new Podetail()
+                            { Podetailid = item.Podetailid, Poid = item.Poid, Productid = item.Productid, Porate = item.Porate, Amount = item.Amount, Discount = item.Discount, Quantity = item.Quantity, Userid = item.Userid, Createddate = item.Createddate, Isdeleted = item.Isdeleted };
+                            await context.Podetail.AddAsync(podetail);
+                        }
+                        else if (item.dbOperation == 2)
+                        {
+                            var dbGroups = await context.Podetail.Where(k => k.Podetailid == item.Podetailid).FirstOrDefaultAsync();
+                            dbGroups.Porate = item.Porate;
+                            dbGroups.Amount = item.Amount;
+                            await context.SaveChangesAsync();
+
+                        }
+                        else if (item.dbOperation == 3)
+                        {
+                            var groupStaff = await context.Podetail.Where(k => k.Poid== pOViewModel.pomastermodel.Poid).FirstOrDefaultAsync();
+                            if (groupStaff != null)
+                            {
+                                context.Podetail.Remove(groupStaff);
+                                await context.SaveChangesAsync();
+                            }
+                        }
                     }
                     await context.SaveChangesAsync();
                 }
