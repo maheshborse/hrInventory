@@ -1,1 +1,159 @@
-<p>purchase works!</p>
+<app-card [hidHeader]="true" *ngIf="hidemainGrid === false" >
+<div class="row tableheader">
+    <div class="col-sm-8">
+        <i class="material-icons search-icon searchIcon">search</i>
+        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.."></div>
+    <div class="col-sm-4">
+        <button mat-raised-button color="primary" class="buttonLeft" (click)="openPoDetails()">
+        Add Po Details
+     </button>
+</div>
+</div>
+</app-card>
+<app-card  *ngIf="checkAddPoDetails === true" [hidHeader]="true">
+  <div class="row tableheader">
+    <div class="col-sm-6" style="right: 41%;">
+        <button mat-raised-button color="primary" class="buttonLeft" >
+           Save
+        </button>
+    </div>
+     <div class="col-sm-6" >
+      <button mat-raised-button color="primary" class="buttonLeft" (click)="openPoList()">
+        Back to Po List
+    </button>
+ </div>
+</div>
+<hr>
+<br>
+<div class="row material2">
+    <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Purchase Number" >
+         </mat-form-field>
+      </form>
+      <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </form>
+</div>
+<br>
+<br>
+<div class="row material2">
+    <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+            <mat-label>Product Name</mat-label>
+            <mat-select (selectionChange)="changeProduct($event.value)">
+              <mat-option  *ngFor=" let product of productOption"  [value]="product.value" >{{product.label}}
+            </mat-option>
+            </mat-select>
+            </mat-form-field>
+      </form>
+      <form class="example-form col-sm-6">  
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Category Name" [value]="categoryName" readonly >
+        </mat-form-field>
+    </form>
+</div>
+<br>
+<div class="row material2">
+    <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Purchase Quantity" type="number" (keyup)="getQuantity($event.target.value)">
+            </mat-form-field>
+      </form>
+      <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Purchase Rate"type="number" (keyup)="getRate($event.target.value)">
+        </mat-form-field>
+    </form>
+</div>
+<br>
+<div class="row material2">
+    <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Purchase Discount"  type="number" (keyup)="getDiscount($event.target.value)" >
+            </mat-form-field>
+      </form>
+      <form class="example-form col-sm-6">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Purchase Amount"  type="number" [value]="amount" readonly >
+        </mat-form-field>
+    </form>
+</div>
+<br>
+<button mat-raised-button color="primary" style="border-radius: 20px !important;"  (click)="addDataOnGrid()">
+   Add
+</button>
+<br>
+<br>
+<div class="row material2">
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Material Name</th>
+        <th scope="col">Purchase Quantity</th>
+        <th scope="col">Purchase Rate</th>
+        <th scope="col">Purchase Discount</th>
+        <th scope="col">Purchase Amount</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let material of materialFillGrid ; let i = index">
+        <td>
+            {{material.ProductName}}
+        </td>
+        <td>
+            {{material.Quantity}}
+        </td>
+        <td>
+            {{material.PoRate}}
+        </td>
+        <td>
+            {{material.Discount}}
+        </td>
+        <td>
+            {{material.Amount}}
+        </td>
+        <td>
+            <i class="material-icons" style="cursor: pointer;" (click)="deletematerialonGird(i)">delete</i>
+        </td>
+        
+      </tr>
+     </tbody>
+  </table>
+</div>
+<br>
+
+<div class="row material2">
+   
+      <form class="example-form col-sm-6" style="left: 50%;">  
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Total Amount"  readonly >
+        </mat-form-field>
+    </form>
+   
+</div>
+
+<div class="row material2">
+    <form class="example-form col-sm-6" style="left: 50%;">  
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="Discount On Total Amount" >
+      </mat-form-field>
+  </form>
+ 
+</div>
+<div class="row material2">
+    <form class="example-form col-sm-6" style="left: 50%;">  
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="Final Total Amount"  readonly >
+      </mat-form-field>
+  </form>
+ 
+</div>
+
+
+</app-card>
