@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
        data: element
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result.lastName}`);
+      console.log(`Dialog result: ${result}`);
       if(result !== ""){
         this.productList();
         this.notificationService.success("Successfully Saved")
