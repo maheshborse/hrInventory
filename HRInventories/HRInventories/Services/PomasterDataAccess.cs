@@ -60,12 +60,11 @@ namespace HRInventories.Services
             {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    //var sql = from s in context.Pomaster
-                    //          join g in context.Podetail on s.Poid equals g.Poid
                     var sql = context.Pomaster.Include(p => p.Podetail).Select(s =>
                                  new PomasterModel()
                                  {
                                      Poid = s.Poid,
+                                     Podate=s.Podate,
                                      Discount = s.Discount,
                                      Totalamount = s.Totalamount,
                                      Finalamount = s.Finalamount,
@@ -87,12 +86,8 @@ namespace HRInventories.Services
 
                                      }
                                      ).ToList()
-                               
-                                   
-
                                });
                     return await sql.ToListAsync();
-
                 }
             }
             catch (Exception ex)
