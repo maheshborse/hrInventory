@@ -8,8 +8,20 @@ namespace HRInventories.Models
 {
     public class POViewModel 
     {
-        public PomasterModel pomastermodel { get; set; }
+        public Pomasters pomastermodel { get; set; }
         public List<Podetails> podetailModel { get; set; }
+    }
+    public class Pomasters
+    {
+        public long Poid { get; set; }
+        public DateTime Podate { get; set; }
+        public double Totalamount { get; set; }
+        public double Discount { get; set; }
+        public double Finalamount { get; set; }
+        public string Userid { get; set; }
+        public DateTime Createddate { get; set; }
+        public string Isdeleted { get; set; }
+
     }
     public class Podetails
     {
