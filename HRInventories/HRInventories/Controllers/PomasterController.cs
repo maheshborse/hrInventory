@@ -45,20 +45,20 @@ namespace HRInventories.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        //[HttpGet]
-        //public async Task<IActionResult> GetCategories()
-        //{
-        //    try
-        //    {
-        //        List<POViewModel> pomasters = await _iPomasterDataAccess.GetPomasters();
-        //        return Ok(pomasters);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> GetPo()
+        {
+            try
+            {
+                List<PomasterModel> pomasters = await _iPomasterDataAccess.GetPomasters();
+                return Ok(pomasters);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-        //}
+        }
 
         //[HttpGet("{id}", Name = "GetPomaster")]
         //public IActionResult GetPomaster(long id)

@@ -66,13 +66,14 @@ namespace HRInventories.Services
                         Finalamount = pOViewModel.pomastermodel.Finalamount,
                         Userid = pOViewModel.pomastermodel.Userid,
                         Createddate = pOViewModel.pomastermodel.Createddate,
-                        Isdeleted = pOViewModel.pomastermodel.Isdeleted
+                        Isdeleted = pOViewModel.pomastermodel.Isdeleted,
+                       
                     };
                     await context.Pomaster.AddAsync(dbGroup);
                     await context.SaveChangesAsync();
-                    var id = dbGroup.Poid;
-                    var dbGroupIdCheck = await context.Pomaster.Where(k => k.Poid == id).FirstOrDefaultAsync();
-                    pOViewModel.pomastermodel = dbGroupIdCheck;
+                    //var id = dbGroup.Poid;
+                    //var dbGroupIdCheck = await context.Pomaster.Where(k => k.Poid == id).FirstOrDefaultAsync();
+                    //pOViewModel.pomastermodel = dbGroupIdCheck;
 
                     foreach (var item in pOViewModel.podetailModel)
                     {
@@ -88,13 +89,21 @@ namespace HRInventories.Services
             {
             }
         }
-        //public async Task<List<POViewModel>> GetPomasters()
+        //public async Task<List<Podetails>> GetPomasters()
         //{
         //    try
         //    {
         //        using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
         //        {
-        //            //return context.Podetail.FirstOrDefault(e => e.Podetailid == id);
+        //            var sql = from s in context.Pomaster
+        //                      join g in context.Podetail on s.Poid equals g.Poid
+        //                      select new Podetails()
+        //                      {
+        //                          Podetailid = g.Podetailid,
+        //                          Amount = g.Amount,
+        //                      };
+        //            return await sql.ToListAsync();
+
         //        }
         //    }
         //    catch (Exception ex)
@@ -102,37 +111,79 @@ namespace HRInventories.Services
         //        return null;
         //    }
         //}
-        //public PodetailModel GetPomasterbyID(long id)
-        //{
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-        //        return context.Podetail.FirstOrDefault(e => e.Podetailid== id);
-        //    }
-        //}
-        //public Pomaster UpdatePomaster(Pomaster item)
-        //{
-        //    var dbPomaster = new Pomaster();
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-        //        dbPomaster = context.Pomaster.Where(k => k.Poid == item.Poid).FirstOrDefault();
-        //        dbPomaster.Podate = item.Podate;
-        //        dbPomaster.Totalamount = item.Totalamount;
-        //        dbPomaster.Discount = item.Discount;
-        //        dbPomaster.Finalamount = item.Finalamount;
-        //        dbPomaster.Userid = item.Userid;
-        //        dbPomaster.Createddate = item.Createddate;
-        //        dbPomaster.Isdeleted = item.Isdeleted;
-        //        context.SaveChanges();
-        //    }
-        //    return dbPomaster;
-        //}
-        //public void DeletePomaster(Pomaster pomaster)
-        //{
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-        //        context.Pomaster.Remove(pomaster);
-        //        context.SaveChanges();
-        //    }
-        //}
+        public async Task<List<PomasterModel>> GetPomasters()
+        {
+            try
+            {
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
+                    var sql = from s in context.Pomaster
+                              join g in context.Podetail on s.Poid equals g.Poid
+                              select new PomasterModel()
+                              {
+                                  Poid=s.Poid,
+                                  Discount=s.Discount,
+                                  Totalamount=s.Totalamount,
+                                  Finalamount=s.Finalamount,
+                                  Userid=s.Userid,
+                                  Createddate=s.Createddate,
+                                  Isdeleted=s.Isdeleted,
+                                  PodetailModels=new PodetailModel()
+                                  {
+                                      Podetailid=g.Podetailid,
+                                      Poid=g.Poid,
+                                      Productid=g.Productid,
+                                      Quantity = g.Quantity,
+                                      Porate =g.Porate,
+                                      Amount=g.Amount,
+                                      Discount=g.Discount,
+                                      Userid=g.Userid,
+                                      Createddate=g.Createddate,
+                                      Isdeleted=g.Isdeleted
+                                  }
+
+                              };
+                    return await sql.ToListAsync();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
+    //public PodetailModel GetPomasterbyID(long id)
+    //{
+    //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+    //    {
+    //        return context.Podetail.FirstOrDefault(e => e.Podetailid== id);
+    //    }
+    //}
+    //public Pomaster UpdatePomaster(Pomaster item)
+    //{
+    //    var dbPomaster = new Pomaster();
+    //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+    //    {
+    //        dbPomaster = context.Pomaster.Where(k => k.Poid == item.Poid).FirstOrDefault();
+    //        dbPomaster.Podate = item.Podate;
+    //        dbPomaster.Totalamount = item.Totalamount;
+    //        dbPomaster.Discount = item.Discount;
+    //        dbPomaster.Finalamount = item.Finalamount;
+    //        dbPomaster.Userid = item.Userid;
+    //        dbPomaster.Createddate = item.Createddate;
+    //        dbPomaster.Isdeleted = item.Isdeleted;
+    //        context.SaveChanges();
+    //    }
+    //    return dbPomaster;
+    //}
+    //public void DeletePomaster(Pomaster pomaster)
+    //{
+    //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+    //    {
+    //        context.Pomaster.Remove(pomaster);
+    //        context.SaveChanges();
+    //    }
+    //}
 }
+

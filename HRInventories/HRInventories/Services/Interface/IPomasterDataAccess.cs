@@ -9,11 +9,9 @@ namespace HRInventories.Services.Interface
 {
     public interface IPomasterDataAccess
     {
-        //Task AddPo(PodetailModel podetail);
-
         Task AddPo(POViewModel pOViewModel);
 
-        //Task<List<POViewModel>> GetPomasters();
+        Task<List<PomasterModel>> GetPomasters();
 
 
         //Pomaster GetPomasterbyID(long id);

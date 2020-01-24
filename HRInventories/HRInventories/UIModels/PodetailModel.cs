@@ -17,7 +17,6 @@ namespace HRInventories.UIModels
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
-
-        public PomasterModel PomasterModels { get; set; }
+       
     }
 }

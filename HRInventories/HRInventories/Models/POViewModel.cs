@@ -1,13 +1,14 @@
-﻿using System;
+﻿using HRInventories.UIModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace HRInventories.Models
 {
-    public class POViewModel
+    public class POViewModel 
     {
-        public Pomaster pomastermodel { get; set; }
+        public PomasterModel pomastermodel { get; set; }
         public List<Podetails> podetailModel { get; set; }
     }
     public class Podetails
