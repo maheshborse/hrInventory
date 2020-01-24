@@ -50,7 +50,7 @@ namespace HRInventories.Controllers
         {
             try
             {
-                List<PomasterModel> pomasters = await _iPomasterDataAccess.GetPomasters();
+                List<PomasterModel> pomasters = await _iPomasterDataAccess.GetPo();
                 return Ok(pomasters);
             }
             catch (Exception ex)
@@ -60,35 +60,22 @@ namespace HRInventories.Controllers
 
         }
 
-        //[HttpGet("{id}", Name = "GetPomaster")]
-        //public IActionResult GetPomaster(long id)
-        //{
-        //    try
-        //    {
-        //        Pomaster pomaster = _iPomasterDataAccess.GetPomasterbyID(id);
-        //        return Ok(pomaster);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateCategory(long id, [FromBody] Pomaster pomaster)
-        //{
-        //    try
-        //    {
-        //        Pomaster pomasterToUpdate = _iPomasterDataAccess.UpdatePomaster(pomaster);
-        //        // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
-        //        return NoContent();
-        //    }
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory([FromBody] POViewModel pOViewModel)
+        {
+            try
+            {
+               _iPomasterDataAccess.UpdatePo(pOViewModel);
+                // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
+                return NoContent();
+            }
 
-        //    catch (Exception ex)
-        //    {
+            catch (Exception ex)
+            {
 
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
         //[HttpDelete("{id}")]
         //public IActionResult DeleteCategory(long id)
         //{

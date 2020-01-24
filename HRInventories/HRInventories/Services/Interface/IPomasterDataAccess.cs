@@ -11,12 +11,9 @@ namespace HRInventories.Services.Interface
     {
         Task AddPo(POViewModel pOViewModel);
 
-        Task<List<PomasterModel>> GetPomasters();
+        Task<List<PomasterModel>> GetPo();
 
-
-        //Pomaster GetPomasterbyID(long id);
-
-        //Pomaster UpdatePomaster(Pomaster item);
+        Task UpdatePo(POViewModel pOViewModel);
 
         //void DeletePomaster(Pomaster pomaster);
     }

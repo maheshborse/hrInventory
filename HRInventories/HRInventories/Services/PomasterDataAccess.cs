@@ -9,49 +9,14 @@ using System.Threading.Tasks;
 
 namespace HRInventories.Services
 {
-    public class PomasterDataAccess: IPomasterDataAccess
+    public class PomasterDataAccess : IPomasterDataAccess
     {
         Connectionstrings _connectionstring;
         public PomasterDataAccess(Connectionstrings connectionstring)
         {
             _connectionstring = connectionstring;
         }
-        //public async Task AddPo(PodetailModel podetail)
-        //{
-        //    try
-        //    {
-        //        using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //        {
-        //            Podetail pomasters = new Podetail()
-        //            {
-        //                Poid= podetail.Poid,
-        //                Productid= podetail.Productid,
-        //                Quantity = podetail.Quantity,
-        //                Porate = podetail.Porate,
-        //                Discount = podetail.Discount,
-        //                Amount = podetail.Amount,
-        //                Userid = podetail.Userid,
-        //                Createddate = podetail.Createddate,
-        //                Isdeleted = podetail.Isdeleted,
-        //                Po = new Pomaster()
-        //                {
-        //                    Podate= podetail.PomasterModels.Podate,
-        //                    Totalamount= podetail.PomasterModels.Totalamount,
-        //                    Discount= podetail.PomasterModels.Discount,
-        //                    Finalamount= podetail.PomasterModels.Finalamount,
-        //                    Userid= podetail.PomasterModels.Userid,
-        //                    Createddate= podetail.PomasterModels.Createddate,
-        //                    Isdeleted= podetail.PomasterModels.Isdeleted
-        //                },
-        //            };
-        //            await context.Podetail.AddAsync(pomasters);
-        //            await context.SaveChangesAsync();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
+
         public async Task AddPo(POViewModel pOViewModel)
         {
             try
@@ -67,18 +32,17 @@ namespace HRInventories.Services
                         Userid = pOViewModel.pomastermodel.Userid,
                         Createddate = pOViewModel.pomastermodel.Createddate,
                         Isdeleted = pOViewModel.pomastermodel.Isdeleted,
-                       
+
                     };
                     await context.Pomaster.AddAsync(dbGroup);
                     await context.SaveChangesAsync();
-                    //var id = dbGroup.Poid;
-                    //var dbGroupIdCheck = await context.Pomaster.Where(k => k.Poid == id).FirstOrDefaultAsync();
-                    //pOViewModel.pomastermodel = dbGroupIdCheck;
+                    var id = dbGroup.Poid;
+                    var dbGroupIdCheck = await context.Pomaster.Where(k => k.Poid == id).FirstOrDefaultAsync();
 
                     foreach (var item in pOViewModel.podetailModel)
                     {
                         Podetail podetail = new Podetail()
-                        {Poid=dbGroup.Poid, Productid=item.Productid, Porate=item.Porate, Amount=item.Amount, Discount=item.Discount, Quantity=item.Quantity, Userid=item.Userid, Createddate=item.Createddate,Isdeleted=item.Isdeleted };
+                        { Poid = dbGroup.Poid, Productid = item.Productid, Porate = item.Porate, Amount = item.Amount, Discount = item.Discount, Quantity = item.Quantity, Userid = item.Userid, Createddate = item.Createddate, Isdeleted = item.Isdeleted };
                         await context.Podetail.AddAsync(podetail);
 
                     }
@@ -89,29 +53,8 @@ namespace HRInventories.Services
             {
             }
         }
-        //public async Task<List<Podetails>> GetPomasters()
-        //{
-        //    try
-        //    {
-        //        using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //        {
-        //            var sql = from s in context.Pomaster
-        //                      join g in context.Podetail on s.Poid equals g.Poid
-        //                      select new Podetails()
-        //                      {
-        //                          Podetailid = g.Podetailid,
-        //                          Amount = g.Amount,
-        //                      };
-        //            return await sql.ToListAsync();
 
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
-        //}
-        public async Task<List<PomasterModel>> GetPomasters()
+        public async Task<List<PomasterModel>> GetPo()
         {
             try
             {
@@ -121,25 +64,25 @@ namespace HRInventories.Services
                               join g in context.Podetail on s.Poid equals g.Poid
                               select new PomasterModel()
                               {
-                                  Poid=s.Poid,
-                                  Discount=s.Discount,
-                                  Totalamount=s.Totalamount,
-                                  Finalamount=s.Finalamount,
-                                  Userid=s.Userid,
-                                  Createddate=s.Createddate,
-                                  Isdeleted=s.Isdeleted,
-                                  PodetailModels=new PodetailModel()
+                                  Poid = s.Poid,
+                                  Discount = s.Discount,
+                                  Totalamount = s.Totalamount,
+                                  Finalamount = s.Finalamount,
+                                  Userid = s.Userid,
+                                  Createddate = s.Createddate,
+                                  Isdeleted = s.Isdeleted,
+                                  PodetailModels = new PodetailModel()
                                   {
-                                      Podetailid=g.Podetailid,
-                                      Poid=g.Poid,
-                                      Productid=g.Productid,
+                                      Podetailid = g.Podetailid,
+                                      Poid = g.Poid,
+                                      Productid = g.Productid,
                                       Quantity = g.Quantity,
-                                      Porate =g.Porate,
-                                      Amount=g.Amount,
-                                      Discount=g.Discount,
-                                      Userid=g.Userid,
-                                      Createddate=g.Createddate,
-                                      Isdeleted=g.Isdeleted
+                                      Porate = g.Porate,
+                                      Amount = g.Amount,
+                                      Discount = g.Discount,
+                                      Userid = g.Userid,
+                                      Createddate = g.Createddate,
+                                      Isdeleted = g.Isdeleted
                                   }
 
                               };
@@ -152,31 +95,41 @@ namespace HRInventories.Services
                 return null;
             }
         }
+        public async Task UpdatePo(POViewModel pOViewModel)
+        {
+            try
+            {
+                var dbGroup = new Pomaster();
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
+                    dbGroup = await context.Pomaster.Where(k => k.Poid == pOViewModel.pomastermodel.Poid).FirstOrDefaultAsync();
+
+                    dbGroup.Podate = pOViewModel.pomastermodel.Podate;
+                    dbGroup.Userid = pOViewModel.pomastermodel.Userid;
+                    dbGroup.Totalamount = pOViewModel.pomastermodel.Totalamount;
+                    dbGroup.Createddate = pOViewModel.pomastermodel.Createddate;
+                    dbGroup.Discount = pOViewModel.pomastermodel.Discount;
+                    dbGroup.Finalamount = pOViewModel.pomastermodel.Finalamount;
+                    dbGroup.Isdeleted = pOViewModel.pomastermodel.Isdeleted;
+
+                    await context.SaveChangesAsync();
+                    foreach (var item in pOViewModel.podetailModel)
+                    {
+                        Podetail podetail = new Podetail()
+                        { Poid = dbGroup.Poid, Productid = item.Productid, Porate = item.Porate, Amount = item.Amount, Discount = item.Discount, Quantity = item.Quantity, Userid = item.Userid, Createddate = item.Createddate, Isdeleted = item.Isdeleted };
+                        await context.Podetail.AddAsync(podetail);
+                    }
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
     }
-    //public PodetailModel GetPomasterbyID(long id)
-    //{
-    //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-    //    {
-    //        return context.Podetail.FirstOrDefault(e => e.Podetailid== id);
-    //    }
-    //}
-    //public Pomaster UpdatePomaster(Pomaster item)
-    //{
-    //    var dbPomaster = new Pomaster();
-    //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-    //    {
-    //        dbPomaster = context.Pomaster.Where(k => k.Poid == item.Poid).FirstOrDefault();
-    //        dbPomaster.Podate = item.Podate;
-    //        dbPomaster.Totalamount = item.Totalamount;
-    //        dbPomaster.Discount = item.Discount;
-    //        dbPomaster.Finalamount = item.Finalamount;
-    //        dbPomaster.Userid = item.Userid;
-    //        dbPomaster.Createddate = item.Createddate;
-    //        dbPomaster.Isdeleted = item.Isdeleted;
-    //        context.SaveChanges();
-    //    }
-    //    return dbPomaster;
-    //}
+}
     //public void DeletePomaster(Pomaster pomaster)
     //{
     //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
@@ -185,5 +138,5 @@ namespace HRInventories.Services
     //        context.SaveChanges();
     //    }
     //}
-}
+
 
