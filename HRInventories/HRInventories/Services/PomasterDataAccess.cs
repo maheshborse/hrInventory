@@ -116,12 +116,12 @@ namespace HRInventories.Services
                     await context.SaveChangesAsync();
                     foreach (var item in pOViewModel.podetailModel)
                     {
-                        if(item.Podetailid == 0)
+                        if (item.Podetailid == 0)
                         {
                             Podetail podetail = new Podetail()
                             {
-                                Podetailid=item.Podetailid, 
-                                Poid=item.Poid,
+                                Podetailid = item.Podetailid,
+                                Poid = item.Poid,
                                 Productid = item.Productid,
                                 Porate = item.Porate,
                                 Amount = item.Amount,
@@ -133,6 +133,16 @@ namespace HRInventories.Services
                             };
                             await context.Podetail.AddAsync(podetail);
                         }
+                        else
+                        {
+                            if (item.Isdeleted == "true")
+                            {
+                                var groupStaffData = await context.Podetail.Where(k => k.Podetailid == item.Podetailid).ToListAsync();
+                                context.Podetail.RemoveRange(groupStaffData);
+                                await context.SaveChangesAsync();
+                            }
+                        }
+
                     }
                    
                     await context.SaveChangesAsync();
@@ -144,14 +154,23 @@ namespace HRInventories.Services
             }
 
         }
-        //public void DeletePo(Podetail pomaster)
-        //{
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-               
+        public async Task DeletePo(long poid, long podetailid)
+        {
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
+                if (groupData != null)
+                {
+                    var groupStaffData = await context.Podetail.Where(k => k.Podetailid == podetailid).ToListAsync();
+                    context.Podetail.RemoveRange(groupStaffData);
+                    await context.SaveChangesAsync();
 
-        //    }
-        //}
+                    context.Pomaster.Remove(groupData);
+                    await context.SaveChangesAsync();
+                }
+
+            }
+        }
     }
 }
 

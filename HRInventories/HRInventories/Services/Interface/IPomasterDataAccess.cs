@@ -17,6 +17,6 @@ namespace HRInventories.Services.Interface
 
         Task UpdatePo(POViewModel pOViewModel);
 
-        //void DeletePo(Pomaster pomaster);
+        Task DeletePo(long poid, long podetailid);
     }
 }

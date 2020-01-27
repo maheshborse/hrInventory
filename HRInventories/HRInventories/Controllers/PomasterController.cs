@@ -62,12 +62,12 @@ namespace HRInventories.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        //[HttpDelete("{id}")]
-        //public IActionResult DeletePo(long id)
-        //{
-           
-        //    _iPomasterDataAccess.DeletePo(pomaster);
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeletePo(long poid, long podetailid)
+        {
+
+            _iPomasterDataAccess.DeletePo(poid, podetailid);
+            return NoContent();
+        }
     }
 }
