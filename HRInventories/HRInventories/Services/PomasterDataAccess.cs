@@ -116,21 +116,23 @@ namespace HRInventories.Services
                     await context.SaveChangesAsync();
                     foreach (var item in pOViewModel.podetailModel)
                     {
-                        Podetail podetail = new Podetail()
+                        if(item.Podetailid == 0)
                         {
-                            Podetailid=item.Podetailid,
-                            Poid=item.Poid,
-                            Productid = item.Productid,
-                            Porate = item.Porate,
-                            Amount = item.Amount,
-                            Discount = item.Discount,
-                            Quantity = item.Quantity,
-                            Userid = item.Userid,
-                            Createddate = item.Createddate,
-                            Isdeleted = item.Isdeleted
-                        };
-                        await context.Podetail.AddAsync(podetail);
-                       
+                            Podetail podetail = new Podetail()
+                            {
+                                Podetailid=item.Podetailid, 
+                                Poid=item.Poid,
+                                Productid = item.Productid,
+                                Porate = item.Porate,
+                                Amount = item.Amount,
+                                Discount = item.Discount,
+                                Quantity = item.Quantity,
+                                Userid = item.Userid,
+                                Createddate = item.Createddate,
+                                Isdeleted = item.Isdeleted
+                            };
+                            await context.Podetail.AddAsync(podetail);
+                        }
                     }
                    
                     await context.SaveChangesAsync();
