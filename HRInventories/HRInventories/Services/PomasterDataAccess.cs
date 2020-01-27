@@ -87,7 +87,7 @@ namespace HRInventories.Services
                                      }
                                      ).ToList()
                                });
-                    return await sql.ToListAsync();
+                    return await sql.Where(k => k.Isdeleted == "false").ToListAsync();
                 }
             }
             catch (Exception ex)
@@ -154,19 +154,42 @@ namespace HRInventories.Services
             }
 
         }
-        public async Task DeletePo(long poid, long podetailid)
+        public async Task DeletePo(long poid)
         {
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
-                if (groupData != null)
-                {
-                    var groupStaffData = await context.Podetail.Where(k => k.Podetailid == podetailid).ToListAsync();
-                    context.Podetail.RemoveRange(groupStaffData);
-                    await context.SaveChangesAsync();
+                //var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
+                //if (groupData != null)
+                //{
+                //    var groupStaffData = await context.Podetail.Where(k => k.Podetailid == podetailid).ToListAsync();
+                //    context.Podetail.RemoveRange(groupStaffData);
+                //    await context.SaveChangesAsync();
 
-                    context.Pomaster.Remove(groupData);
-                    await context.SaveChangesAsync();
+                //    context.Pomaster.Remove(groupData);
+                //    await context.SaveChangesAsync();
+                //}
+                try
+                {
+                    var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
+                    var detailsData = await context.Podetail.Where(k => k.Poid == poid).ToListAsync();
+                    if (groupData != null)
+                    {
+                        groupData.Isdeleted = "true";
+                        await context.SaveChangesAsync();
+                        if (detailsData != null)
+                        {
+                            foreach (var item in detailsData)
+                            {
+                                item.Isdeleted = "true";
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                       
+                    }
+                }
+                catch (Exception ex)
+                {
+
                 }
 
             }

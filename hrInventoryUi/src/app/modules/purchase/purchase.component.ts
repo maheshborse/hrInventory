@@ -90,8 +90,8 @@ export class PurchaseComponent implements OnInit {
       this.poid = 0;
       this.poid = this.poid + 1;
     } else {
-      // this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
-      // this.poid = this.poid + 1;
+      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
+      this.poid = this.poid + 1;
     }
     this.dateofBirth = new Date();
     this.checkAddPoDetails = true;
@@ -206,10 +206,12 @@ export class PurchaseComponent implements OnInit {
       this.finalAmount = this.totalAmountText - (this.totalAmountText * this.discountMaster / 100);
     }
     this.materialFillGrid.splice(i,1);
-    this.materialSaveList.splice(i,1);
+    //this.materialSaveList.splice(i,1);
+    this.materialSaveList[i].isdeleted = "true";
   }
 
   addData(){
+    debugger;
     var addPoModel = new purchaseOrdermodel();
     addPoModel.pomasterModel = new purchaseOrderMaster();
     addPoModel.pomasterModel.Poid= this.poid;
@@ -219,7 +221,7 @@ export class PurchaseComponent implements OnInit {
     addPoModel.pomasterModel.Finalamount = this.finalAmount;
     addPoModel.pomasterModel.Userid = '1';
     addPoModel.pomasterModel.Createddate = new Date();
-    addPoModel.pomasterModel.Isdeleted = "1";
+    addPoModel.pomasterModel.Isdeleted = "false";
     addPoModel.podetailModel = new Array<purchaseDetails>();
     addPoModel.podetailModel = this.materialSaveList;
     if(this.checkAddOrEdit !=="edit"){
@@ -238,7 +240,7 @@ export class PurchaseComponent implements OnInit {
       .subscribe(
         success => {
          this.notificationService.success("Successfully Saved");
-         this.openPoDetails();
+         this.openPoList();
        },
         error => {
        }
@@ -267,17 +269,17 @@ export class PurchaseComponent implements OnInit {
     customObj.Amount=this.amount;
     customObj.Userid = "1";
     customObj.Createddate = new Date();
-    customObj.Isdeleted ="true";
+    customObj.Isdeleted ="false";
     customObj.poId =this.poid;
     this.totalAmountText +=  customObj.Amount;
     if(this.discountMaster === 0){
       this.finalAmount = this.totalAmountText;
     } else if (this.discountMaster > 0){
+      this.finalAmount = this.totalAmountText;
       this.finalAmount = this.totalAmountText - (this.totalAmountText * this.discountMaster / 100);
     }
     this.materialFillGrid.push(customObj);
     this.materialSaveList.push(customObj);
-
     this.Discount=null;
     this.Rate=null;
     this.Quantity=null;
