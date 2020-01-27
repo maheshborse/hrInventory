@@ -96,8 +96,7 @@ export class PurchaseComponent implements OnInit {
   getQuantity(qty:any){
   
    this.quantity = qty;
-   //this.amount = this.discount >  0 ? this.quantity * this.rate/100*this.discount : this.quantity * this.rate ; 
-    if(this.discount === 0 ){
+   if(this.discount === 0 ){
       this.amount = this.quantity * this.rate;
     } else if(this.discount > 0) {
       this.amount = this.rate - (this.rate * this.discount / 100);
@@ -106,9 +105,7 @@ export class PurchaseComponent implements OnInit {
   }
 
   getRate(rate:any){
-    debugger;
     this.rate= rate;
-    //this.amount = this.discount > 0 ?  this.quantity *  this.rate/100 * this.discount : this.quantity * this.rate; 
     if(this.discount === 0 ){
       this.amount = this.quantity * this.rate;
     } else if(this.discount > 0) {
@@ -117,7 +114,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   discountOnTotalAmount(dis:any ){
-    debugger;
     this.discountMaster = dis === "" ? 0 : dis;
     if(this.discountMaster === 0){
       this.finalAmount = this.totalAmountText ;
@@ -147,7 +143,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   getPoDataEdit(poData:any,checkLabelt:any){
-    debugger;
     this.materialFillGrid =[];
     this.materialSaveList=[];
     this.poid= poData.poid;
@@ -172,13 +167,10 @@ export class PurchaseComponent implements OnInit {
           this.materialFillGrid.push(customObj);
           this.materialSaveList.push(customObj);
     }
-
     this.checkAddOrEdit=checkLabelt;
-    
   }
 
   getDiscount(number:any){
-    
     this.discount = number === "" ? 0 : number ;
     if(this.discount === 0  ){
       this.amount = this.quantity * this.rate;
@@ -194,7 +186,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   addData(){
-    
     var addPoModel = new purchaseOrdermodel();
     addPoModel.pomasterModel = new purchaseOrderMaster();
     addPoModel.pomasterModel.Poid= this.poid;
@@ -211,7 +202,8 @@ export class PurchaseComponent implements OnInit {
       this.purchaseService.postRequest(addPoModel)
       .subscribe(
         success => {
-         this.notificationService.success("Successfully Saved")
+         this.notificationService.success("Successfully Saved");
+         this.openPoList();
        },
         error => {
        }
@@ -220,7 +212,8 @@ export class PurchaseComponent implements OnInit {
       this.purchaseService.patchRequest(addPoModel,this.poid)
       .subscribe(
         success => {
-         this.notificationService.success("Successfully Saved")
+         this.notificationService.success("Successfully Saved");
+         this.openPoDetails();
        },
         error => {
        }
@@ -240,7 +233,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   addDataOnGrid(){
-   
     let customObj = new materialGrid();
     customObj.Productid=this.productId;
     customObj.ProductName = this.ProductName ;
@@ -253,10 +245,9 @@ export class PurchaseComponent implements OnInit {
     customObj.Isdeleted ="1";
     this.totalAmountText =  this.totalAmountText === undefined ? 0 : this.totalAmountText;
     this.totalAmountText +=  customObj.Amount;
+    this.finalAmount = this.totalAmountText;
     this.materialFillGrid.push(customObj);
     this.materialSaveList.push(customObj);
-    
-
   }
 
 
