@@ -41,12 +41,20 @@ export class PurchaseComponent implements OnInit {
   
   checkAddOrEdit:any="";
 
+  //clear
+  Discount: number = null;
+  Rate:number=null;
+  Quantity: number=null;
+  Productname: string="";
+  
+
   
 
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['poNumber', 'poDate','totalAmount','discount','finalAmount','action'];
+ 
   
   constructor(private productService:ProductService,private purchaseService :PurchaseService,private notificationService : NotificationService) {
     
@@ -269,6 +277,13 @@ export class PurchaseComponent implements OnInit {
     }
     this.materialFillGrid.push(customObj);
     this.materialSaveList.push(customObj);
+
+    this.Discount=null;
+    this.Rate=null;
+    this.Quantity=null;
+    this.categoryName='';
+    this.Productname='';
+    this.amount=null;
   }
 
 

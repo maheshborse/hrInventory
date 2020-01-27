@@ -76,7 +76,7 @@
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
             <mat-label>Product Name</mat-label>
-            <mat-select #productName (selectionChange)="changeProduct($event.value)">
+            <mat-select #productName name="productName" [(ngModel)]="Productname" (selectionChange)="changeProduct($event.value)">
               <mat-option  *ngFor=" let product of productOption"  [value]="product.value" >{{product.label}}
             </mat-option>
             </mat-select>
@@ -92,12 +92,12 @@
 <div class="row material2">
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Purchase Quantity" #quantity type="number" (keyup)="getQuantity($event.target.value)">
+            <input matInput placeholder="Purchase Quantity" #quantity name="quantity" [(ngModel)]="Quantity" type="number" (keyup)="getQuantity($event.target.value)">
             </mat-form-field>
       </form>
       <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Purchase Rate"type="number" #rate (keyup)="getRate($event.target.value)">
+            <input matInput placeholder="Purchase Rate"type="number" #rate name="rate" [(ngModel)]="Rate" (keyup)="getRate($event.target.value)">
         </mat-form-field>
     </form>
 </div>
@@ -105,7 +105,7 @@
 <div class="row material2">
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Purchase Discount"   type="number" (keyup)="getDiscount($event.target.value)" >
+            <input matInput placeholder="Purchase Discount" name="discount" [(ngModel)]="Discount"   type="number" (keyup)="getDiscount($event.target.value)" >
             </mat-form-field>
       </form>
       <form class="example-form col-sm-6">
