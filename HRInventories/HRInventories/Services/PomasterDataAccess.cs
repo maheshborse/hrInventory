@@ -95,39 +95,7 @@ namespace HRInventories.Services
                 return null;
             }
         }
-        //public async Task<List<POViewModel>> GetPo(int poid)
-        //{
-        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-        //    {
-        //        var pomaster = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
-
-        //        if (pomaster == null)
-        //        {
-        //            return null;
-        //        } 
-        //        else
-        //        {
-        //            var sql = from s in context.Pomaster
-        //                      join g in context.Podetail on s.Poid equals g.Poid
-        //                      select new POViewModel()
-        //                      {
-        //                          podetailModel = new List<Podetails>() {
-        //                              new Podetails() {
-        //                              Quantity = g.Quantity,
-        //                              Poid=g.Poid,
-        //                              Podetailid=g.Podetailid,
-        //                              Porate = g.Porate,
-        //                              Amount = g.Amount,
-        //                              Discount = g.Discount,
-        //                              Userid = g.Userid,
-        //                              Createddate = g.Createddate,
-        //                              Isdeleted = g.Isdeleted} }
-        //                      };
-
-        //            return await sql.ToListAsync();
-        //        }
-        //    }
-        //}
+        
         public async Task UpdatePo(POViewModel pOViewModel)
         {
             try
@@ -148,11 +116,23 @@ namespace HRInventories.Services
                     await context.SaveChangesAsync();
                     foreach (var item in pOViewModel.podetailModel)
                     {
-                            Podetail podetail = new Podetail()
-                            { Podetailid = item.Podetailid, Poid = item.Poid, Productid = item.Productid, Porate = item.Porate, Amount = item.Amount, Discount = item.Discount, Quantity = item.Quantity, Userid = item.Userid, Createddate = item.Createddate, Isdeleted = item.Isdeleted };
-                            await context.Podetail.AddAsync(podetail);
-                        
+                        Podetail podetail = new Podetail()
+                        {
+                            Podetailid=item.Podetailid,
+                            Poid=item.Poid,
+                            Productid = item.Productid,
+                            Porate = item.Porate,
+                            Amount = item.Amount,
+                            Discount = item.Discount,
+                            Quantity = item.Quantity,
+                            Userid = item.Userid,
+                            Createddate = item.Createddate,
+                            Isdeleted = item.Isdeleted
+                        };
+                        await context.Podetail.AddAsync(podetail);
+                       
                     }
+                   
                     await context.SaveChangesAsync();
                 }
             }
@@ -162,15 +142,16 @@ namespace HRInventories.Services
             }
 
         }
+        //public void DeletePo(Podetail pomaster)
+        //{
+        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+        //    {
+               
+
+        //    }
+        //}
     }
 }
-    //public void DeletePomaster(Pomaster pomaster)
-    //{
-    //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-    //    {
-    //        context.Pomaster.Remove(pomaster);
-    //        context.SaveChanges();
-    //    }
-    //}
+
 
 

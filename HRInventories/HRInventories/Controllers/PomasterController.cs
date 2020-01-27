@@ -19,19 +19,6 @@ namespace HRInventories.Controllers
         {
             _iPomasterDataAccess = pomasterDataAccess;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> InsertPo([FromBody]PodetailModel podetail)
-        //{
-        //    try
-        //    {
-        //        await _iPomasterDataAccess.AddPo(podetail);
-        //        return NoContent();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
         [HttpPost]
         public async Task<IActionResult> InsertPo([FromBody]POViewModel podetail)
         {
@@ -59,14 +46,13 @@ namespace HRInventories.Controllers
             }
 
         }
-
+        
         [HttpPut("{id}")]
-        public IActionResult UpdateCategory([FromBody] POViewModel pOViewModel)
+        public IActionResult UpdatePo([FromBody] POViewModel pOViewModel)
         {
             try
             {
                _iPomasterDataAccess.UpdatePo(pOViewModel);
-                // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
                 return NoContent();
             }
 
@@ -77,10 +63,10 @@ namespace HRInventories.Controllers
             }
         }
         //[HttpDelete("{id}")]
-        //public IActionResult DeleteCategory(long id)
+        //public IActionResult DeletePo(long id)
         //{
-        //    Pomaster catagory = _iPomasterDataAccess.GetPomasterbyID(id);
-        //    _iPomasterDataAccess.DeletePomaster(catagory);
+           
+        //    _iPomasterDataAccess.DeletePo(pomaster);
         //    return NoContent();
         //}
     }
