@@ -82,8 +82,8 @@ export class PurchaseComponent implements OnInit {
       this.poid = 0;
       this.poid = this.poid + 1;
     } else {
-      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
-      this.poid = this.poid + 1;
+      // this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
+      // this.poid = this.poid + 1;
     }
     this.dateofBirth = new Date();
     this.checkAddPoDetails = true;

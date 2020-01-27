@@ -44,9 +44,9 @@
 <app-card  *ngIf="checkAddPoDetails === true" [hidHeader]="true">
   <div class="row tableheader">
     <div class="col-sm-6" style="right: 41%;">
-        <button mat-raised-button color="primary" class="buttonLeft" (click)="addData()">
-           Save
-        </button>
+        <button mat-raised-button color="primary" class="buttonLeft" (click)="addData()"  [disabled]="(materialFillGrid.length ==0 )?true:false">
+            Save
+         </button>
     </div>
      <div class="col-sm-6" >
       <button mat-raised-button color="primary" class="buttonLeft" (click)="openPoList()">
@@ -76,7 +76,7 @@
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
             <mat-label>Product Name</mat-label>
-            <mat-select (selectionChange)="changeProduct($event.value)">
+            <mat-select #productName (selectionChange)="changeProduct($event.value)">
               <mat-option  *ngFor=" let product of productOption"  [value]="product.value" >{{product.label}}
             </mat-option>
             </mat-select>
@@ -92,12 +92,12 @@
 <div class="row material2">
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Purchase Quantity" type="number" (keyup)="getQuantity($event.target.value)">
+            <input matInput placeholder="Purchase Quantity" #quantity type="number" (keyup)="getQuantity($event.target.value)">
             </mat-form-field>
       </form>
       <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Purchase Rate"type="number" (keyup)="getRate($event.target.value)">
+            <input matInput placeholder="Purchase Rate"type="number" #rate (keyup)="getRate($event.target.value)">
         </mat-form-field>
     </form>
 </div>
@@ -105,7 +105,7 @@
 <div class="row material2">
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Purchase Discount"  type="number" (keyup)="getDiscount($event.target.value)" >
+            <input matInput placeholder="Purchase Discount"   type="number" (keyup)="getDiscount($event.target.value)" >
             </mat-form-field>
       </form>
       <form class="example-form col-sm-6">
@@ -115,9 +115,9 @@
     </form>
 </div>
 <br>
-<button mat-raised-button color="primary" style="border-radius: 20px !important;"  (click)="addDataOnGrid()">
-   Add
-</button>
+<button mat-raised-button color="primary" style="border-radius: 20px !important;"  (click)="addDataOnGrid()" [disabled]="productName.value =='' || quantity.value =='' || rate.value =='' ">
+    Add
+ </button>
 <br>
 <br>
 <div class="row material2">
