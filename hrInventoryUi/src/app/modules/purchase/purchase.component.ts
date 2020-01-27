@@ -65,7 +65,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   getdefault(){
-    debugger;
     this.materialFillGrid =[];
     this.materialSaveList=[];
     this.categoryName = "";
@@ -79,11 +78,17 @@ export class PurchaseComponent implements OnInit {
   }
 
   openPoDetails(){
-    this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
-    this.poid = this.poid + 1;
+    if(this.dataSource.data.length === 0 ){
+      this.poid = 0;
+      this.poid = this.poid + 1;
+    } else {
+      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
+      this.poid = this.poid + 1;
+    }
     this.dateofBirth = new Date();
     this.checkAddPoDetails = true;
     this.hidemainGrid = true;
+    this.checkAddOrEdit = 'add';
   }
   
   changeProduct(id:any){
@@ -94,12 +99,12 @@ export class PurchaseComponent implements OnInit {
   }
 
   getQuantity(qty:any){
-  
    this.quantity = qty;
    if(this.discount === 0 ){
       this.amount = this.quantity * this.rate;
     } else if(this.discount > 0) {
-      this.amount = this.rate - (this.rate * this.discount / 100);
+      this.amount = this.quantity * this.rate;
+      this.amount = this.amount - (this.amount * this.discount / 100);
     }
    
   }
@@ -109,12 +114,13 @@ export class PurchaseComponent implements OnInit {
     if(this.discount === 0 ){
       this.amount = this.quantity * this.rate;
     } else if(this.discount > 0) {
-      this.amount = this.rate - (this.rate * this.discount / 100);
+      this.amount = this.quantity * this.rate;
+      this.amount = this.amount - (this.amount * this.discount / 100);
     }
   }
 
   discountOnTotalAmount(dis:any ){
-    this.discountMaster = dis === "" ? 0 : dis;
+    this.discountMaster = dis === "0" ||  dis === ""  ? 0 : dis;
     if(this.discountMaster === 0){
       this.finalAmount = this.totalAmountText ;
     } else if (this.discountMaster > 0){
@@ -164,6 +170,8 @@ export class PurchaseComponent implements OnInit {
           customObj.Userid = poData.podetailModels[i].userid;
           customObj.Createddate = poData.podetailModels[i].createddate;
           customObj.Isdeleted =poData.podetailModels[i].isdeleted;
+          customObj.Podetailid =poData.podetailModels[i].podetailid;
+          customObj.poId = poData.podetailModels[i].poid;
           this.materialFillGrid.push(customObj);
           this.materialSaveList.push(customObj);
     }
@@ -171,16 +179,24 @@ export class PurchaseComponent implements OnInit {
   }
 
   getDiscount(number:any){
-    this.discount = number === "" ? 0 : number ;
+    debugger;
+    this.discount = number === "0" ||  number === ""  ? 0 : number;
     if(this.discount === 0  ){
       this.amount = this.quantity * this.rate;
     } else if(this.discount > 0) {
-      this.amount = this.rate - (this.rate * this.discount / 100);
+      this.amount = this.quantity * this.rate;
+      this.amount = this.amount - (this.amount * this.discount / 100);
     }
+  
   }
 
   deletematerialonGird(i:number){
     this.totalAmountText -= this.materialFillGrid[i].Amount;
+    if(this.discountMaster === 0){
+      this.finalAmount = this.totalAmountText;
+    } else if (this.discountMaster > 0){
+      this.finalAmount = this.totalAmountText - (this.totalAmountText * this.discountMaster / 100);
+    }
     this.materialFillGrid.splice(i,1);
     this.materialSaveList.splice(i,1);
   }
@@ -199,6 +215,7 @@ export class PurchaseComponent implements OnInit {
     addPoModel.podetailModel = new Array<purchaseDetails>();
     addPoModel.podetailModel = this.materialSaveList;
     if(this.checkAddOrEdit !=="edit"){
+      addPoModel.pomasterModel.Poid= 0;
       this.purchaseService.postRequest(addPoModel)
       .subscribe(
         success => {
@@ -242,10 +259,14 @@ export class PurchaseComponent implements OnInit {
     customObj.Amount=this.amount;
     customObj.Userid = "1";
     customObj.Createddate = new Date();
-    customObj.Isdeleted ="1";
-    this.totalAmountText =  this.totalAmountText === undefined ? 0 : this.totalAmountText;
+    customObj.Isdeleted ="true";
+    customObj.poId =this.poid;
     this.totalAmountText +=  customObj.Amount;
-    this.finalAmount = this.totalAmountText;
+    if(this.discountMaster === 0){
+      this.finalAmount = this.totalAmountText;
+    } else if (this.discountMaster > 0){
+      this.finalAmount = this.totalAmountText - (this.totalAmountText * this.discountMaster / 100);
+    }
     this.materialFillGrid.push(customObj);
     this.materialSaveList.push(customObj);
   }

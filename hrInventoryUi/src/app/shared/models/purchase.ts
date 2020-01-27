@@ -4,6 +4,7 @@ export class purchaseOrdermodel{
 } 
 
 export class materialGrid {
+    Podetailid: number;
     Productid: number;
     poId:number;
     ProductName:string;
