@@ -7,13 +7,44 @@
         <button mat-raised-button color="primary" class="buttonLeft" (click)="openPoDetails()">
         Add Po Details
      </button>
+    
 </div>
 </div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <ng-container matColumnDef="poNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Po Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.poid}} </td>
+    </ng-container>
+    <ng-container matColumnDef="poDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Po Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.podate | date :'short'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="totalAmount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalamount}} </td>
+    </ng-container>
+    <ng-container matColumnDef="discount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+        <td mat-cell *matCellDef="let element"> {{element.discount}} % </td>
+    </ng-container>
+    <ng-container matColumnDef="finalAmount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Final Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.finalamount}} </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef > Action </th>
+        <td mat-cell *matCellDef="let element">
+            <i  class="material-icons" style="cursor: pointer;" (click)="getPoDataEdit(element,'Edit')">mode_edit</i>
+            <i  class="material-icons" style="cursor: pointer;">delete</i>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+ </table>
 </app-card>
 <app-card  *ngIf="checkAddPoDetails === true" [hidHeader]="true">
   <div class="row tableheader">
     <div class="col-sm-6" style="right: 41%;">
-        <button mat-raised-button color="primary" class="buttonLeft" >
+        <button mat-raised-button color="primary" class="buttonLeft" (click)="addData()">
            Save
         </button>
     </div>
@@ -28,12 +59,12 @@
 <div class="row material2">
     <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Purchase Number" >
+          <input matInput placeholder="Purchase Number" readonly  (input)="poid=$event.target.value" #Poid="ngModel"  [(ngModel)]="poid" [ngModelOptions]="{standalone: true}">
          </mat-form-field>
       </form>
       <form class="example-form col-sm-6">
         <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date"  (input)="dateofBirth=$event.target.value" name="dob" #dob="ngModel" [(ngModel)]="dateofBirth">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -132,7 +163,7 @@
    
       <form class="example-form col-sm-6" style="left: 50%;">  
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Total Amount"  readonly >
+            <input matInput placeholder="Total Amount" (input)="totalAmountText=$event.target.value" #TotalAmountText="ngModel"  [(ngModel)]="totalAmountText"  readonly [ngModelOptions]="{standalone: true}" >
         </mat-form-field>
     </form>
    
@@ -141,7 +172,7 @@
 <div class="row material2">
     <form class="example-form col-sm-6" style="left: 50%;">  
       <mat-form-field class="example-full-width">
-          <input matInput placeholder="Discount On Total Amount" >
+          <input matInput placeholder="Discount On Total Amount" (keyup)="discountOnTotalAmount($event.target.value)" (input)="discountMaster=$event.target.value"  #DiscountMaster="ngModel"  [(ngModel)]="discountMaster" [ngModelOptions]="{standalone: true}"  >
       </mat-form-field>
   </form>
  
@@ -149,7 +180,7 @@
 <div class="row material2">
     <form class="example-form col-sm-6" style="left: 50%;">  
       <mat-form-field class="example-full-width">
-          <input matInput placeholder="Final Total Amount"  readonly >
+          <input matInput placeholder="Final Total Amount"  readonly (input)="finalAmount=$event.target.value"  #FinalAmount="ngModel"  [(ngModel)]="finalAmount" [ngModelOptions]="{standalone: true}" >
       </mat-form-field>
   </form>
  
