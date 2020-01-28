@@ -17,6 +17,6 @@ namespace HRInventories.Services.Interface
 
         Catagory UpdateCatagory(CatagoryModel item);
 
-        void DeleteCatagory(Catagory catagory);
+        void DeleteCatagory(long id);
     }
 }

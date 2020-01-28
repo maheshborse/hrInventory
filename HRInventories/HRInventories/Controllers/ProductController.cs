@@ -79,8 +79,8 @@ namespace HRInventories.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(long id)
         {
-            Product product = _iProductDataAccess.GetProductbyID(id);
-            _iProductDataAccess.DeleteProduct(product);
+            //Product product = _iProductDataAccess.GetProductbyID(id);
+            _iProductDataAccess.DeleteProduct(id);
             return NoContent();
         }
     }

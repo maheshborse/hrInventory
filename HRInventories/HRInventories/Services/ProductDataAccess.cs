@@ -103,11 +103,16 @@ namespace HRInventories.Services
                 return null;
             }
         }
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(long id)
         {
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                context.Product.Remove(product);
+                var groupdata = context.Product.FirstOrDefault(e => e.Productid == id);
+                if (groupdata != null)
+                {
+                    groupdata.Isdeleted = "true";
+                }
+                //context.Product.Remove(product);
                 context.SaveChanges();
             }
         }
