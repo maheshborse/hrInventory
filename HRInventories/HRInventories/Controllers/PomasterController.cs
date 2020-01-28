@@ -62,7 +62,7 @@ namespace HRInventories.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpDelete()]
+        [HttpDelete("{poid}")]
         public IActionResult DeletePo(long poid)
         {
 
