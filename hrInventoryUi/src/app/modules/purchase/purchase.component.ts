@@ -209,28 +209,6 @@ export class PurchaseComponent implements OnInit {
     this.materialFillGrid.splice(i,1);
     //this.materialSaveList.splice(i,1);
     this.materialSaveList[i].isdeleted = "true";
-
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        this.purchaseService.deleteRequest(i)
-        .subscribe(
-          success => {
-            this.notificationService.error("Successfully Deleted")
-            this.PurchaseList();
-          },
-          error => {  
-          }       
-        );
-      }
-    })
   }
 
   delete(id:number){
