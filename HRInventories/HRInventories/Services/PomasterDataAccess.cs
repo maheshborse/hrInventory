@@ -32,7 +32,6 @@ namespace HRInventories.Services
                         Userid = pOViewModel.pomastermodel.Userid,
                         Createddate = pOViewModel.pomastermodel.Createddate,
                         Isdeleted = pOViewModel.pomastermodel.Isdeleted,
-
                     };
                     await context.Pomaster.AddAsync(dbGroup);
                     await context.SaveChangesAsync();
@@ -84,9 +83,8 @@ namespace HRInventories.Services
                                          Createddate = g.Createddate,
                                          Isdeleted = g.Isdeleted
 
-                                     }
-                                     ).ToList()
-                               });
+                                     }).ToList()
+                });
                     return await sql.Where(k => k.Isdeleted == "false").ToListAsync();
                 }
             }
@@ -158,16 +156,6 @@ namespace HRInventories.Services
         {
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                //var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
-                //if (groupData != null)
-                //{
-                //    var groupStaffData = await context.Podetail.Where(k => k.Podetailid == podetailid).ToListAsync();
-                //    context.Podetail.RemoveRange(groupStaffData);
-                //    await context.SaveChangesAsync();
-
-                //    context.Pomaster.Remove(groupData);
-                //    await context.SaveChangesAsync();
-                //}
                 try
                 {
                     var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
@@ -184,7 +172,6 @@ namespace HRInventories.Services
                                 await context.SaveChangesAsync();
                             }
                         }
-                       
                     }
                 }
                 catch (Exception ex)

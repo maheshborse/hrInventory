@@ -7,25 +7,30 @@ namespace HRInventories.Models
 {
     public partial class HRInventoryDBContext : DbContext
     {
+        public HRInventoryDBContext()
+        {
+        }
+
         Connectionstrings _connectionstring;
         public HRInventoryDBContext(Connectionstrings connectionstring)
         {
-             
             _connectionstring = connectionstring;
         }
 
-
-
         public virtual DbSet<Catagory> Catagory { get; set; }
+        public virtual DbSet<Dispatchdetails> Dispatchdetails { get; set; }
+        public virtual DbSet<Dispatchmaster> Dispatchmaster { get; set; }
         public virtual DbSet<Podetail> Podetail { get; set; }
         public virtual DbSet<Pomaster> Pomaster { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         private static ILoggerFactory _loggerFactory = new LoggerFactory().AddConsole();
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //optionsBuilder.UseNpgsql("Server=localhost;Port=5433;Database=HRInventoryDB;Username=postgres;Password=dell@123;Integrated Security=true;Pooling=true");
                 optionsBuilder.UseNpgsql(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
             }
         }
@@ -54,6 +59,68 @@ namespace HRInventories.Models
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
+
+                entity.Property(e => e.Isdeleted)
+                    .IsRequired()
+                    .HasColumnName("isdeleted")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Userid)
+                    .IsRequired()
+                    .HasColumnName("userid")
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Dispatchdetails>(entity =>
+            {
+                entity.HasKey(e => e.Dispatchdetailid)
+                    .HasName("dispatchdetails_pkey");
+
+                entity.ToTable("dispatchdetails");
+
+                entity.Property(e => e.Dispatchdetailid).HasColumnName("dispatchdetailid");
+
+                entity.Property(e => e.Createddate).HasColumnName("createddate");
+
+                entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
+
+                entity.Property(e => e.Dispatchid).HasColumnName("dispatchid");
+
+                entity.Property(e => e.Isdeleted)
+                    .IsRequired()
+                    .HasColumnName("isdeleted")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Productid).HasColumnName("productid");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Userid)
+                    .IsRequired()
+                    .HasColumnName("userid")
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.Dispatch)
+                    .WithMany(p => p.Dispatchdetails)
+                    .HasForeignKey(d => d.Dispatchid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("dispatchdetails_dispatchid_fkey");
+            });
+
+            modelBuilder.Entity<Dispatchmaster>(entity =>
+            {
+                entity.HasKey(e => e.Dispatchid)
+                    .HasName("dispatchmaster_pkey");
+
+                entity.ToTable("dispatchmaster");
+
+                entity.Property(e => e.Dispatchid).HasColumnName("dispatchid");
+
+                entity.Property(e => e.Createddate).HasColumnName("createddate");
+
+                entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
+
+                entity.Property(e => e.Employeeid).HasColumnName("employeeid");
 
                 entity.Property(e => e.Isdeleted)
                     .IsRequired()
