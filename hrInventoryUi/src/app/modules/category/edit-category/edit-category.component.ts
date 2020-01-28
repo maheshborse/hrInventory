@@ -16,7 +16,7 @@ export class EditCategoryComponent implements OnInit {
     categorydescription:"",
     Userid: 1,
     creadtedDate:new Date(),
-    isdeleted:"1"
+    isdeleted:"false"
   }
 
 
@@ -29,7 +29,7 @@ export class EditCategoryComponent implements OnInit {
       this.dummyCategory.categorydescription = data.categorydescription;
       this.dummyCategory.Userid = 1;
       this.dummyCategory.creadtedDate = new Date();
-      this.dummyCategory.isdeleted="1";
+      this.dummyCategory.isdeleted=data.isdeleted;
     }
 
    }
@@ -46,7 +46,7 @@ export class EditCategoryComponent implements OnInit {
 
   clickEditOrSave(){
    if (this.dummyCategory.categoryid === 0) {
-    this.dummyCategory.isdeleted="1";
+    this.dummyCategory.isdeleted="false";
     this.productCategoryService.postRequest(this.dummyCategory)
     .subscribe(
       success => {

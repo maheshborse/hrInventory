@@ -74,7 +74,7 @@ export class EditProductComponent implements OnInit {
   clickEditOrSave(){
     debugger;
     if (this.dummyProduct.productid === 0) {
-     this.dummyProduct.Isdeleted="1";
+     this.dummyProduct.Isdeleted="false";
      debugger;
      this.productService.postRequest(this.dummyProduct)
      .subscribe(
