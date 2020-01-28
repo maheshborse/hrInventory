@@ -30,6 +30,15 @@ export class PurchaseService {
     )
   }
 
+  deleteRequest(id:number):Observable<any>{
+    debugger;
+    let Url=`/Pomaster/${id}`;
+    return this.http.delete<any>(Url).pipe(
+        catchError(this.handleError)
+    );
+  }
+  
+
 
   postRequest(SaveproductModel:any):Observable<any>{
     let Url=`/Pomaster`;

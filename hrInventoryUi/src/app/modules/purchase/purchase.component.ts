@@ -6,6 +6,7 @@ import { materialGrid, purchaseOrdermodel, purchaseOrderMaster, purchaseDetails 
 import { PurchaseService } from 'src/app/shared/services/purchase';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -90,8 +91,8 @@ export class PurchaseComponent implements OnInit {
       this.poid = 0;
       this.poid = this.poid + 1;
     } else {
-      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
-      this.poid = this.poid + 1;
+      // this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
+      // this.poid = this.poid + 1;
     }
     this.dateofBirth = new Date();
     this.checkAddPoDetails = true;
@@ -208,7 +209,56 @@ export class PurchaseComponent implements OnInit {
     this.materialFillGrid.splice(i,1);
     //this.materialSaveList.splice(i,1);
     this.materialSaveList[i].isdeleted = "true";
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.purchaseService.deleteRequest(i)
+        .subscribe(
+          success => {
+            this.notificationService.error("Successfully Deleted")
+            this.PurchaseList();
+          },
+          error => {  
+          }       
+        );
+      }
+    })
   }
+
+  delete(id:number){
+    debugger;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't delete this ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.purchaseService.deleteRequest(id)
+        .subscribe(
+            success => {
+              this.notificationService.error("Successfully Deleted")
+              this.PurchaseList();
+            },
+            error => {  
+            }       
+          );
+      }
+    })
+    
+  }
+ 
 
   addData(){
     debugger;
@@ -288,8 +338,7 @@ export class PurchaseComponent implements OnInit {
     this.amount=null;
   }
 
-
-
+  
 
  
 
