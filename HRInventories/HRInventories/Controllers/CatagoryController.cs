@@ -66,7 +66,7 @@ namespace HRInventories.Controllers
             try
             {
                 Catagory catagoryToUpdate = _iCatagoryDataAccess.UpdateCatagory(categories);
-               // _iDataAccess.UpdateCatagory(catagoryToUpdate, categories);
+              
                 return NoContent();
             }
 
@@ -79,8 +79,8 @@ namespace HRInventories.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(long id)
         {
-            Catagory catagory = _iCatagoryDataAccess.GetCatagorybyID(id);
-            _iCatagoryDataAccess.DeleteCatagory(catagory);
+            //Catagory catagory = _iCatagoryDataAccess.GetCatagorybyID(id);
+            _iCatagoryDataAccess.DeleteCatagory(id);
             return NoContent();
         }
     }

@@ -17,6 +17,6 @@ namespace HRInventories.Services.Interface
 
         Product UpdateProduct(Product item);
 
-        void DeleteProduct(Product product);
+        void DeleteProduct(long id);
     }
 }

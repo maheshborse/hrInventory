@@ -87,7 +87,7 @@ namespace HRInventories.Services
 
                                      }).ToList()
                                  });
-                    return await sql.ToListAsync();
+                    return await sql.Where(k => k.Isdeleted == "false").ToListAsync();
                 }
             }
             catch (Exception ex)
@@ -145,6 +145,35 @@ namespace HRInventories.Services
             }
             catch (Exception ex)
             {
+
+            }
+        }
+        public async Task DeleteDispatch(long dispatchid)
+        {
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                try
+                {
+                    var groupData = await context.Dispatchmaster.Where(k => k.Dispatchid == dispatchid).FirstOrDefaultAsync();
+                    var detailsData = await context.Dispatchdetails.Where(k => k.Dispatchid == dispatchid).ToListAsync();
+                    if (groupData != null)
+                    {
+                        groupData.Isdeleted = "true";
+                        await context.SaveChangesAsync();
+                        if (detailsData != null)
+                        {
+                            foreach (var item in detailsData)
+                            {
+                                item.Isdeleted = "true";
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
 
             }
         }

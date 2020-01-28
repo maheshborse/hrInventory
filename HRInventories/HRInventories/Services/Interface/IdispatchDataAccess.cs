@@ -15,5 +15,7 @@ namespace HRInventories.Services.Interface
 
         Task UpdateDispatch(DispatchViewModel dispatchViewModel);
 
+        Task DeleteDispatch(long dispatchid);
+
     }
 }

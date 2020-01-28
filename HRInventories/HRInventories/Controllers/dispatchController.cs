@@ -61,5 +61,12 @@ namespace HRInventories.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpDelete("{dispatchid}")]
+        public IActionResult DeleteDispatch(long dispatchid)
+        {
+
+            _idispatchDataAccess.DeleteDispatch(dispatchid);
+            return NoContent();
+        }
     }
 }

@@ -72,15 +72,21 @@ namespace HRInventories.Services
                 dbCategory.Userid = item.Userid;
                 dbCategory.Createddate = item.Createddate;
                 dbCategory.Isdeleted = item.Isdeleted;
+                
                 context.SaveChanges();
             }
             return dbCategory;
         }
-        public void DeleteCatagory(Catagory catagory)
+        public void DeleteCatagory(long id)
         {
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                context.Catagory.Remove(catagory);
+                var groupdata= context.Catagory.FirstOrDefault(e => e.Categoryid == id);
+                if(groupdata !=null)
+                {
+                    groupdata.Isdeleted = "true";
+                }
+                //context.Catagory.Remove(catagory);
                 context.SaveChanges();
             }
         }
