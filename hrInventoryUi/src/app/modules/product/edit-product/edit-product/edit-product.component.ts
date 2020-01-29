@@ -20,7 +20,7 @@ export class EditProductComponent implements OnInit {
     categoryid:"",
     userid:1,
     createddate:new Date,
-    Isdeleted:"1"
+    Isdeleted:"false"
   }
   constructor(public dialogRef: MatDialogRef<EditProductComponent>,private productCategoryService:ProductCategoryService,
     private productService:ProductService, @Optional()  @Inject(MAT_DIALOG_DATA) data:any) { 
@@ -31,7 +31,7 @@ export class EditProductComponent implements OnInit {
       this.dummyProduct.categoryid = data.categoryid;
       this.dummyProduct.userid=1;
       this.dummyProduct.createddate = new Date();
-      this.dummyProduct.Isdeleted = "1";
+      this.dummyProduct.Isdeleted = "false";
     }
   }
 
