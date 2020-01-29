@@ -26,9 +26,10 @@ export class AuthSigninComponent implements OnInit {
   }
 
   signIn() {
-    debugger;
+    
     this.authService.login(this.loginObj).subscribe(
       data => {
+        console.log(data);
         localStorage.setItem("user", JSON.stringify(data));
         this.router.navigate(["dashboard/analytics"]);
       },

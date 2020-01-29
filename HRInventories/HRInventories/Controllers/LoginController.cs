@@ -5,65 +5,89 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HRInventories.Models;
+using HRInventories.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SynerzipInterviewApp.Controllers;
 
 namespace HRInventories.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : BaseController
     {
-        private IConfiguration _config;
+        private readonly IAuthenticationRepository authService;
 
-        public LoginController(IConfiguration config)
+        public LoginController(IAuthenticationRepository authService)
         {
-            _config = config;
+            this.authService = authService;
         }
-        [AllowAnonymous]
+
         [HttpPost]
-        public IActionResult Login([FromBody]LoginModel login)
+        public IActionResult Login(Login login)
         {
-            IActionResult response = Unauthorized();
-            var user = AuthenticateUser(login);
-
-            if (user != null)
+            try
             {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString,user = user.UserName });
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = authService.Login(login);
+                if (!user.isAuthenticated)
+                {
+                    return Unauthorized();
+                }
+
+                if (null != user)
+                {
+                    var jwtUser = JWTSettings.GetJWTUser(user);
+                    return Ok(jwtUser);
+                }
+
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
 
-            return response;
         }
 
-        private string GenerateJSONWebToken(LoginModel userInfo)
+        [HttpPost("/RefreshToken")]
+        public IActionResult RefreshToken([FromBody]RefreshTokenModel token)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              null,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private LoginModel AuthenticateUser(LoginModel login)
-        {
-            LoginModel user = null;
-
-            //Validate the User Credentials  
-            //Demo Purpose, I have Passed HardCoded User Information  
-            if (login.UserName == "test" && login.password == "password")
+            try
             {
-                user = new LoginModel { UserName = "test", password = "password" };
+                JWTUserModel user = JWTSettings.GetNewAccessToken(token);
+                if (user == null)
+                    return Unauthorized();
+                return Ok(user);
             }
-            return user;
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status401Unauthorized);
+            }
+
+        }
+
+
+        [HttpPost("/ValidateToken")]
+        public IActionResult ValidateToken([FromBody] RefreshTokenModel token)
+        {
+            try
+            {
+                var user = JWTSettings.GetUserFromToken(token.AccessToken);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized);
+            }
         }
     }
 }
