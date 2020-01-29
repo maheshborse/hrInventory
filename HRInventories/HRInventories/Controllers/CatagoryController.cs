@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HRInventories.Models;
 using HRInventories.Services.Interface;
 using HRInventories.UIModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

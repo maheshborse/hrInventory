@@ -38,8 +38,7 @@ export class PurchaseComponent implements OnInit {
   // poId
   poid:number;
   autogenratedPoId:number;
-  
-  
+   
   checkAddOrEdit:any="";
 
   //clear
@@ -48,10 +47,6 @@ export class PurchaseComponent implements OnInit {
   Quantity: number=null;
   Productname: string="";
   
-
-  
-
-
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['poNumber', 'poDate','totalAmount','discount','finalAmount','action'];
@@ -91,8 +86,8 @@ export class PurchaseComponent implements OnInit {
       this.poid = 0;
       this.poid = this.poid + 1;
     } else {
-      // this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
-      // this.poid = this.poid + 1;
+      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
+      this.poid = this.poid + 1;
     }
     this.dateofBirth = new Date();
     this.checkAddPoDetails = true;
@@ -299,6 +294,7 @@ export class PurchaseComponent implements OnInit {
     customObj.Createddate = new Date();
     customObj.Isdeleted ="false";
     customObj.poId =this.poid;
+    this.totalAmountText = this.totalAmountText === undefined ? 0 : this.totalAmountText;
     this.totalAmountText +=  customObj.Amount;
     if(this.discountMaster === 0){
       this.finalAmount = this.totalAmountText;

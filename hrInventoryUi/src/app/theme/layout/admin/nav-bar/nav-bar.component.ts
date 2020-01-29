@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GradientConfig} from '../../../../app-config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,7 +16,7 @@ export class NavBarComponent implements OnInit {
   @Output() onNavCollapse = new EventEmitter();
   @Output() onNavHeaderMobCollapse = new EventEmitter();
 
-  constructor() {
+  constructor( private router: Router ) {
     this.gradientConfig = GradientConfig.config;
     this.menuClass = false;
     this.collapseStyle = 'none';
@@ -36,5 +37,7 @@ export class NavBarComponent implements OnInit {
       this.onNavHeaderMobCollapse.emit();
     }
   }
+
+  
 
 }

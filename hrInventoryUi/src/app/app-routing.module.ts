@@ -5,6 +5,11 @@ import {AuthComponent} from './theme/layout/auth/auth.component';
 
 const routes: Routes = [
   {
+    path:'',
+    redirectTo:'login',
+    pathMatch:'full'
+  },
+  {
     path: '',
     component: AdminComponent,
     children: [

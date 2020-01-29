@@ -63,7 +63,7 @@ namespace HRInventories.Services
                             Categoryid=p.Category.Categoryid,
                         }
 
-                    }).ToListAsync();
+                    }).Where(k=> k.Isdeleted == "false").ToListAsync();
                     
 
                 }

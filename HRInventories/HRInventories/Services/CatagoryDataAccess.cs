@@ -46,8 +46,9 @@ namespace HRInventories.Services
             {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    return await context.Catagory.ToListAsync();
+                    return await context.Catagory.Where(k => k.Isdeleted == "false").ToListAsync();
                 }
+                
             }
             catch (Exception ex)
             {

@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { AuthSigninRoutingModule } from './auth-signin-routing.module';
 import { AuthSigninComponent } from './auth-signin.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    AuthSigninRoutingModule
+    AuthSigninRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [AuthSigninComponent]
 })

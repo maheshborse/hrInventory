@@ -14,11 +14,11 @@ const httpOptions = {
 @Injectable()
 export class AuthenticationService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router: Router) { }
 
   login(loginModel:any):Observable<any>{
     localStorage.setItem("loginModel",JSON.stringify(loginModel));
-    let Url=`/Authenticate`;
+    let Url=`/Login`;
     return this.http.post<any>(Url,loginModel,httpOptions).pipe(
         catchError(this.handleError)
     );
@@ -32,7 +32,7 @@ export class AuthenticationService {
   }
 
   logout(){
-    //this.router.navigate([`/logout`]);
+    this.router.navigate([`/logout`]);
   }
 
   getRefreshToken(refreshToken:string):Observable<any>{
