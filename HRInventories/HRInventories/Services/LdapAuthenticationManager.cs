@@ -129,7 +129,7 @@ namespace HRInventories.Services
                                         Email = result.EmailAddress,
                                         GivenName = result.GivenName,
                                         Surname = result.Surname,
-                                        Id = result.EmployeeId,
+                                        //Id = result.EmployeeId,
                                     });
                                 }
                             var userList = allUsers.OrderBy(s => s.GivenName);
