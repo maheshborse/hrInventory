@@ -124,6 +124,7 @@ namespace HRInventories
             services.AddSingleton<ICatagoryDataAccess, CatagoryDataAccess>();
             services.AddSingleton<IProductDataAccess, ProductDataAccess>();
             services.AddSingleton<IPomasterDataAccess, PomasterDataAccess>();
+            services.AddSingleton<IdispatchDataAccess, dispatchDataAccess>();
         }
     }
 }
