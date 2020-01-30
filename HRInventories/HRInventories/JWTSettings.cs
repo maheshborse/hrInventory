@@ -24,7 +24,7 @@ namespace HRInventories
 
         public JWTUserModel(User model)
         {
-            Id = model.Id;
+            Id = Convert.ToInt32(model.Id);
             UserName = model.UserName;
             Email = model.Email;
             DisplayName = model.DisplayName;

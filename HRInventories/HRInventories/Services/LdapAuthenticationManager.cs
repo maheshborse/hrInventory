@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
-
-
+using System.Text.RegularExpressions;
 
 namespace HRInventories.Services
 {
@@ -121,7 +120,7 @@ namespace HRInventories.Services
                         using (PrincipalSearcher search = new PrincipalSearcher(userPrincipal))
                         {
                             foreach (UserPrincipal result in search.FindAll())
-                                if (!String.IsNullOrEmpty(result.EmployeeId))
+                            if (!String.IsNullOrEmpty(result.EmployeeId))
                                 {
                                     allUsers.Add(new User
                                     {
@@ -129,7 +128,7 @@ namespace HRInventories.Services
                                         Email = result.EmailAddress,
                                         GivenName = result.GivenName,
                                         Surname = result.Surname,
-                                        //Id = result.EmployeeId,
+                                        Id = result.EmployeeId,
                                     });
                                 }
                             var userList = allUsers.OrderBy(s => s.GivenName);

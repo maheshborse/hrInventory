@@ -89,10 +89,38 @@ const NavigationItems = [
   },
  
 ];
+const NavigationItemsForother = [
+  {
+    id: 'navigation',
+    title: 'Navigation',
+    type: 'group',
+    icon: 'feather icon-monitor',
+    children: [
+      {
+        id: 'dashboard',
+        title: 'Dashboard',
+        type: 'item',
+        icon: 'feather icon-home',
+        url: '/dashboard/analytics',
+        breadcrumbs: false
+      },
+    ],
+  },
+  
+ 
+];
 
 @Injectable()
 export class NavigationItem {
+  
   public get() {
-    return NavigationItems;
+    debugger;
+    let user=JSON.parse(localStorage.getItem('user'));
+    if(user.isAdmin === true){
+      return NavigationItems;
+    } else{
+      return NavigationItemsForother; 
+    }
+   
   }
 }
