@@ -13,6 +13,8 @@ namespace HRInventories.Models
         public long Dispatchid { get; set; }
         public DateTime Dispatchdate { get; set; }
         public long Employeeid { get; set; }
+        public string Employeename { get; set; }
+        public long Totalqty { get; set; }
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
