@@ -6,7 +6,6 @@ namespace HRInventories.Models
     public partial class Dispatchdetails
     {
         public long Dispatchdetailid { get; set; }
-        public DateTime Dispatchdate { get; set; }
         public long Dispatchid { get; set; }
         public long Productid { get; set; }
         public long Quantity { get; set; }

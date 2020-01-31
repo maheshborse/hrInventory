@@ -48,6 +48,7 @@ namespace HRInventories.Services
                         {
                             if (foundUsr != null)
                             {
+                                UserObj.Id = foundUsr.EmployeeId;
                                 UserObj.Email = foundUsr.EmailAddress;
                                 UserObj.DisplayName = foundUsr.DisplayName;
                                 UserObj.GivenName = foundUsr.GivenName;

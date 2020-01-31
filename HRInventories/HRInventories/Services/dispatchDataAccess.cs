@@ -27,6 +27,8 @@ namespace HRInventories.Services
                     {
                         Dispatchdate = dispatchViewModel.DispatchmasterVmodel.Dispatchdate,
                         Employeeid = dispatchViewModel.DispatchmasterVmodel.Employeeid,
+                        Employeename = dispatchViewModel.DispatchmasterVmodel.Employeename,
+                        Totalqty=dispatchViewModel.DispatchmasterVmodel.Totalqty,
                         Userid = dispatchViewModel.DispatchmasterVmodel.Userid,
                         Createddate = dispatchViewModel.DispatchmasterVmodel.Createddate,
                         Isdeleted = dispatchViewModel.DispatchmasterVmodel.Isdeleted,
@@ -42,7 +44,6 @@ namespace HRInventories.Services
                         { 
                             Dispatchid = dbGroup.Dispatchid, 
                             Productid = item.Productid, 
-                            Dispatchdate = item.Dispatchdate, 
                             Quantity = item.Quantity, 
                             Userid = item.Userid, 
                             Createddate = item.Createddate,
@@ -71,6 +72,8 @@ namespace HRInventories.Services
                                      Dispatchid=s.Dispatchid,
                                      Dispatchdate = s.Dispatchdate,
                                      Employeeid = s.Employeeid,
+                                     EmployeeName =s.Employeename,
+                                     Totalqty= s.Totalqty,
                                      Userid = s.Userid,
                                      Createddate = s.Createddate,
                                      Isdeleted = s.Isdeleted,
@@ -79,7 +82,6 @@ namespace HRInventories.Services
                                          Dispatchdetailid = g.Dispatchdetailid,
                                          Dispatchid = g.Dispatchid,
                                          Productid = g.Productid,
-                                         Dispatchdate=g.Dispatchdate,
                                          Quantity = g.Quantity,
                                          Userid = g.Userid,
                                          Createddate = g.Createddate,
@@ -106,6 +108,8 @@ namespace HRInventories.Services
 
                     dbGroup.Dispatchdate = dispatchViewModel.DispatchmasterVmodel.Dispatchdate;
                     dbGroup.Employeeid = dispatchViewModel.DispatchmasterVmodel.Employeeid;
+                    dbGroup.Employeename = dispatchViewModel.DispatchmasterVmodel.Employeename;
+                    dbGroup.Totalqty = dispatchViewModel.DispatchmasterVmodel.Totalqty;
                     dbGroup.Userid = dispatchViewModel.DispatchmasterVmodel.Userid;
                     dbGroup.Createddate = dispatchViewModel.DispatchmasterVmodel.Createddate;
                     dbGroup.Isdeleted = dispatchViewModel.DispatchmasterVmodel.Isdeleted;
@@ -120,7 +124,6 @@ namespace HRInventories.Services
                                 Dispatchdetailid = item.Dispatchdetailid,
                                 Dispatchid = item.Dispatchid,
                                 Productid = item.Productid,
-                                Dispatchdate = item.Dispatchdate,
                                 Quantity = item.Quantity,
                                 Userid = item.Userid,
                                 Createddate = item.Createddate,

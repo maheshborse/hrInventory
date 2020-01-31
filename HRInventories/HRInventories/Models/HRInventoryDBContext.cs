@@ -82,7 +82,7 @@ namespace HRInventories.Models
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
-                entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
+                //entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
 
                 entity.Property(e => e.Dispatchid).HasColumnName("dispatchid");
 
@@ -121,6 +121,8 @@ namespace HRInventories.Models
                 entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
 
                 entity.Property(e => e.Employeeid).HasColumnName("employeeid");
+                entity.Property(e => e.Employeename).HasColumnName("employeename");
+                entity.Property(e => e.Totalqty).HasColumnName("totalqty");
 
                 entity.Property(e => e.Isdeleted)
                     .IsRequired()
