@@ -10,7 +10,7 @@ namespace HRInventories.Models
             Dispatchdetails = new HashSet<Dispatchdetails>();
         }
 
-        public long Dispatchid { get; set; }
+        public int Dispatchid { get; set; }
         public DateTime Dispatchdate { get; set; }
         public long Employeeid { get; set; }
         public string Employeename { get; set; }

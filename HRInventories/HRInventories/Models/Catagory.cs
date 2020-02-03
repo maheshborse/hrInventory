@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 
 namespace HRInventories.Models
 {
@@ -18,7 +16,7 @@ namespace HRInventories.Models
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
-        [IgnoreDataMember]
+
         public virtual ICollection<Product> Product { get; set; }
     }
 }

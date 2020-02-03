@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.960
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRInventories", "HRInventories\HRInventories.csproj", "{A7A369C0-CBE9-430E-8E46-9FA70C4EDC27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRInventories.UnitTests", "HRInventories.UnitTests\HRInventories.UnitTests.csproj", "{EE710736-E2CE-4909-9E4F-AB49F640E51D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A7A369C0-CBE9-430E-8E46-9FA70C4EDC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7A369C0-CBE9-430E-8E46-9FA70C4EDC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7A369C0-CBE9-430E-8E46-9FA70C4EDC27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE710736-E2CE-4909-9E4F-AB49F640E51D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE710736-E2CE-4909-9E4F-AB49F640E51D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE710736-E2CE-4909-9E4F-AB49F640E51D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE710736-E2CE-4909-9E4F-AB49F640E51D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 
 namespace HRInventories.Models
 {
@@ -20,9 +18,7 @@ namespace HRInventories.Models
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
 
-       
         public virtual Catagory Category { get; set; }
-       
         public virtual ICollection<Podetail> Podetail { get; set; }
     }
 }

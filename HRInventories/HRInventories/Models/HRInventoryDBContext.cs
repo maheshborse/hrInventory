@@ -7,14 +7,18 @@ namespace HRInventories.Models
 {
     public partial class HRInventoryDBContext : DbContext
     {
-        public HRInventoryDBContext()
-        {
-        }
-
         Connectionstrings _connectionstring;
         public HRInventoryDBContext(Connectionstrings connectionstring)
         {
             _connectionstring = connectionstring;
+        }
+        public HRInventoryDBContext()
+        {
+        }
+
+        public HRInventoryDBContext(DbContextOptions<HRInventoryDBContext> options)
+            : base(options)
+        {
         }
 
         public virtual DbSet<Catagory> Catagory { get; set; }
@@ -23,6 +27,18 @@ namespace HRInventories.Models
         public virtual DbSet<Podetail> Podetail { get; set; }
         public virtual DbSet<Pomaster> Pomaster { get; set; }
         public virtual DbSet<Product> Product { get; set; }
+
+        public DbQuery<PODispatchDetailsGrid> PODispatchDetailsGrids { get; set; }
+
+        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //        {
+        //            if (!optionsBuilder.IsConfigured)
+        //            {
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+        //                optionsBuilder.UseNpgsql("Server=localhost;Port=5433;Database=HRInventoryDB;Username=postgres;Password=dell@123;Integrated Security=true;Pooling=true");
+        //            }
+        //        }
+
         private static ILoggerFactory _loggerFactory = new LoggerFactory().AddConsole();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,7 +50,6 @@ namespace HRInventories.Models
                 optionsBuilder.UseNpgsql(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
             }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -82,8 +97,6 @@ namespace HRInventories.Models
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
-                //entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
-
                 entity.Property(e => e.Dispatchid).HasColumnName("dispatchid");
 
                 entity.Property(e => e.Isdeleted)
@@ -121,13 +134,18 @@ namespace HRInventories.Models
                 entity.Property(e => e.Dispatchdate).HasColumnName("dispatchdate");
 
                 entity.Property(e => e.Employeeid).HasColumnName("employeeid");
-                entity.Property(e => e.Employeename).HasColumnName("employeename");
-                entity.Property(e => e.Totalqty).HasColumnName("totalqty");
+
+                entity.Property(e => e.Employeename)
+                    .IsRequired()
+                    .HasColumnName("employeename")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Isdeleted)
                     .IsRequired()
                     .HasColumnName("isdeleted")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Totalqty).HasColumnName("totalqty");
 
                 entity.Property(e => e.Userid)
                     .IsRequired()
@@ -246,6 +264,10 @@ namespace HRInventories.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("product_categoryid_fkey");
             });
+
+           
+            modelBuilder.Query<PODispatchDetailsGrid>().ToView("podispatchdetailsgrid");
         }
+       
     }
 }

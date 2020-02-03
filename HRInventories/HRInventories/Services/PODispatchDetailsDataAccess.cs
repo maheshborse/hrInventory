@@ -21,7 +21,7 @@ namespace HRInventories.Services
             {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    return await context.PODispatchDetailsGrid.Where(k=> k.Productid == id).ToListAsync();
+                    return await context.PODispatchDetailsGrids.ToListAsync();
                 }
 
             }

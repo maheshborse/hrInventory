@@ -25,8 +25,8 @@ namespace HRInventories.Models
     }
     public class Dispatchdetail
     {
-        public long Dispatchdetailid { get; set; }
-        public long Dispatchid { get; set; }
+        public int Dispatchdetailid { get; set; }
+        public int  Dispatchid { get; set; }
         public long Productid { get; set; }
         public long Quantity { get; set; }
         public string Userid { get; set; }

@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace HRInventories.Models
 {
@@ -17,9 +15,8 @@ namespace HRInventories.Models
         public string Userid { get; set; }
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
-       
+
         public virtual Pomaster Po { get; set; }
-        
         public virtual Product Product { get; set; }
     }
 }
