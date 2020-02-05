@@ -66,7 +66,7 @@ namespace HRInventories
             services.AddScoped<IdispatchDataAccess, dispatchDataAccess>();
             services.AddScoped<IPomasterDataAccess, PomasterDataAccess>();
             services.AddScoped<IProductDataAccess, ProductDataAccess>();
-            services.AddScoped<IPODispatchDetailsDataAccess, PODispatchDetailsDataAccess>();
+          
 
             var tokenValidationParameters = new TokenValidationParameters
             {
