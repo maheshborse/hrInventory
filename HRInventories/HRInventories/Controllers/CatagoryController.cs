@@ -26,7 +26,7 @@ namespace HRInventories.Controllers
             try
             {
                 await _iCatagoryDataAccess.AddCategory(categories);
-                return NoContent();
+                return StatusCode(StatusCodes.Status201Created); 
             }
             catch(Exception ex)
             {
@@ -41,7 +41,7 @@ namespace HRInventories.Controllers
                 List<Catagory> Categories = await _iCatagoryDataAccess.GetCategories();
                 return Ok(Categories);
             }
-                catch (Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -66,9 +66,8 @@ namespace HRInventories.Controllers
         {
             try
             {
-                Catagory catagoryToUpdate = _iCatagoryDataAccess.UpdateCatagory(categories);
-              
-                return NoContent();
+                Catagory catagoryToUpdate =_iCatagoryDataAccess.UpdateCatagory(categories);
+                return Ok();
             }
 
             catch (Exception ex)
@@ -82,7 +81,7 @@ namespace HRInventories.Controllers
         {
             //Catagory catagory = _iCatagoryDataAccess.GetCatagorybyID(id);
             _iCatagoryDataAccess.DeleteCatagory(id);
-            return NoContent();
+            return Ok();
         }
     }
 }
