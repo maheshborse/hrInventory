@@ -39,9 +39,15 @@ export class EditProductComponent implements OnInit {
     this.catategorydetails();
   }
 
-  productNameValidator: FormControl =  new FormControl('', [Validators.required]);
-  productDescriptionValidator: FormControl =  new FormControl('', [Validators.required]);
-  categryNameValidator: FormControl =  new FormControl('', [Validators.required]);
+  productNameValidator: FormControl =  new FormControl('', [Validators.required, this.noWhitespaceValidator]);
+  productDescriptionValidator: FormControl =  new FormControl('', [Validators.required, this.noWhitespaceValidator]);
+  categryNameValidator: FormControl =  new FormControl('', [Validators.required, this.noWhitespaceValidator]);
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
 
   productForm: FormGroup = new FormGroup({
     productName: this.productNameValidator,

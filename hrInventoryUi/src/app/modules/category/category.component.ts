@@ -55,7 +55,7 @@ export class CategoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== ""){
         this.categoryList();
-        this.notificationService.success("Successfully Saved user.")
+        this.notificationService.success("Successfully saved.")
       }
     });
   }
@@ -64,10 +64,9 @@ export class CategoryComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  delete(id:number){
+  delete(id:any,name:any){
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't delete this ?",
+      text: "Are you sure? You want to delete this Category?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -77,10 +76,10 @@ export class CategoryComponent implements OnInit {
       if (result.value) {
         this.productCategoryService.deleteRequest(id)
         .subscribe(
-            success => {
-              this.notificationService.error("Successfully Deleted")
-              this.categoryList();
-            },
+          success => {
+            this.notificationService.error("Category "+ name + " deleted successfully")
+                      this.categoryList();
+                    },
             error => {  
             }       
           );

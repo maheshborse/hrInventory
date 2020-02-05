@@ -44,7 +44,7 @@ export class PurchaseComponent implements OnInit {
   //clear
   Discount: number = null;
   Rate:number=null;
-  Quantity: number=null;
+  QUantity: number=null;
   Productname: string="";
   
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -59,6 +59,7 @@ export class PurchaseComponent implements OnInit {
   ngOnInit() {
     this.detailsProduct();
     this.PurchaseList();
+    this.dataSource.paginator = this.paginator;
   }
 
   openPoList(){
@@ -306,7 +307,7 @@ export class PurchaseComponent implements OnInit {
     this.materialSaveList.push(customObj);
     this.Discount=null;
     this.Rate=null;
-    this.Quantity=null;
+    this.QUantity=null;
     this.categoryName='';
     this.Productname='';
     this.amount=null;

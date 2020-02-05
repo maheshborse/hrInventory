@@ -34,6 +34,7 @@ export class ProductComponent implements OnInit {
   }
 
   productList(){
+  
     this.productService.getProduct()
      .subscribe(
       data => {
@@ -62,7 +63,7 @@ export class ProductComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  delete(id:any){
+  delete(id:any,name:any){
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -76,7 +77,7 @@ export class ProductComponent implements OnInit {
         this.productService.deleteRequest(id)
         .subscribe(
           success => {
-            this.notificationService.error("Successfully Deleted")
+            this.notificationService.error("Product "+ name + " deleted successfully")
             this.productList();
           },
           error => {  

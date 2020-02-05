@@ -1,52 +1,63 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { _throw } from 'rxjs/observable/throw';
+
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json-patch+json'})
 };
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class DispatchToEmployeeService {
 
   constructor(private http:HttpClient) { }
 
-
-  getProduct():Observable<any>{
-   
-    let Url=`/Product`;
+  getDispatchdetail():Observable<any>{
+    debugger;
+    let Url=`/dispatch`;
     return this.http.get<any>(Url).pipe(
       catchError(this.handleError)
     );
   }
 
-  postRequest(SaveproductModel:any):Observable<any>{
-    let Url=`/Product`;
-    return this.http.post<any>(Url,SaveproductModel,httpOptions).pipe(
+  getDispatchEmpdetail():Observable<any>{
+    debugger;
+    let Url=`/Directory/GetUsers`;
+    return this.http.get<any>(Url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  patchRequest(EditdispatchModel,id):Observable<any>{
+    debugger;
+    const Url=`/dispatch/${id}`;
+    return this.http.put<any>(Url,EditdispatchModel,httpOptions).pipe(
       catchError(this.handleError)
     )
   }
 
-  patchRequest(productModel):Observable<any>{
-    const Url=`/Product/${productModel.productid}`;
-    return this.http.put<any>(Url,productModel,httpOptions).pipe(
+  postRequest(SavedispatchModel:any):Observable<any>{
+    debugger;
+    let Url=`/dispatch`;
+    return this.http.post<any>(Url,SavedispatchModel,httpOptions).pipe(
       catchError(this.handleError)
     )
   }
 
   deleteRequest(id:number):Observable<any>{
     debugger;
-    let Url=`/Product/${id}`;
+    let Url=`/dispatch/${id}`;
     return this.http.delete<any>(Url).pipe(
         catchError(this.handleError)
     );
   }
-
-
+  
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -62,5 +73,4 @@ export class ProductService {
     return _throw(
       error);
   };
-
 }

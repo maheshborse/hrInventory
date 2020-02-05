@@ -40,6 +40,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
 import { ProductService } from './shared/services/product.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +60,7 @@ import { ProductService } from './shared/services/product.service';
     ChatMsgComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,
-    EditProductComponent,EditCategoryComponent,
+    EditProductComponent,EditCategoryComponent, 
    
   ],
   imports: [

@@ -82,7 +82,12 @@ const NavigationItems = [
             type: 'item',
             url: '/purchase'
           },
-          
+          {
+            id: 'dispatch-to-employee',
+            title: 'Dispatch To Employee',
+            type: 'item',
+            url: '/dispatch-to-employee'
+          },
         ]
       }
     ]
@@ -114,7 +119,6 @@ const NavigationItemsForother = [
 export class NavigationItem {
   
   public get() {
-    debugger;
     let user=JSON.parse(localStorage.getItem('user'));
     if(user.isAdmin === true){
       return NavigationItems;
