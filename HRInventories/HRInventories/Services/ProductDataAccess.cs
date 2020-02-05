@@ -59,10 +59,10 @@ namespace HRInventories.Services
                             Categoryname = p.Category.Categoryname,
                             Categorydescription = p.Category.Categorydescription,
                             Createddate = p.Category.Createddate,
-                            Isdeleted=p.Category.Isdeleted,
-                            Categoryid=p.Category.Categoryid,
-                        }
-
+                            Isdeleted = p.Category.Isdeleted,
+                            Categoryid = p.Category.Categoryid,
+                        },
+                        stock = context.PODispatchDetailsGrids.Where(k=> k.productid == p.Productid).Select(b=> b.stock).FirstOrDefault(),
                     }).Where(k=> k.Isdeleted == "false").ToListAsync();
                     
 
