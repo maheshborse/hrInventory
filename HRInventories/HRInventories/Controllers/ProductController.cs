@@ -25,7 +25,7 @@ namespace HRInventories.Controllers
             try
             {
                 await _iProductDataAccess.AddProduct(products);
-                return NoContent();
+                return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace HRInventories.Controllers
             {
 
                 Product productsToUpdate = _iProductDataAccess.UpdateProduct(products);
-                return NoContent();
+                return Ok();
             }
 
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace HRInventories.Controllers
         {
             //Product product = _iProductDataAccess.GetProductbyID(id);
             _iProductDataAccess.DeleteProduct(id);
-            return NoContent();
+            return Ok();
         }
     }
 }
