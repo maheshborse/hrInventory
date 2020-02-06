@@ -37,7 +37,13 @@ export class EditCategoryComponent implements OnInit {
   ngOnInit() {
   }
 
-  categoryNameValidator: FormControl =  new FormControl('', [Validators.required]);
+  categoryNameValidator: FormControl =  new FormControl('', [Validators.required, this.noWhitespaceValidator]);
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
   
   categoryForm: FormGroup = new FormGroup({
     category_name: this.categoryNameValidator,

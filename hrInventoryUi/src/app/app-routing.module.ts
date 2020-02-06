@@ -38,7 +38,11 @@ const routes: Routes = [
       {
         path: 'purchase',
         loadChildren: () => import('./modules/purchase/purchase.module').then(module => module.PurchaseModule)
-      }
+      },
+      {
+        path: 'dispatch-to-employee',
+        loadChildren: () => import('./modules/dispatch-to-employee/dispatch-to-employee.module').then(module => module.DispatchToEmployeeModule)
+      } 	
       
       // {
       //   path: 'forms',

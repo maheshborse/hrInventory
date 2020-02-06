@@ -32,7 +32,7 @@
 				<th mat-header-cell *matHeaderCellDef > Action </th>
 				<td mat-cell *matCellDef="let element">
 					<i (click)="openDialog(element)" class="material-icons" style="cursor: pointer;">mode_edit</i>
-					<i (click)="delete(element.productid)" class="material-icons" style="cursor: pointer;">delete</i>
+					<i (click)="delete(element.productid,element.productname)" class="material-icons" style="cursor: pointer;">delete</i>
 			  </ng-container>
 		  
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
