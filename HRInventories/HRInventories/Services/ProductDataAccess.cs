@@ -62,7 +62,7 @@ namespace HRInventories.Services
                             Isdeleted = p.Category.Isdeleted,
                             Categoryid = p.Category.Categoryid,
                         },
-                        stock = context.PODispatchDetailsGrids.Where(k=> k.productid == p.Productid).Select(b=> b.stock).FirstOrDefault(),
+                        balance = context.PODispatchDetailsGrids.Where(k=> k.productid == p.Productid).Select(b=> b.balance).FirstOrDefault(),
                     }).Where(k=> k.Isdeleted == "false").ToListAsync();
                     
 
