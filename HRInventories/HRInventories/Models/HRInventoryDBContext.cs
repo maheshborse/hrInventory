@@ -270,7 +270,11 @@ namespace HRInventories.Models
 
                 entity.Property(e => e.Requestid).HasColumnName("requestid");
 
-                entity.Property(e => e.Createddate).HasColumnName("createddate");
+                entity.Property(e => e.Createddate)
+                    .HasColumnName("createddate")
+                    .HasColumnType("timestamp with time zone");
+
+                entity.Property(e => e.Employeeid).HasColumnName("employeeid");
 
                 entity.Property(e => e.Isdeleted)
                     .IsRequired()

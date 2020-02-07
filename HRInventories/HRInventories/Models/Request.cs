@@ -8,6 +8,7 @@ namespace HRInventories.Models
         public int Requestid { get; set; }
         public long Productid { get; set; }
         public long Quantity { get; set; }
+        public long Employeeid { get; set; }
         public string Status { get; set; }
         public bool Isread { get; set; }
         public string Userid { get; set; }
