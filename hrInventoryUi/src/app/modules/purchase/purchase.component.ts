@@ -84,7 +84,7 @@ export class PurchaseComponent implements OnInit {
 
   openPoDetails(){
     if(this.dataSource.data.length === 0 ){
-      this.poid = 0;
+      // this.poid = 0;
       this.poid = this.poid + 1;
     } else {
       this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
@@ -184,7 +184,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   getDiscount(number:any){
-    debugger;
     this.discount = number === "0" ||  number === ""  ? 0 : number;
     if(this.discount === 0  ){
       this.amount = this.quantity * this.rate;
@@ -208,7 +207,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   delete(id:number){
-    debugger;
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't delete this ?",
@@ -235,7 +233,6 @@ export class PurchaseComponent implements OnInit {
  
 
   addData(){
-    debugger;
     var addPoModel = new purchaseOrdermodel();
     addPoModel.pomasterModel = new purchaseOrderMaster();
     addPoModel.pomasterModel.Poid= this.poid;
@@ -273,11 +270,20 @@ export class PurchaseComponent implements OnInit {
     
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+  
   PurchaseList(){
     this.purchaseService.getPodetail()
      .subscribe(
       data => {
         this.dataSource.data = data;
+        this.dataSource.filterPredicate = function(data, filter: string): boolean {
+          return data.poid.toString() === filter;
+        };
         console.log(this.dataSource.data);
       }
     );
@@ -313,10 +319,5 @@ export class PurchaseComponent implements OnInit {
     this.amount=null;
   }
 
-  
-
- 
-
-  
 
 }
