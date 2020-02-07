@@ -8,12 +8,8 @@ export class dispatchmaterialGrid {
     Productid: number;
     ProductName:string;
     Quantity:number;
-    Dispatchdate: Date;
     Userid:string;
     Isdeleted: string;
-    Employeeid: number;
-    EmployeeName: string;
-    Totalqty:number;
     Createddate: Date;
     Dispatchdetailid: number;
 }
