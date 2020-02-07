@@ -1,0 +1,68 @@
+
+<h2 mat-dialog-title>New Request</h2>
+<hr>
+<div class="form-container">
+    <div class="row material2">
+        <form class="example-form col-sm-6">
+            <mat-form-field class="example-full-width">
+                <mat-label>Product Name</mat-label>
+                <mat-select #productName name="productName" [(ngModel)]="Productname" (selectionChange)="changeProduct($event.value)">
+                  <mat-option  *ngFor=" let product of productOption"  [value]="product.value" >{{product.label}}
+                </mat-option>
+                </mat-select>
+                </mat-form-field>
+          </form>
+          <form class="example-form col-sm-6">  
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Category Name" [value]="categoryName" readonly >
+            </mat-form-field>
+        </form>
+    </div>
+    <br>
+    <div class="row material2">
+        <form class="example-form col-sm-6">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Quantity" #quantity name="quantity" [(ngModel)]="Quantity" type="number" (keyup)="getQuantity($event.target.value)">
+                </mat-form-field>
+          </form>
+    </div>
+    <br>
+    <button mat-raised-button color="primary" style="border-radius: 20px !important;"  (click)="addDataOnGrid()" >
+        Add
+     </button>
+     <br>
+     <br>
+
+     <div class="row material2">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Material Name</th>
+                <th scope="col">Quantuty</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                <td>
+                  dasdasd
+                </td>
+                <td>
+                   qweqwe
+                </td>
+                
+                <td>
+                    <i class="material-icons" style="cursor: pointer;" (click)="deletematerialonGird(i)">delete</i>
+                </td>
+             </tr>
+             </tbody>
+          </table>
+        </div>
+        <hr>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close mat-raised-button color="warn" class="customButton" >Cancel</button>
+        <button mat-button [mat-dialog-close]="true"  mat-raised-button color="primary" (click)="clickEditOrSave()" class="customButton" cdkFocusInitial >Save</button>
+      </mat-dialog-actions>
+    
+      
+</div>

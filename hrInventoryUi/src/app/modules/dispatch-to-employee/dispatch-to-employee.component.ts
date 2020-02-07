@@ -208,7 +208,7 @@ export class DispatchToEmployeeComponent implements OnInit {
     let data = this.selectedProduct.filter(k=> k.productid === id );
     this.categoryName = data[0].category.categoryname;
     this.ProductName = data[0].productname;
-    this.stock = data[0].stock;
+    this.stock = data[0].balance;
   }
 
   deleteDispatchOnGird (i:number){

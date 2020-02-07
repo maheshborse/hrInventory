@@ -83,6 +83,12 @@ const NavigationItems = [
             url: '/purchase'
           },
           {
+             id:'request',
+             title:'Request',
+             type:'item',
+             url:'/request'
+          },
+          {
             id: 'dispatch-to-employee',
             title: 'Dispatch To Employee',
             type: 'item',
@@ -95,19 +101,21 @@ const NavigationItems = [
  
 ];
 const NavigationItemsForother = [
+ 
   {
-    id: 'navigation',
-    title: 'Navigation',
-    type: 'group',
-    icon: 'feather icon-monitor',
+    
+    id: '',
+    title: 'Transaction Pages',
+    type: 'collapse',
+    icon: 'feather icon-box',
     children: [
       {
-        id: 'dashboard',
-        title: 'Dashboard',
+        id: 'request',
+        title: 'Request',
         type: 'item',
         icon: 'feather icon-home',
-        url: '/dashboard/analytics',
-        breadcrumbs: false
+        url: '/request',
+        
       },
     ],
   },
