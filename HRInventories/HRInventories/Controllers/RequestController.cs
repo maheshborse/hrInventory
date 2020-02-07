@@ -76,7 +76,6 @@ namespace HRInventories.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteRequests(long id)
         {
-            //Catagory catagory = _iCatagoryDataAccess.GetCatagorybyID(id);
             _iRequestDataAccess.DeleteRequests(id);
             return Ok();
         }
