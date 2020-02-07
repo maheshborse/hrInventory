@@ -38,8 +38,7 @@ import { ProductCategoryService } from './shared/services/product-category.servi
 import { JwtInterceptor } from './shared/helpers/jwt.interceptor';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { ProductService } from './shared/services/product.service';
-
-
+import { EditRequestComponent } from './modules/request/edit-request/edit-request.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +59,7 @@ import { ProductService } from './shared/services/product.service';
     ChatMsgComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,
-    EditProductComponent,EditCategoryComponent, 
+    EditProductComponent,EditCategoryComponent, EditRequestComponent
    
   ],
   imports: [
@@ -88,7 +87,7 @@ import { ProductService } from './shared/services/product.service';
   ],
   
   bootstrap: [AppComponent],
-  entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent]
+  entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent,EditRequestComponent]
   
 })
 export class AppModule { }
