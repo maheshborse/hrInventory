@@ -9,6 +9,6 @@ namespace HRInventories.Models
     {
         public long productid { get; set; }
 
-        public int stock { get; set; }
+        public int balance { get; set; }
     }
 }

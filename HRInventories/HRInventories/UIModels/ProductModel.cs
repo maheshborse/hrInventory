@@ -16,7 +16,7 @@ namespace HRInventories.UIModels
         public DateTime Createddate { get; set; }
         public string Isdeleted { get; set; }
 
-        public int stock { get; set; }
+        public int balance { get; set; }
         public CatagoryModel Category { get; set; }
     }
 }
