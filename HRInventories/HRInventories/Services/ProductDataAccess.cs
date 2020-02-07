@@ -24,7 +24,6 @@ namespace HRInventories.Services
                 {
                     Product products = new Product()
                     {
-                        // removed DisplayName from UI, so will set display name as unit name
                         Productname = product.Productname,
                         Productdescription = product.Productdescription,
                         Userid = product.Userid,

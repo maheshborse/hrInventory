@@ -26,9 +26,9 @@ namespace HRInventories.UnitTests.Controller
         {
             _product = new List<ProductModel>()
             {
-                { new ProductModel() { Productid = 1, Categoryid=2,Productname = "Bed1", Productdescription = "Room1", Userid = "1234", Createddate = DateTime.Now, Isdeleted = "false",stock=250 } },
-                { new ProductModel() { Productid = 2, Categoryid= 4, Productname = "Bed2", Productdescription = "Room1", Userid = "5678", Createddate = DateTime.Now, Isdeleted = "false" ,stock=250 } },
-                { new ProductModel() { Productid = 3,Categoryid= 6, Productname = "Bed1", Productdescription = "Room2", Userid = "3456", Createddate = DateTime.Now, Isdeleted = "false",stock=250 } },
+                { new ProductModel() { Productid = 1, Categoryid=2,Productname = "Bed1", Productdescription = "Room1", Userid = "1234", Createddate = DateTime.Now, Isdeleted = "false",balance=250 } },
+                { new ProductModel() { Productid = 2, Categoryid= 4, Productname = "Bed2", Productdescription = "Room1", Userid = "5678", Createddate = DateTime.Now, Isdeleted = "false" ,balance=250 } },
+                { new ProductModel() { Productid = 3,Categoryid= 6, Productname = "Bed1", Productdescription = "Room2", Userid = "3456", Createddate = DateTime.Now, Isdeleted = "false",balance=250 } },
             };
             
             Mock<IProductDataAccess> products = new Mock<IProductDataAccess>();
