@@ -27,7 +27,7 @@ namespace HRInventories.Models
         public virtual DbSet<Podetail> Podetail { get; set; }
         public virtual DbSet<Pomaster> Pomaster { get; set; }
         public virtual DbSet<Product> Product { get; set; }
-
+        public virtual DbSet<Request> Request { get; set; }
         public DbQuery<PODispatchDetailsGrid> PODispatchDetailsGrids { get; set; }
 
         //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -264,8 +264,40 @@ namespace HRInventories.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("product_categoryid_fkey");
             });
+            modelBuilder.Entity<Request>(entity =>
+            {
+                entity.ToTable("request");
 
-           
+                entity.Property(e => e.Requestid).HasColumnName("requestid");
+
+                entity.Property(e => e.Createddate)
+                    .HasColumnName("createddate")
+                    .HasColumnType("timestamp with time zone");
+
+                entity.Property(e => e.Employeeid).HasColumnName("employeeid");
+
+                entity.Property(e => e.Isdeleted)
+                    .IsRequired()
+                    .HasColumnName("isdeleted")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Isread).HasColumnName("isread");
+
+                entity.Property(e => e.Productid).HasColumnName("productid");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Userid)
+                    .IsRequired()
+                    .HasColumnName("userid")
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Query<PODispatchDetailsGrid>().ToView("podispatchdetailsgrid");
         }
        
