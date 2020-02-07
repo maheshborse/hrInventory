@@ -268,7 +268,9 @@ namespace HRInventories.Models
             {
                 entity.ToTable("request");
 
-                entity.Property(e => e.Requestid).HasColumnName("requestid");
+                entity.Property(e => e.Requestid)
+                    .HasColumnName("requestid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Createddate)
                     .HasColumnName("createddate")
@@ -277,7 +279,6 @@ namespace HRInventories.Models
                 entity.Property(e => e.Employeeid).HasColumnName("employeeid");
 
                 entity.Property(e => e.Isdeleted)
-                    .IsRequired()
                     .HasColumnName("isdeleted")
                     .HasMaxLength(50);
 
@@ -288,16 +289,14 @@ namespace HRInventories.Models
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 
                 entity.Property(e => e.Status)
-                    .IsRequired()
                     .HasColumnName("status")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Userid)
-                    .IsRequired()
                     .HasColumnName("userid")
                     .HasMaxLength(50);
             });
-
+        
             modelBuilder.Query<PODispatchDetailsGrid>().ToView("podispatchdetailsgrid");
         }
        
