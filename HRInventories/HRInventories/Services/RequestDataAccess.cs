@@ -38,7 +38,6 @@ namespace HRInventories.Services
                     await context.Reqestmaster.AddAsync(dbGroup);
                     await context.SaveChangesAsync();
                     var id = dbGroup.Requestid;
-                    var dbGroupIdCheck = await context.Pomaster.Where(k => k.Poid == id).FirstOrDefaultAsync();
 
                     foreach (var item in requestViewModel.RequestdetailModel)
                     {
@@ -66,6 +65,7 @@ namespace HRInventories.Services
                     var sql = context.Reqestmaster.Include(p => p.Requestdetail).Select(s =>
                                  new ReqestMasterModel()
                                  {
+                                     Requestid=s.Requestid,
                                      Employeeid =s.Employeeid,
                                      Isread=s.Isread,
                                      Userid = s.Userid,
@@ -74,6 +74,8 @@ namespace HRInventories.Services
                                      users = user.Where(k => k.Id == s.Employeeid).ToList(),
                                      requestDetailModels = s.Requestdetail.Select(g => new RequestDetailModel
                                      {
+                                         Requestdetailid=g.Requestdetailid,
+                                         Requestid=g.Requestid,
                                          Productid = g.Productid,
                                          Quantity = g.Quantity,
                                          Userid = g.Userid,
@@ -82,6 +84,7 @@ namespace HRInventories.Services
                                          Isdeleted = g.Isdeleted,
                                          ProductModels = new ProductModel
                                          {
+                                             Productid=g.Product.Productid,
                                              Productname = g.Product.Productname,
                                              Productdescription = g.Product.Productdescription,
                                              Createddate = g.Product.Createddate,
@@ -89,6 +92,7 @@ namespace HRInventories.Services
                                              Categoryid=g.Product.Categoryid,
                                              Category= new CatagoryModel
                                              {
+                                                 Categoryid=g.Product.Category.Categoryid,
                                                  Categoryname=g.Product.Category.Categoryname,
                                                  Categorydescription=g.Product.Category.Categorydescription,
                                              }
@@ -103,6 +107,88 @@ namespace HRInventories.Services
                 return null;
             }
         }
+        //public async Task UpdateReqest(RequestViewModel requestViewModel)
+        //{
+        //    try
+        //    {
+        //        var dbGroup = new Reqestmaster();
+        //        using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+        //        {
+        //            dbGroup = await context.Reqestmaster.Where(k => k.Requestid == requestViewModel.Reqestmastermodel.Requestid).FirstOrDefaultAsync();
 
+        //            dbGroup.Employeeid = requestViewModel.Reqestmastermodel.Employeeid;
+        //            dbGroup.Isread = requestViewModel.Reqestmastermodel.Isread;
+        //            dbGroup.Userid = requestViewModel.Reqestmastermodel.Userid;
+        //            dbGroup.Createddate = requestViewModel.Reqestmastermodel.Createddate;
+        //            dbGroup.Isdeleted = requestViewModel.Reqestmastermodel.Isdeleted;
+
+        //            await context.SaveChangesAsync();
+        //            foreach (var item in requestViewModel.RequestdetailModel)
+        //            {
+        //                if (item.Requestdetailid == 0)
+        //                {
+        //                    Requestdetail requestdetail = new Requestdetail()
+        //                    {
+        //                        Requestdetailid=item.Requestdetailid,
+        //                        Requestid=item.Requestid,
+        //                        Productid=item.Productid,
+        //                        Status=item.Status,
+        //                        Quantity = item.Quantity,
+        //                        Userid = item.Userid,
+        //                        Createddate = item.Createddate,
+        //                        Isdeleted = item.Isdeleted
+        //                    };
+        //                    await context.Requestdetail.AddAsync(requestdetail);
+        //                }
+        //                else
+        //                {
+        //                    if (item.Isdeleted == "true")
+        //                    {
+        //                        var groupStaffData = await context.Requestdetail.Where(k => k.Requestdetailid == item.Requestdetailid).ToListAsync();
+        //                        context.Requestdetail.RemoveRange(groupStaffData);
+        //                        await context.SaveChangesAsync();
+        //                    }
+        //                }
+
+        //            }
+
+        //            await context.SaveChangesAsync();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+
+        //}
+        //public async Task DeletePo(long poid)
+        //{
+        //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+        //    {
+        //        try
+        //        {
+        //            var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
+        //            var detailsData = await context.Podetail.Where(k => k.Poid == poid).ToListAsync();
+        //            if (groupData != null)
+        //            {
+        //                groupData.Isdeleted = "true";
+        //                await context.SaveChangesAsync();
+        //                if (detailsData != null)
+        //                {
+        //                    foreach (var item in detailsData)
+        //                    {
+        //                        item.Isdeleted = "true";
+        //                        await context.SaveChangesAsync();
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+
+        //        }
+
+        //    }
+        //}
     }
 }
