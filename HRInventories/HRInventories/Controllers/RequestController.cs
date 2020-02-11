@@ -47,7 +47,7 @@ namespace HRInventories.Controllers
 
         }
         [HttpPut("{id}")]
-        public IActionResult UpdatePo([FromBody] RequestViewModel requestViewModel)
+        public IActionResult UpdateReqest([FromBody] RequestViewModel requestViewModel)
         {
             try
             {
@@ -60,6 +60,13 @@ namespace HRInventories.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+        [HttpDelete("{requestid}")]
+        public IActionResult DeleteReqest(int requestid)
+        {
+
+            _iRequestDataAccess.DeleteReqest(requestid);
+            return NoContent();
         }
     }
 }

@@ -159,37 +159,36 @@ namespace HRInventories.Services
             {
 
             }
-
-            //}
-            //public async Task DeletePo(long poid)
-            //{
-            //    using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-            //    {
-            //        try
-            //        {
-            //            var groupData = await context.Pomaster.Where(k => k.Poid == poid).FirstOrDefaultAsync();
-            //            var detailsData = await context.Podetail.Where(k => k.Poid == poid).ToListAsync();
-            //            if (groupData != null)
-            //            {
-            //                groupData.Isdeleted = "true";
-            //                await context.SaveChangesAsync();
-            //                if (detailsData != null)
-            //                {
-            //                    foreach (var item in detailsData)
-            //                    {
-            //                        item.Isdeleted = "true";
-            //                        await context.SaveChangesAsync();
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-
-            //        }
-
-            //    }
-            //}
         }
+            public async Task DeleteReqest(int requestid)
+            {
+                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+                {
+                    try
+                    {
+                        var groupData = await context.Reqestmaster.Where(k => k.Requestid == requestid).FirstOrDefaultAsync();
+                        var detailsData = await context.Requestdetail.Where(k => k.Requestid == requestid).ToListAsync();
+                        if (groupData != null)
+                        {
+                            groupData.Isdeleted = "true";
+                            await context.SaveChangesAsync();
+                            if (detailsData != null)
+                            {
+                                foreach (var item in detailsData)
+                                {
+                                    item.Isdeleted = "true";
+                                    await context.SaveChangesAsync();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+                }
+            }
+        
     }
 }
