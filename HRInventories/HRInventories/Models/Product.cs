@@ -8,6 +8,7 @@ namespace HRInventories.Models
         public Product()
         {
             Podetail = new HashSet<Podetail>();
+            Requestdetail = new HashSet<Requestdetail>();
         }
 
         public int Productid { get; set; }
@@ -20,5 +21,6 @@ namespace HRInventories.Models
 
         public virtual Catagory Category { get; set; }
         public virtual ICollection<Podetail> Podetail { get; set; }
+        public virtual ICollection<Requestdetail> Requestdetail { get; set; }
     }
 }

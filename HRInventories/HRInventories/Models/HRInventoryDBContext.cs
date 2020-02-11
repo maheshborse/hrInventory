@@ -27,7 +27,8 @@ namespace HRInventories.Models
         public virtual DbSet<Podetail> Podetail { get; set; }
         public virtual DbSet<Pomaster> Pomaster { get; set; }
         public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<Request> Request { get; set; }
+        public virtual DbSet<Reqestmaster> Reqestmaster { get; set; }
+        public virtual DbSet<Requestdetail> Requestdetail { get; set; }
         public DbQuery<PODispatchDetailsGrid> PODispatchDetailsGrids { get; set; }
 
         //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -264,19 +265,22 @@ namespace HRInventories.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("product_categoryid_fkey");
             });
-            modelBuilder.Entity<Request>(entity =>
+            modelBuilder.Entity<Reqestmaster>(entity =>
             {
-                entity.ToTable("request");
+                entity.HasKey(e => e.Requestid)
+                    .HasName("reqestmaster_pkey");
 
-                entity.Property(e => e.Requestid)
-                    .HasColumnName("requestid")
-                    .ValueGeneratedNever();
+                entity.ToTable("reqestmaster");
+
+                entity.Property(e => e.Requestid).HasColumnName("requestid");
 
                 entity.Property(e => e.Createddate)
                     .HasColumnName("createddate")
                     .HasColumnType("timestamp with time zone");
 
-                entity.Property(e => e.Employeeid).HasColumnName("employeeid");
+                entity.Property(e => e.Employeeid)
+                    .HasColumnName("employeeid")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Isdeleted)
                     .HasColumnName("isdeleted")
@@ -284,9 +288,30 @@ namespace HRInventories.Models
 
                 entity.Property(e => e.Isread).HasColumnName("isread");
 
+                entity.Property(e => e.Userid)
+                    .HasColumnName("userid")
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Requestdetail>(entity =>
+            {
+                entity.ToTable("requestdetail");
+
+                entity.Property(e => e.Requestdetailid).HasColumnName("requestdetailid");
+
+                entity.Property(e => e.Createddate)
+                    .HasColumnName("createddate")
+                    .HasColumnType("timestamp with time zone");
+
+                entity.Property(e => e.Isdeleted)
+                    .HasColumnName("isdeleted")
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.Productid).HasColumnName("productid");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Requestid).HasColumnName("requestid");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
@@ -295,8 +320,19 @@ namespace HRInventories.Models
                 entity.Property(e => e.Userid)
                     .HasColumnName("userid")
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Requestdetail)
+                    .HasForeignKey(d => d.Productid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("requestdetail_productid_fkey");
+
+                entity.HasOne(d => d.Request)
+                    .WithMany(p => p.Requestdetail)
+                    .HasForeignKey(d => d.Requestid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("requestdetail_requestid_fkey");
             });
-        
             modelBuilder.Query<PODispatchDetailsGrid>().ToView("podispatchdetailsgrid");
         }
        

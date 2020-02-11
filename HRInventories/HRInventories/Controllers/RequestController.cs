@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRInventories.Models;
 using HRInventories.Services.Interface;
+using HRInventories.UIModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +20,12 @@ namespace HRInventories.Controllers
             _iRequestDataAccess = requestDataAccess;
         }
         [HttpPost]
-        public async Task<IActionResult> InsertRequest([FromBody]Request req)
+        public async Task<IActionResult> InsertRequest([FromBody]RequestViewModel requestdetail)
         {
             try
             {
-                await _iRequestDataAccess.InsertRequest(req);
-                return StatusCode(StatusCodes.Status201Created);
+                await _iRequestDataAccess.AddRequest(requestdetail);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -32,52 +33,18 @@ namespace HRInventories.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> GetRequests()
+        public async Task<IActionResult> GetRequest()
         {
             try
             {
-                List<Request> request = await _iRequestDataAccess.GetRequests();
-                return Ok(request);
+                List<ReqestMasterModel> Reqestmasters = await _iRequestDataAccess.GetReqest();
+                return Ok(Reqestmasters);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-        }
-        [HttpGet("{id}", Name = "GetRequest")]
-        public IActionResult GetRequest(long id)
-        {
-            try
-            {
-                Request request = _iRequestDataAccess.GetRequestbyID(id);
-                return Ok(request);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-        [HttpPut("{id}")]
-        public IActionResult UpdateRequests(long id, [FromBody]Request req)
-        {
-            try
-            {
-                Request requestToUpdate = _iRequestDataAccess.UpdateRequests(req);
-                return Ok();
-            }
-
-            catch (Exception ex)
-            {
-
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-        [HttpDelete("{id}")]
-        public IActionResult DeleteRequests(long id)
-        {
-            _iRequestDataAccess.DeleteRequests(id);
-            return Ok();
         }
     }
 }

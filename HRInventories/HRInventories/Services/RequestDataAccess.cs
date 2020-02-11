@@ -1,6 +1,8 @@
 ﻿using HRInventories.Models;
 using HRInventories.Services.Interface;
+using HRInventories.UIModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +10,43 @@ using System.Threading.Tasks;
 
 namespace HRInventories.Services
 {
-    public class RequestDataAccess : IRequestDataAccess
+    public class RequestDataAccess: IRequestDataAccess
     {
+       
+        private readonly IOptions<LdapConfig> config;
         Connectionstrings _connectionstring;
-        public RequestDataAccess(Connectionstrings connectionstring)
+        public RequestDataAccess(Connectionstrings connectionstring, IOptions<LdapConfig> config)
         {
             _connectionstring = connectionstring;
+            this.config = config;
         }
-        public async Task InsertRequest(Request request)
+
+        public async Task AddRequest(RequestViewModel requestViewModel)
         {
             try
             {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    Request Arequest = new Request()
+                    Reqestmaster dbGroup = new Reqestmaster()
                     {
-                        Productid = request.Productid,
-                        Employeeid=request.Employeeid,
-                        Quantity = request.Quantity,
-                        Status = request.Status,
-                        Isread = request.Isread,
-                        Userid = request.Userid,
-                        Createddate = request.Createddate,
-                        Isdeleted = request.Isdeleted
+                        Employeeid = requestViewModel.Reqestmastermodel.Employeeid,
+                        Isread = requestViewModel.Reqestmastermodel.Isread,
+                        Userid = requestViewModel.Reqestmastermodel.Userid,
+                        Createddate = requestViewModel.Reqestmastermodel.Createddate,
+                        Isdeleted = requestViewModel.Reqestmastermodel.Isdeleted,
                     };
-                    await context.Request.AddAsync(Arequest);
+                    await context.Reqestmaster.AddAsync(dbGroup);
+                    await context.SaveChangesAsync();
+                    var id = dbGroup.Requestid;
+                    var dbGroupIdCheck = await context.Pomaster.Where(k => k.Poid == id).FirstOrDefaultAsync();
+
+                    foreach (var item in requestViewModel.RequestdetailModel)
+                    {
+                        Requestdetail detail = new Requestdetail()
+                        { Requestid = dbGroup.Requestid, Productid = item.Productid, Status=item.Status, Quantity = item.Quantity, Userid = item.Userid, Createddate = item.Createddate, Isdeleted = item.Isdeleted };
+                        await context.Requestdetail.AddAsync(detail);
+
+                    }
                     await context.SaveChangesAsync();
                 }
             }
@@ -40,60 +54,55 @@ namespace HRInventories.Services
             {
             }
         }
-        public async Task<List<Request>> GetRequests()
+        public async Task<List<ReqestMasterModel>> GetReqest()
         {
             try
             {
+                LdapAuthenticationManager _LdapAuthentication = new LdapAuthenticationManager(config);
+                var user =  _LdapAuthentication.GetUsers();
+                
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    return await context.Request.Where(k => k.Isdeleted == "false").ToListAsync();
+                    var sql = context.Reqestmaster.Include(p => p.Requestdetail).Select(s =>
+                                 new ReqestMasterModel()
+                                 {
+                                     Employeeid =s.Employeeid,
+                                     Isread=s.Isread,
+                                     Userid = s.Userid,
+                                     Createddate = s.Createddate,
+                                     Isdeleted = s.Isdeleted,
+                                     users = user.Where(k => k.Id == s.Employeeid).ToList(),
+                                     requestDetailModels = s.Requestdetail.Select(g => new RequestDetailModel
+                                     {
+                                         Productid = g.Productid,
+                                         Quantity = g.Quantity,
+                                         Userid = g.Userid,
+                                         Status=g.Status,
+                                         Createddate = g.Createddate,
+                                         Isdeleted = g.Isdeleted,
+                                         ProductModels = new ProductModel
+                                         {
+                                             Productname = g.Product.Productname,
+                                             Productdescription = g.Product.Productdescription,
+                                             Createddate = g.Product.Createddate,
+                                             Isdeleted = g.Product.Isdeleted,
+                                             Categoryid=g.Product.Categoryid,
+                                             Category= new CatagoryModel
+                                             {
+                                                 Categoryname=g.Product.Category.Categoryname,
+                                                 Categorydescription=g.Product.Category.Categorydescription,
+                                             }
+                                         },
+                                     }).ToList()
+                                 });
+                    return await sql.Where(k => k.Isdeleted == "false").ToListAsync();
                 }
-
             }
             catch (Exception ex)
             {
                 return null;
             }
         }
-        public Request GetRequestbyID(long id)
-        {
-            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-            {
-                return context.Request.FirstOrDefault(e => e.Requestid == id);
-            }
-        }
-        public Request UpdateRequests(Request item)
-        {
-            var dbRequest = new Request();
-            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-            {
-                dbRequest = context.Request.Where(k => k.Requestid == item.Requestid).FirstOrDefault();
-                dbRequest.Productid = item.Productid;
-                dbRequest.Employeeid = item.Employeeid;
-                dbRequest.Quantity = item.Quantity;
-                dbRequest.Status = item.Status;
-                dbRequest.Isread = item.Isread;
-                dbRequest.Userid = item.Userid;
-                dbRequest.Createddate = item.Createddate;
-                dbRequest.Isdeleted = item.Isdeleted;
 
-                context.SaveChanges();
-            }
-            return dbRequest;
-        }
-        public void DeleteRequests(long id)
-        {
-            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
-            {
-                var groupdata = context.Request.FirstOrDefault(e => e.Requestid == id);
-                if (groupdata != null)
-                {
-                    groupdata.Isdeleted = "true";
-                }
-                //context.Catagory.Remove(catagory);
-                context.SaveChanges();
-            }
-        }
     }
 }
-
