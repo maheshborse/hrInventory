@@ -46,5 +46,20 @@ namespace HRInventories.Controllers
             }
 
         }
+        [HttpPut("{id}")]
+        public IActionResult UpdatePo([FromBody] RequestViewModel requestViewModel)
+        {
+            try
+            {
+                _iRequestDataAccess.UpdateReqest(requestViewModel);
+                return NoContent();
+            }
+
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

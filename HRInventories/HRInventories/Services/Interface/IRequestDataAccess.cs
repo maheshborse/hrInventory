@@ -12,5 +12,7 @@ namespace HRInventories.Services.Interface
         Task AddRequest(RequestViewModel requestViewModel);
 
         Task<List<ReqestMasterModel>> GetReqest();
+
+        Task UpdateReqest(RequestViewModel requestViewModel);
     }
 }
