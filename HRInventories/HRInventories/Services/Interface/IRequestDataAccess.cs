@@ -14,5 +14,7 @@ namespace HRInventories.Services.Interface
         Task<List<ReqestMasterModel>> GetReqest();
 
         Task UpdateReqest(RequestViewModel requestViewModel);
+
+        Task DeleteReqest(int requestid);
     }
 }
