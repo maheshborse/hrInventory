@@ -7,6 +7,7 @@ using HRInventories.Services.Interface;
 using HRInventories.UIModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace HRInventories.Controllers
 {
@@ -26,6 +27,11 @@ namespace HRInventories.Controllers
             {
                 await _iProductDataAccess.AddProduct(products);
                 return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (ArgumentException ex)
+            {
+                Log.Error(ex, ex.Message);
+                return StatusCode(409);
             }
             catch (Exception ex)
             {

@@ -18,26 +18,29 @@ namespace HRInventories.Services
         }
         public async Task AddProduct(ProductModel product)
         {
-            try
-            {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    Product products = new Product()
+                    var flag = await context.Product.Where(k => k.Productname == product.Productname).FirstOrDefaultAsync();
+                    if (flag == null)
                     {
-                        Productname = product.Productname,
-                        Productdescription = product.Productdescription,
-                        Userid = product.Userid,
-                        Categoryid = product.Categoryid,
-                        Createddate = product.Createddate,
-                        Isdeleted = product.Isdeleted
-                    };
-                    await context.Product.AddAsync(products);
-                    await context.SaveChangesAsync();
+                        Product products = new Product()
+                        {
+                            Productname = product.Productname,
+                            Productdescription = product.Productdescription,
+                            Userid = product.Userid,
+                            Categoryid = product.Categoryid,
+                            Createddate = product.Createddate,
+                            Isdeleted = product.Isdeleted
+                        };
+                        await context.Product.AddAsync(products);
+                        await context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Categpry name Already Exit");
+                    }
+                    
                 }
-            }
-            catch (Exception ex)
-            {
-            }
         }
         public async Task<List<ProductModel>> GetProducts()
         {

@@ -18,25 +18,26 @@ namespace HRInventories.Services
         }
         public async Task AddCategory(CatagoryModel catogory)
         {
-            try
-            {
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    Catagory Acatogory = new Catagory()
+                    var flag = await context.Catagory.Where(k=> k.Categoryname == catogory.Categoryname).FirstOrDefaultAsync();
+                    if (flag == null)
                     {
-                        // removed DisplayName from UI, so will set display name as unit name
-                        Categoryname = catogory.Categoryname,
-                        Categorydescription = catogory.Categorydescription,
-                        Userid = catogory.Userid,
-                        Createddate = catogory.Createddate,
-                        Isdeleted = catogory.Isdeleted
-                    };
-                    await context.Catagory.AddAsync(Acatogory);
-                    await context.SaveChangesAsync();
-                }
-            }
-            catch (Exception ex)
-            {
+                        Catagory Acatogory = new Catagory()
+                        {
+                            Categoryname = catogory.Categoryname,
+                            Categorydescription = catogory.Categorydescription,
+                            Userid = catogory.Userid,
+                            Createddate = catogory.Createddate,
+                            Isdeleted = catogory.Isdeleted
+                        };
+                        await context.Catagory.AddAsync(Acatogory);
+                        await context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Categpry name Already Exit");
+                    }
             }
         }
 

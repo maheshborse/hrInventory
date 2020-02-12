@@ -8,6 +8,7 @@ using HRInventories.UIModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace HRInventories.Controllers
 {
@@ -28,7 +29,12 @@ namespace HRInventories.Controllers
                 await _iCatagoryDataAccess.AddCategory(categories);
                 return StatusCode(StatusCodes.Status201Created); 
             }
-            catch(Exception ex)
+            catch (ArgumentException ex)
+            {
+                Log.Error(ex, ex.Message);
+                return StatusCode(409);
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
