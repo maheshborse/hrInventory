@@ -68,14 +68,21 @@ namespace HRInventories.Services
             var dbCategory = new Catagory();
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                dbCategory = context.Catagory.Where(k => k.Categoryid == item.Categoryid).FirstOrDefault();
-                dbCategory.Categoryname = item.Categoryname;
-                dbCategory.Categorydescription = item.Categorydescription;
-                dbCategory.Userid = item.Userid;
-                dbCategory.Createddate = item.Createddate;
-                dbCategory.Isdeleted = item.Isdeleted;
-                
-                context.SaveChanges();
+                var flag = context.Catagory.Where(k => k.Categoryname == item.Categoryname).FirstOrDefaultAsync();
+                if (flag == null)
+                {
+                    dbCategory = context.Catagory.Where(k => k.Categoryid == item.Categoryid).FirstOrDefault();
+                    dbCategory.Categoryname = item.Categoryname;
+                    dbCategory.Categorydescription = item.Categorydescription;
+                    dbCategory.Userid = item.Userid;
+                    dbCategory.Createddate = item.Createddate;
+                    dbCategory.Isdeleted = item.Isdeleted;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentException("Category name Already Exit");
+                }
             }
             return dbCategory;
         }

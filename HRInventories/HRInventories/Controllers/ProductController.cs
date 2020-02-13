@@ -75,7 +75,11 @@ namespace HRInventories.Controllers
                 Product productsToUpdate = _iProductDataAccess.UpdateProduct(products);
                 return Ok();
             }
-
+            catch (ArgumentException ex)
+            {
+                Log.Error(ex, ex.Message);
+                return StatusCode(409);
+            }
             catch (Exception ex)
             {
 

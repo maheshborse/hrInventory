@@ -85,25 +85,29 @@ namespace HRInventories.Services
         }
         public Product UpdateProduct(Product item)
         {
-            try
-            {
+           
                 var dbCategory = new Product();
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();
-                    dbCategory.Productname = item.Productname;
-                    dbCategory.Productdescription = item.Productdescription;
-                    dbCategory.Userid = item.Userid;
-                    dbCategory.Createddate = item.Createddate;
-                    dbCategory.Isdeleted = item.Isdeleted;
-                    context.SaveChanges();
-                }
+                    var flag = context.Product.Where(k => k.Productname == product.Productname).FirstOrDefaultAsync();
+                    if (flag == null)
+                    {
+                        dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();
+                        dbCategory.Productname = item.Productname;
+                        dbCategory.Productdescription = item.Productdescription;
+                        dbCategory.Userid = item.Userid;
+                        dbCategory.Createddate = item.Createddate;
+                        dbCategory.Isdeleted = item.Isdeleted;
+                        context.SaveChanges();
+                    }
+                
+                    else
+                    {
+                        throw new ArgumentException("Categpry name Already Exit");
+                    }
                 return dbCategory;
             }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            
         }
         public void DeleteProduct(long id)
         {

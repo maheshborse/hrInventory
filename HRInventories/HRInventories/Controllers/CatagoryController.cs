@@ -75,7 +75,11 @@ namespace HRInventories.Controllers
                 Catagory catagoryToUpdate =_iCatagoryDataAccess.UpdateCatagory(categories);
                 return Ok();
             }
-
+            catch (ArgumentException ex)
+            {
+                Log.Error(ex, ex.Message);
+                return StatusCode(409);
+            }
             catch (Exception ex)
             {
 
