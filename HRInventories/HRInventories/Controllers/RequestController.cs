@@ -47,11 +47,11 @@ namespace HRInventories.Controllers
 
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateReqest([FromBody] RequestViewModel requestViewModel)
+        public IActionResult UpdateReqest([FromBody] RequestViewModel requestViewModel , int id)
         {
             try
             {
-                _iRequestDataAccess.UpdateReqest(requestViewModel);
+                _iRequestDataAccess.UpdateReqest(requestViewModel, id);
                 return NoContent();
             }
 

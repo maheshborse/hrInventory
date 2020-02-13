@@ -107,7 +107,7 @@ namespace HRInventories.Services
                 return null;
             }
         }
-        public async Task UpdateReqest(RequestViewModel requestViewModel)
+        public async Task UpdateReqest(RequestViewModel requestViewModel, int id)
         {
             try
             {
@@ -140,6 +140,26 @@ namespace HRInventories.Services
                             };
                             await context.Requestdetail.AddAsync(requestdetail);
                         }
+                        else if ((item.Status == "Approved" || item.Status == "Out of Stock") && item.Requestdetailid != 0)
+                        {
+                            var groupData = await context.Requestdetail.Where(k => k.Requestdetailid == id).FirstOrDefaultAsync();
+                            if (groupData != null)
+                            {
+                                if (item.Status == "Approved")
+                                {
+                                    groupData.Status = "Approved";
+                                }
+                                else if (item.Status == "Out of Stock")
+                                {
+                                    groupData.Status = "Out of Stock";
+                                }
+                                else
+                                {
+                                    groupData.Status = "Pending";
+                                }
+                            }
+                            await context.SaveChangesAsync();
+                        }
                         else
                         {
                             if (item.Isdeleted == "true")
@@ -149,12 +169,11 @@ namespace HRInventories.Services
                                 await context.SaveChangesAsync();
                             }
                         }
-
                     }
 
                     await context.SaveChangesAsync();
                 }
-            }
+            } 
             catch (Exception ex)
             {
 
