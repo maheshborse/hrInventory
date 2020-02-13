@@ -43,15 +43,17 @@ export class DispatchToEmployeeComponent implements OnInit {
   
     
   constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService) { 
-      
+    this.dispatchList();
   }
 
   ngOnInit() {
-   this.dispatchList();
-   this.getEmployee();
-   this.detailsProduct();
-   this.dataSource.sort = this.sort;
-   this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dispatchList();
+    this.getEmployee();
+    this.detailsProduct();
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(filterValue: string) {
@@ -66,9 +68,10 @@ export class DispatchToEmployeeComponent implements OnInit {
      .subscribe(
       data => {
         this.dataSource.data = data;
-        this.dataSource.filterPredicate = function(data, filter: string): boolean {
+        this.dataSource.filterPredicate = function(data:any, filter: string): boolean {
             return data.employeeName.toLowerCase().includes(filter)
         };
+       
       }
     );
   }

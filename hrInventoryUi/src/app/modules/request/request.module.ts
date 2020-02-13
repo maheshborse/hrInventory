@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SharedModule} from '../../theme/shared/shared.module';
-import { MatTableModule, MatSortModule, MatButtonModule, MatPaginatorModule, MatFormFieldModule,  MatDialogModule, MatIconModule, MatFormFieldControl, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule } from '@angular/material';
+import { MatTableModule, MatSortModule, MatButtonModule, MatPaginatorModule, MatFormFieldModule,  MatDialogModule, MatIconModule, MatFormFieldControl, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatExpansionModule, MatSlideToggleModule } from '@angular/material';
 import { RequestComponent } from './request.component';
 import { RequestRoutingModule } from './request-routing.module';
 import { EditRequestComponent } from './edit-request/edit-request.component';
@@ -21,7 +21,9 @@ import { EditRequestComponent } from './edit-request/edit-request.component';
     MatInputModule,
     MatDatepickerModule,        
     MatNativeDateModule,        
-    MatSelectModule
+    MatSelectModule,
+    MatExpansionModule,
+    MatSlideToggleModule
   ],
   declarations: [RequestComponent],
 })

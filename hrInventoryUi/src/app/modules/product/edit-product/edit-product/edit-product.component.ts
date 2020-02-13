@@ -53,11 +53,29 @@ export class EditProductComponent implements OnInit {
     productName: this.productNameValidator,
   });
 
+  sortDropdown(data:any){
+    data.sort(function(a, b) {
+      var nameA = a.categoryname.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.categoryname.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+    });
+  }
+
   catategorydetails(){
     this.productCategoryService.getCategory()
     .subscribe(
       data => {
           this.selectedCategry=data;
+          this.sortDropdown(this.selectedCategry);
+         
+          console.log(this.selectedCategry);
           this.catagryOption = _.map(this.selectedCategry, item =>{
             const option = {
               value:'',
@@ -65,23 +83,27 @@ export class EditProductComponent implements OnInit {
             };
             option.value = item.categoryid;
             option.label = `${item.categoryname}`;
+           
             return option;
             });
+            
           },
           error => {
           }
     )
   }
 
+
+
   changeCategory(selecteddata:any){
     this.dummyProduct.categoryid = selecteddata;
   }
 
   clickEditOrSave(){
-    debugger;
+    
     if (this.dummyProduct.productid === 0) {
      this.dummyProduct.Isdeleted="false";
-     debugger;
+     
      this.productService.postRequest(this.dummyProduct)
      .subscribe(
        success => {

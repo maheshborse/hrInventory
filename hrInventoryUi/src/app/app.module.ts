@@ -39,6 +39,7 @@ import { JwtInterceptor } from './shared/helpers/jwt.interceptor';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { ProductService } from './shared/services/product.service';
 import { EditRequestComponent } from './modules/request/edit-request/edit-request.component';
+import { MatSlideToggleModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { EditRequestComponent } from './modules/request/edit-request/edit-reques
     DemoMaterialModule,
     AlertModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSlideToggleModule
   ],
   providers: [NavigationItem,ProductCategoryService,ProductService,
     {

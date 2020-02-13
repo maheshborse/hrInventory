@@ -87,7 +87,7 @@ export class PurchaseComponent implements OnInit {
       // this.poid = 0;
       this.poid = this.poid + 1;
     } else {
-      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o){return o.poid}))
+      this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o:any){return o.poid}))
       this.poid = this.poid + 1;
     }
     this.dateofBirth = new Date();
@@ -281,7 +281,7 @@ export class PurchaseComponent implements OnInit {
      .subscribe(
       data => {
         this.dataSource.data = data;
-        this.dataSource.filterPredicate = function(data, filter: string): boolean {
+        this.dataSource.filterPredicate = function(data:any, filter: string): boolean {
           return data.poid.toString() === filter;
         };
         console.log(this.dataSource.data);

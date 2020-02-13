@@ -1,48 +1,59 @@
-<app-card [hidHeader]="true">
-    <div class="row tableheader">
-        <div class="col-sm-8">
-            <i class="material-icons search-icon searchIcon">search</i>
-            <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.."></div>
-        <div class="col-sm-4">
-            <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog()">
-            Add Request
-         </button>
-        </div>
-        </div>
 
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-			<!--- Note that these columns can be defined in any order.
-				  The actual rendered columns are set as a property on the row definition" -->
-		    <!-- Position Column -->
-			<ng-container matColumnDef="productName">
-			  <th mat-header-cell *matHeaderCellDef mat-sort-header>  Name </th>
-			  <td mat-cell *matCellDef="let element"> {{element.productname}} </td>
-			</ng-container>
-			<!-- Name Column -->
-			<ng-container matColumnDef="categryName">
-			  <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Name </th>
-			  <td mat-cell *matCellDef="let element"> {{element.category.categoryname}} </td>
-			</ng-container>
-			<!-- Weight Column -->
-			<ng-container matColumnDef="ProductDescription">
-			  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-			  <td mat-cell *matCellDef="let element"> {{element.productdescription}} </td>
-			</ng-container>
-		    <!-- Symbol Column -->
-			  <ng-container matColumnDef="action">
-				<th mat-header-cell *matHeaderCellDef > Action </th>
-				<td mat-cell *matCellDef="let element">
-					<i (click)="openDialog(element)" class="material-icons" style="cursor: pointer;">mode_edit</i>
-					<i (click)="delete(element.productid,element.productname)" class="material-icons" style="cursor: pointer;">delete</i>
-			  </ng-container>
-		  
-			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
-    	 </table>
-		  
-		   <mat-paginator #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]"
-                 [showFirstLastButtons]="false">
-           </mat-paginator>
+<app-card [hidHeader]="true">
+  <div class="row tableheader">
+    <div class="col-sm-8">
+        <i class="material-icons search-icon searchIcon">search</i>
+        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.."></div>
+    <div class="col-sm-4">
+        <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog()">
+        Add Request
+     </button>
+    </div>
+    </div>
+  
+  <br>
+  <br>
+<mat-accordion class="example-headers-align"> 
+<mat-expansion-panel *ngFor="let parcel of dataSource.data">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{parcel.EmployeeName}}
+    </mat-panel-title>
+    <mat-panel-description >
+      Employee ID : {{parcel.Employeeid}}
+      <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel)">mode_edit</i>
+      <i *ngIf="checkIsAdmin !== true" class="material-icons" (click)="delete(parcel.Requestid)" style="cursor: pointer;">delete</i>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+ <br>
+
+  <div class="row material2">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Quantity</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tt of parcel.RequestdetailModelongrid ; let i = index">
+            <td>
+                {{tt.ProductName}}
+            </td>
+            <td>
+                {{tt.Quantity}}
+            </td>
+            <td *ngIf="checkIsAdmin !== true" >
+               {{tt.Status}}
+            </td>
+            <td *ngIf="checkIsAdmin === true" >
+              <mat-slide-toggle    (click)="slide(parcel,tt.Requestdetailid)">Approved</mat-slide-toggle>
+           </td>
+        </tr>
+         </tbody>
+      </table>
+    </div>
+ </mat-expansion-panel>
+</mat-accordion>
 </app-card>

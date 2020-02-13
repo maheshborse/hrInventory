@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {MatDialog,MatDialogRef,MatDialogModule } from '@angular/material';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
-import { product } from 'src/app/shared/models/product';
+import { product, showOnGrid } from 'src/app/shared/models/product';
 import { EditProductComponent } from './edit-product/edit-product/edit-product.component';
 import Swal from 'sweetalert2';
 import { ProductService } from 'src/app/shared/services/product.service';
@@ -18,10 +18,11 @@ export class ProductComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
-  displayedColumns: string[] = ['productName', 'categryName','ProductDescription','action'];
+  displayedColumns: string[] = ['productname', 'categoryname','productdescription','action'];
   dataSource = new MatTableDataSource();
   categoryData : any;
   categoryName:any;
+  showDataOnGrid: Array<showOnGrid> = [];
  
   constructor(public dialog: MatDialog,private productService:ProductService,private productCategoryService: ProductCategoryService,private notificationService : NotificationService) {
     this.productList();
@@ -32,15 +33,30 @@ export class ProductComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-
+ 
   productList(){
   
     this.productService.getProduct()
      .subscribe(
       data => {
-        this.dataSource.data = data;
+        this.showDataOnGrid =[];
+        for (let index = 0; index < data.length; index++) {
+          let  customObj = new  showOnGrid();
+          customObj.productid = data[index].productid;
+          customObj.productname= data[index].productname;
+          customObj.categoryid = data[index].categoryid;
+          customObj.categoryname = data[index].category.categoryname;
+          customObj.productdescription = data[index].productdescription;
+          customObj.userid=data[index].userid;
+          customObj.isdeleted=data[index].isdeleted;
+          customObj.createddate =data[index].createddate;
+          this.showDataOnGrid.push(customObj);
+        }
+        this.dataSource.data =  this.showDataOnGrid;
       }
+     
      );
+    
   }
   
   openDialog(element:product){

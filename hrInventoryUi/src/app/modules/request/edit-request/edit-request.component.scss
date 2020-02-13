@@ -1,0 +1,9 @@
+.parcels {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  
+  .parcel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }

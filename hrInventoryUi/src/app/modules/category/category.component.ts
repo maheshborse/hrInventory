@@ -20,7 +20,7 @@ export class CategoryComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
-  displayedColumns: string[] = ['category_name', 'category_description','action'];
+  displayedColumns: string[] = ['categoryname', 'categorydescription','action'];
   dataSource = new MatTableDataSource();
   searchKey:string;
   durationInSeconds = 5;
@@ -41,7 +41,7 @@ export class CategoryComponent implements OnInit {
      .subscribe(
       data => {
         this.dataSource.data = data;
-       }
+        }
       );
   }
 

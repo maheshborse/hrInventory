@@ -32,7 +32,7 @@
         <div class="col-sm-4">
             <mat-form-field>
                 <mat-select (selectionChange)="changeCategory($event.value)"  placeholder="Category Name" [(ngModel)]="dummyProduct.categoryid">
-                <mat-option *ngFor="let categoryName of catagryOption" [value]="categoryName.value">{{categoryName.label}}</mat-option>
+                <mat-option *ngFor="let categoryName of catagryOption " [value]="categoryName.value">{{categoryName.label}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
