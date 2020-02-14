@@ -48,7 +48,14 @@ namespace HRInventories.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 //optionsBuilder.UseNpgsql("Server=localhost;Port=5433;Database=HRInventoryDB;Username=postgres;Password=dell@123;Integrated Security=true;Pooling=true");
-                optionsBuilder.UseNpgsql(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
+                if (Common.Issql)
+                {
+                    optionsBuilder.UseSqlServer(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
+                }
+                else
+                {
+                    optionsBuilder.UseNpgsql(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
+                }
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

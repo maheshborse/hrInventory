@@ -89,7 +89,7 @@ namespace HRInventories.Services
                 var dbCategory = new Product();
                 using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
                 {
-                    var flag = context.Product.Where(k => k.Productname == product.Productname).FirstOrDefaultAsync();
+                    var flag = context.Product.Where(k => k.Productname == item.Productname).FirstOrDefaultAsync();
                     if (flag == null)
                     {
                         dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();

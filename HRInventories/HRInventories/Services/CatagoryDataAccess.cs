@@ -1,4 +1,5 @@
 ﻿using HRInventories.Models;
+//using HRInventories.SQLModels;
 using HRInventories.Services.Interface;
 using HRInventories.UIModels;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace HRInventories.Services
                             Categoryname = catogory.Categoryname,
                             Categorydescription = catogory.Categorydescription,
                             Userid = catogory.Userid,
-                            Createddate = catogory.Createddate,
+                            //Createddate = catogory.Createddate,
                             Isdeleted = catogory.Isdeleted
                         };
                         await context.Catagory.AddAsync(Acatogory);
@@ -75,7 +76,7 @@ namespace HRInventories.Services
                     dbCategory.Categoryname = item.Categoryname;
                     dbCategory.Categorydescription = item.Categorydescription;
                     dbCategory.Userid = item.Userid;
-                    dbCategory.Createddate = item.Createddate;
+                    //dbCategory.Createddate = item.Createddate;
                     dbCategory.Isdeleted = item.Isdeleted;
                     context.SaveChanges();
                 }

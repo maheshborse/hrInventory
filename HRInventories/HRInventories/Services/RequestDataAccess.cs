@@ -90,6 +90,7 @@ namespace HRInventories.Services
                                              Createddate = g.Product.Createddate,
                                              Isdeleted = g.Product.Isdeleted,
                                              Categoryid = g.Product.Categoryid,
+                                             balance = context.PODispatchDetailsGrids.Where(k => k.productid == g.Product.Productid).Select(b => b.balance).FirstOrDefault(),
                                              Category = new CatagoryModel
                                              {
                                                  Categoryid = g.Product.Category.Categoryid,
