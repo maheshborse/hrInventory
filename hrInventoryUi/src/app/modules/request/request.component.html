@@ -48,7 +48,12 @@
                {{tt.Status}}
             </td>
             <td *ngIf="checkIsAdmin === true" >
-              <mat-slide-toggle    (click)="slide(parcel,tt.Requestdetailid)">Approved</mat-slide-toggle>
+              <mat-radio-group aria-label="Select an option" (change) ="radioChange($event.value,parcel,tt.Requestdetailid)" >
+                <mat-radio-button value="Pending" [checked]="tt.Status === 'Pending' ">Pending</mat-radio-button>&nbsp;
+                <mat-radio-button value="Approved" [checked]="tt.Status === 'Approved' ">Approved</mat-radio-button>&nbsp;
+                <mat-radio-button value="Out of Stock" [checked]="tt.Status === 'Out of Stock' " >Out of Stock</mat-radio-button>
+              </mat-radio-group>
+              {{chooseStatus}}
            </td>
         </tr>
          </tbody>

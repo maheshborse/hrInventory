@@ -7,6 +7,8 @@ import { DispatchToEmployeeService } from 'src/app/shared/services/dispatch-to-e
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
+import { RequestService } from 'src/app/shared/services/request.service';
+import { requestDetailonGrid } from 'src/app/shared/models/request';
 
 @Component({
   selector: 'app-dispatch-to-employee',
@@ -26,9 +28,9 @@ export class DispatchToEmployeeComponent implements OnInit {
   checkAddOrEdit:any="";
   employeeOption:any;
   employeeName:string;
-  selectedEmployee:any;
+  selectedEmployee:any=[];
   ProductName:string;
-  selectedProduct:any;
+  selectedProduct:any=[];
   productOption:any;
   categoryName:string ="";
   productId:number;
@@ -40,9 +42,12 @@ export class DispatchToEmployeeComponent implements OnInit {
   stock:number;
   employeeid:number;
   selectedValue: string;
-  
+  selectedRequestDetails:any=[];
+  checkOOSStatus :any;
+  fetchData: Array<requestDetailonGrid> = [];
+  getallrequestData:any;
     
-  constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService) { 
+  constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService,public request:RequestService) { 
     this.dispatchList();
   }
 
@@ -51,7 +56,6 @@ export class DispatchToEmployeeComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dispatchList();
     this.getEmployee();
-    this.detailsProduct();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -71,7 +75,6 @@ export class DispatchToEmployeeComponent implements OnInit {
         this.dataSource.filterPredicate = function(data:any, filter: string): boolean {
             return data.employeeName.toLowerCase().includes(filter)
         };
-       
       }
     );
   }
@@ -112,7 +115,6 @@ export class DispatchToEmployeeComponent implements OnInit {
   }
 
   addData(){
-    
     var adddispatchEmployeeModel = new DispatchToEmployeemodel();
     adddispatchEmployeeModel.DispatchmasterVmodel =new  dispatchToEmployeeMaster();
     adddispatchEmployeeModel.DispatchmasterVmodel.Dispatchid = this.dispatchid;
@@ -132,8 +134,7 @@ export class DispatchToEmployeeComponent implements OnInit {
         success => {
          this.openDispatchList();
          this.notificationService.success("Successfully Saved");
-         
-       },
+      },
         error => {
        }
       );
@@ -143,8 +144,7 @@ export class DispatchToEmployeeComponent implements OnInit {
         success => {
          this.openDispatchList();
          this.notificationService.success("Successfully Saved");
-         
-       },
+      },
         error => {
        }
       );
@@ -152,31 +152,63 @@ export class DispatchToEmployeeComponent implements OnInit {
     }
 
   }
-
+  requetDetailsForGetProduct:any=[];
   changeEmployee(event:any){
     this.employeeid = event;
-    let data = this.selectedEmployee.filter(k=> k.Id === event);
-    this.employeeName =  data[0].DisplayName;
+    // let data = this.fetchData.filter(k=> k.id === event);
+    //this.employeeName =  data[0].displayName;
+    let  employeeSelected = this.getallrequestData.filter(k=>k.employeeid == event);
+    for (let index = 0; index < employeeSelected.length; index++) {
+      for (let j = 0; j < employeeSelected[index].requestDetailModels.length; j++) {
+        if(employeeSelected[index].requestDetailModels[j].status == "Approved"){
+          this.requetDetailsForGetProduct.push(employeeSelected[index].requestDetailModels[j]);
+        }
+      }   
+    }
+    this.detailsProduct(this.requetDetailsForGetProduct);
   }
 
   getEmployee(){
-    this.dispatchToEmployeeService.getDispatchEmpdetail()
+    this.request.getRequestdetail()
      .subscribe(
       (data:Array<any>) => {
-        this.selectedEmployee=data['ActiveUsers'];
-        this.employeeOption = _.map(this.selectedEmployee, item =>{
-          const option = {
-            value:'',
-            label:''
-          };
-          option.value = item.Id;
-          option.label = `${item.DisplayName}`;
-          return option;
-          });
+        for (let index = 0; index < data.length; index++) {
+          this.getallrequestData = data;
+          data = data.filter((el, i, a) => i === a.indexOf(el))
+          for (let j = 0; j < data[index].requestDetailModels.length; j++) {
+            this.selectedRequestDetails.push(data[index].requestDetailModels[j]) ;
+            if(data[index].requestDetailModels[j].status == "Approved"){
+              this.selectedEmployee.push(data[index].users);
+            }
+          }
+        }
+        this.EmployeeNameForDropDown(this.selectedEmployee);
         },
         error => {
       }
     );
+  }
+
+
+
+  EmployeeNameForDropDown(employee:any){
+    for (let index = 0; index < employee.length; index++) {
+     this.fetchData.push(employee[index][0]);
+     this.fetchData =  this.fetchData.filter((obj:any, index, self) =>
+       index === self.findIndex((el:any) => (
+         el[index] == obj[index] &&  el.id == obj.id
+      ))
+     )
+     this.employeeOption = _.map(this.fetchData, item =>{
+      const option = {
+        value:'',
+        label:''
+      };
+      option.value = item.id;
+      option.label = `${item.displayName}`;
+      return option;
+      });
+    }
   }
 
   openDispatchList(){
@@ -185,33 +217,32 @@ export class DispatchToEmployeeComponent implements OnInit {
     this.getdefault();
   }
 
-  detailsProduct(){
-    this.productService.getProduct()
-    .subscribe(
-      data => {
-          this.selectedProduct=data;
-          this.productOption = _.map(this.selectedProduct, item =>{
-            const option = {
-              value:'',
-              label:''
-            };
-            option.value = item.productid;
-            option.label = `${item.productname}`;
-            return option;
-            });
-          },
-          error => {
+  detailsProduct(product:any){
+      for (let i = 0; i < product.length; i++) {
+        this.selectedProduct.push(product[i].productModels);
       }
-    )
+      this.productOption = _.map(this.selectedProduct, item =>{
+        const option = {
+          value:'',
+          label:''
+      };
+        option.value = item.productid;
+        option.label = `${item.productname}`;
+        return option;
+      });
   }
 
   changeProduct(id:any){
-    this.detailsProduct();
+    //this.detailsProduct();
     this.productId = id;
     let data = this.selectedProduct.filter(k=> k.productid === id );
+    let getQuantiy = this.selectedRequestDetails.filter(t=>t.productid == id);
+    this.quantity = getQuantiy[0].quantity;
+    this.checkOOSStatus = this.selectedRequestDetails.filter(j=>j.productid == id && j.status == "Out of Stock" );
     this.categoryName = data[0].category.categoryname;
     this.ProductName = data[0].productname;
     this.stock = data[0].balance;
+    
   }
 
   deleteDispatchOnGird (i:number){
@@ -234,10 +265,16 @@ export class DispatchToEmployeeComponent implements OnInit {
     customObj.Createddate = new Date();
     customObj.Isdeleted ="false";
     if(this.quantity > this.stock){
-      this.notificationService.error("Quantity Should not be grater than currunt stock.")
+      this.notificationService.error("Quantity Should not be grater than currunt stock.");
+      return false;
     } else if(checkAlreadyExist !== undefined){
-      this.notificationService.error("Selected product"+'  ' + this.ProductName +' ' +"already Added.")
-    } else {
+      this.notificationService.error("Selected product"+'  ' + this.ProductName +' ' +"already Added.");
+      return false;
+    } if(this.checkOOSStatus.length > 0 ){
+      this.notificationService.error("Please set approved status for selected product" +'  ' + this.ProductName +' ');
+      return false;
+    } 
+    else {
       this.totalQuantity += customObj.Quantity;
       this.dispatchFillGrid.push(customObj);
       this.dispatchSaveList.push(customObj);
