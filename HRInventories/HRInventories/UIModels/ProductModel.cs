@@ -8,7 +8,7 @@ namespace HRInventories.UIModels
 {
     public class ProductModel
     {
-        public int Productid { get; set; }
+        public long Productid { get; set; }
         public long Categoryid { get; set; }
         public string Productname { get; set; }
         public string Productdescription { get; set; }

@@ -8,5 +8,8 @@ namespace HRInventories
     public class Connectionstrings
     {
         public string DatabaseConnection { get; set; }
+
+        public string DatabaseConnections { get; set; }
+        public string DatabaseName { get; set; }
     }
 }

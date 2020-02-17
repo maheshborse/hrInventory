@@ -5,9 +5,9 @@ namespace HRInventories.Models
 {
     public partial class Podetail
     {
-        public int Podetailid { get; set; }
+        public long Podetailid { get; set; }
         public long Poid { get; set; }
-        public int Productid { get; set; }
+        public long Productid { get; set; }
         public long Quantity { get; set; }
         public double Porate { get; set; }
         public double Discount { get; set; }

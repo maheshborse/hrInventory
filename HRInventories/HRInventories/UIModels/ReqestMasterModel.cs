@@ -8,7 +8,7 @@ namespace HRInventories.UIModels
 {
     public class ReqestMasterModel
     {
-        public int Requestid { get; set; }
+        public long Requestid { get; set; }
         public string Employeeid { get; set; }
         public bool Isread { get; set; }
         public string Userid { get; set; }

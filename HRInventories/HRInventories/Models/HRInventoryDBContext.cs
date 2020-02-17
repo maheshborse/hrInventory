@@ -48,7 +48,7 @@ namespace HRInventories.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 //optionsBuilder.UseNpgsql("Server=localhost;Port=5433;Database=HRInventoryDB;Username=postgres;Password=dell@123;Integrated Security=true;Pooling=true");
-                if (Common.Issql)
+                if (_connectionstring.DatabaseName == "sql")
                 {
                     optionsBuilder.UseSqlServer(_connectionstring.DatabaseConnection).UseLoggerFactory(_loggerFactory);
                 }
@@ -101,7 +101,9 @@ namespace HRInventories.Models
 
                 entity.ToTable("dispatchdetails");
 
-                entity.Property(e => e.Dispatchdetailid).HasColumnName("dispatchdetailid");
+                entity.Property(e => e.Dispatchdetailid)
+                    .HasColumnName("dispatchdetailid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
@@ -135,7 +137,9 @@ namespace HRInventories.Models
 
                 entity.ToTable("dispatchmaster");
 
-                entity.Property(e => e.Dispatchid).HasColumnName("dispatchid");
+                entity.Property(e => e.Dispatchid)
+                    .HasColumnName("dispatchid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
@@ -165,7 +169,9 @@ namespace HRInventories.Models
             {
                 entity.ToTable("podetail");
 
-                entity.Property(e => e.Podetailid).HasColumnName("podetailid");
+                entity.Property(e => e.Podetailid)
+                    .HasColumnName("podetailid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
@@ -182,9 +188,7 @@ namespace HRInventories.Models
 
                 entity.Property(e => e.Porate).HasColumnName("porate");
 
-                entity.Property(e => e.Productid)
-                    .HasColumnName("productid")
-                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.Productid).HasColumnName("productid");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 
@@ -240,7 +244,9 @@ namespace HRInventories.Models
             {
                 entity.ToTable("product");
 
-                entity.Property(e => e.Productid).HasColumnName("productid");
+                entity.Property(e => e.Productid)
+                    .HasColumnName("productid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Categoryid).HasColumnName("categoryid");
 
@@ -272,6 +278,7 @@ namespace HRInventories.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("product_categoryid_fkey");
             });
+
             modelBuilder.Entity<Reqestmaster>(entity =>
             {
                 entity.HasKey(e => e.Requestid)
@@ -279,7 +286,9 @@ namespace HRInventories.Models
 
                 entity.ToTable("reqestmaster");
 
-                entity.Property(e => e.Requestid).HasColumnName("requestid");
+                entity.Property(e => e.Requestid)
+                    .HasColumnName("requestid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Createddate)
                     .HasColumnName("createddate")
@@ -304,7 +313,9 @@ namespace HRInventories.Models
             {
                 entity.ToTable("requestdetail");
 
-                entity.Property(e => e.Requestdetailid).HasColumnName("requestdetailid");
+                entity.Property(e => e.Requestdetailid)
+                    .HasColumnName("requestdetailid")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Createddate)
                     .HasColumnName("createddate")

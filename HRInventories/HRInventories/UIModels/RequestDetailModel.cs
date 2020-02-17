@@ -7,9 +7,9 @@ namespace HRInventories.UIModels
 {
     public class RequestDetailModel
     {
-        public int Requestdetailid { get; set; }
-        public int Requestid { get; set; }
-        public int Productid { get; set; }
+        public long Requestdetailid { get; set; }
+        public long Requestid { get; set; }
+        public long Productid { get; set; }
         public long Quantity { get; set; }
         public string Status { get; set; }
         public string Userid { get; set; }

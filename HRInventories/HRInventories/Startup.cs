@@ -58,23 +58,26 @@ namespace HRInventories
 
             //services.AddDbContext<HRInventoryDBContext>(options =>
             //options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnections")));
-            if(Configuration.GetSection("dataconnection").GetSection("DatabaseName").Value == "sql")
+            var qa = Configuration.GetSection("ConnectionStrings").GetSection("DatabaseName").Value;
+            var con = Configuration.GetSection("ConnectionStrings").GetSection("DatabaseConnections").Value;
+            var con1 = Configuration.GetSection("ConnectionStrings").GetSection("DatabaseConnection").Value;
+            if (qa == "sql")
             {
-                Common.Issql = true;
-                string connString = Configuration.GetSection("ConnectionString").GetSection("DatabaseConnections").Value;
-                Connectionstrings connectionString = new Connectionstrings() { DatabaseConnection = connString };
+                string connString = con;
+                Connectionstrings connectionString = new Connectionstrings() { DatabaseConnections = connString, DatabaseName = qa, DatabaseConnection = connString};
                 services.AddDbContext<HRInventoryDBContext>(options => options.UseSqlServer(connString));
                 services.AddSingleton(connectionString);
             }
             else
             {
-                Common.Issql = false;
-                string connString = Configuration.GetSection("Connectionstrings").GetSection("DatabaseConnection").Value;
-                Connectionstrings connectionString = new Connectionstrings() { DatabaseConnection = connString };
-                services.AddDbContext<HRInventoryDBContext>(options => options.UseNpgsql(connString));
-                services.AddSingleton(connectionString);
+                string connString1 = con1;
+                Connectionstrings connectionString1 = new Connectionstrings() { DatabaseConnection = connString1 };
+                services.AddDbContext<HRInventoryDBContext>(options => options.UseNpgsql(connString1));
+                services.AddSingleton(connectionString1);
+
             }
 
+            //services.AddDbContext<HRInventoryDBContext>(options => options.UseSqlServer(connString));
 
             services.Configure<LdapConfig>(Configuration.GetSection("Ldap"));
             services.AddScoped<IAuthenticationRepository, LdapAuthenticationManager>();

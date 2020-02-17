@@ -5,8 +5,8 @@ namespace HRInventories.Models
 {
     public partial class Dispatchdetails
     {
-        public int Dispatchdetailid { get; set; }
-        public int Dispatchid { get; set; }
+        public long Dispatchdetailid { get; set; }
+        public long Dispatchid { get; set; }
         public long Productid { get; set; }
         public long Quantity { get; set; }
         public string Userid { get; set; }
