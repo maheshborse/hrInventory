@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatTableDataSource, MatIconRegistry } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatTableDataSource, MatIconRegistry, MatRadioChange } from '@angular/material';
 import { RequestViewModel, requestDetailonGrid, showongrid, showOnGridmaster, requestMaster, requestDetail } from 'src/app/shared/models/request';
 import { EditRequestComponent } from './edit-request/edit-request.component';
 import { RequestService } from 'src/app/shared/services/request.service';
@@ -22,10 +22,9 @@ export class RequestComponent implements OnInit {
   panelOpenState = false;
   userInfo:any;
   checkIsAdmin:boolean =false;
-  constructor(public dialog: MatDialog,public request:RequestService,private notificationService : NotificationService,iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {iconRegistry.addSvgIcon(
-    'thumbs-up',
-    sanitizer.bypassSecurityTrustResourceUrl('assets/images/thumbup-icon.svg'));
-  
+  chooseStatus :string;
+  constructor(public dialog: MatDialog,public request:RequestService,private notificationService : NotificationService,iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    
   }
 
   ngOnInit() {
@@ -60,6 +59,7 @@ export class RequestComponent implements OnInit {
         var showonGrid = new showongrid();
         showonGrid.Reqestmastermodelongrid = new Array<showOnGridmaster>();
         for (let index = 0; index < data.length; index++) {
+          if(data[index].employeeid ==  this.userInfo.id || this.userInfo.isAdmin == true ){
            let  customObj = new  showOnGridmaster();
            customObj.Requestid =data[index].requestid;
            customObj.Employeeid =data[index].employeeid;
@@ -82,23 +82,21 @@ export class RequestComponent implements OnInit {
               child.Requestid =data[index].requestDetailModels[i].requestid;
               child.Requestdetailid = data[index].requestDetailModels[i].requestdetailid;
               customObj.RequestdetailModelongrid.push(child);
+              
             }
+          }
           }
           this.dataSource.data = showonGrid.Reqestmastermodelongrid;
           this.dataSource.filterPredicate = function(data:any, filter: string): boolean {
             return data.Employeeid.toLowerCase().includes(filter)
           };
-       
-          console.log(this.dataSource.data);
+         
       }
      );
   }
 
-  slide(data:any,id:any){
-      console.log("asdasda",id);
-      console.log("sdasdasd",data);
-      debugger;
-      var addrequestViewModel = new RequestViewModel();
+  radioChange(event:any,data:any,id:any){
+    var addrequestViewModel = new RequestViewModel();
       addrequestViewModel.Reqestmastermodel =new  requestMaster();
       addrequestViewModel.Reqestmastermodel.Requestid = data.Requestid;
       addrequestViewModel.Reqestmastermodel.Employeeid = data.Employeeid;
@@ -110,21 +108,18 @@ export class RequestComponent implements OnInit {
       addrequestViewModel.RequestdetailModel = data.RequestdetailModelongrid;
       for (let index = 0; index < addrequestViewModel.RequestdetailModel.length; index++) {
         if(addrequestViewModel.RequestdetailModel[index].Requestdetailid === id ){
-            data.RequestdetailModelongrid[index].Status = "Approved";
+            data.RequestdetailModelongrid[index].Status = event;
             this.request.patchRequest(addrequestViewModel,id).subscribe(
             success => {
-            
-              },
+              this.notificationService.success("Status Set Succesfully for selected product");
+            },
             error => {
             }
           );
         }
       }
-      console.log("dsasdasdsdasd",addrequestViewModel.RequestdetailModel);
-    
   }
-  
-  
+ 
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
