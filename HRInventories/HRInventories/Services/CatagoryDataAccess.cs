@@ -89,8 +89,9 @@ namespace HRInventories.Services
                 {
                     groupdata.Isdeleted = "true";
                 }
-                //context.Catagory.Remove(catagory);
                 context.SaveChanges();
+                //context.Catagory.Remove(catagory);
+
             }
         }
     }
