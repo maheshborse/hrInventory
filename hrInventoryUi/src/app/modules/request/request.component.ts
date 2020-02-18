@@ -23,6 +23,7 @@ export class RequestComponent implements OnInit {
   userInfo:any;
   checkIsAdmin:boolean =false;
   chooseStatus :string;
+  requestDetails :Array<requestDetailonGrid> =[];
   constructor(public dialog: MatDialog,public request:RequestService,private notificationService : NotificationService,iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     
   }
@@ -44,13 +45,17 @@ export class RequestComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-      if(result !== ""){
-        this.productList();
-        this.notificationService.success("Request Successfully Saved")
+      if(result === "error"){
+
+      } else {
+        if(result !== ""){
+          this.productList();
+          this.notificationService.success("Request Successfully Saved")
+        }
       }
     });
   }
-
+checkStock:any=[];
   productList(){
   
     this.request.getRequestdetail()
@@ -72,7 +77,7 @@ export class RequestComponent implements OnInit {
            showonGrid.Reqestmastermodelongrid.push(customObj);
           for (let i = 0; i < data[index].requestDetailModels.length; i++) {
               let child = new requestDetailonGrid()
-              child.Productid = data[index].requestDetailModels[i].requestdetailid;
+              child.Productid = data[index].requestDetailModels[i].productid;
               child.ProductName = data[index].requestDetailModels[i].productModels.productname;
               child.Status  =data[index].requestDetailModels[i].status;
               child.Quantity = data[index].requestDetailModels[i].quantity;
@@ -81,8 +86,10 @@ export class RequestComponent implements OnInit {
               child.Createddate =data[index].requestDetailModels[i].createddate;
               child.Requestid =data[index].requestDetailModels[i].requestid;
               child.Requestdetailid = data[index].requestDetailModels[i].requestdetailid;
+              this.checkStock.push(data[index].requestDetailModels[i].productModels)
               customObj.RequestdetailModelongrid.push(child);
               
+              this.requestDetails.push(child);
             }
           }
           }
@@ -96,7 +103,8 @@ export class RequestComponent implements OnInit {
   }
 
   radioChange(event:any,data:any,id:any){
-    var addrequestViewModel = new RequestViewModel();
+      debugger;
+      var addrequestViewModel = new RequestViewModel();
       addrequestViewModel.Reqestmastermodel =new  requestMaster();
       addrequestViewModel.Reqestmastermodel.Requestid = data.Requestid;
       addrequestViewModel.Reqestmastermodel.Employeeid = data.Employeeid;
@@ -108,14 +116,32 @@ export class RequestComponent implements OnInit {
       addrequestViewModel.RequestdetailModel = data.RequestdetailModelongrid;
       for (let index = 0; index < addrequestViewModel.RequestdetailModel.length; index++) {
         if(addrequestViewModel.RequestdetailModel[index].Requestdetailid === id ){
-            data.RequestdetailModelongrid[index].Status = event;
-            this.request.patchRequest(addrequestViewModel,id).subscribe(
-            success => {
-              this.notificationService.success("Status Set Succesfully for selected product");
-            },
-            error => {
+           debugger;
+            if(data.RequestdetailModelongrid[index].Status === "Approved" || data.RequestdetailModelongrid[index].Status=="Pending"){
+            var  stock = this.checkStock.filter(k=> k.productid === addrequestViewModel.RequestdetailModel[index].Productid);
+            var  curruntStock = stock[0].balance; 
+            data.RequestdetailModelongrid[index].Status = "Pending";
             }
-          );
+            let  alradyapproved =false;
+            for (let j = 0; j < this.requestDetails.length; j++) {
+              if(this.requestDetails[j].Productid === addrequestViewModel.RequestdetailModel[index].Productid  &&  this.requestDetails[j].Status === "Approved" ){
+                alradyapproved =true;
+              }
+            }
+            if(alradyapproved == true){
+              this.notificationService.error("Please dispatch already approved record for selected product");
+            } else  if(curruntStock === 0 ){
+              this.notificationService.error("You are not able to change status beacuse  is " + curruntStock );
+            } else {
+                data.RequestdetailModelongrid[index].Status = event;
+                this.request.patchRequest(addrequestViewModel,id).subscribe(
+                  success => {
+                    this.notificationService.success("Status Set Succesfully for selected product");
+                  },
+                  error => {
+                }
+              );
+            }
         }
       }
   }

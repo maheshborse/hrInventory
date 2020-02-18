@@ -141,7 +141,7 @@ namespace HRInventories.Services
                             };
                             await context.Requestdetail.AddAsync(requestdetail);
                         }
-                        else if ((item.Status == "Approved" || item.Status == "Out of Stock") && item.Requestdetailid != 0)
+                        else if ((item.Status == "Approved" || item.Status == "Out of Stock" || item.Status == "delivered") && item.Requestdetailid != 0)
                         {
                             var groupData = await context.Requestdetail.Where(k => k.Requestdetailid == id).FirstOrDefaultAsync();
                             if (groupData != null)
@@ -153,6 +153,9 @@ namespace HRInventories.Services
                                 else if (item.Status == "Out of Stock")
                                 {
                                     groupData.Status = "Out of Stock";
+                                }
+                                else if(item.Status == "delivered") {
+                                    groupData.Status = "delivered";
                                 }
                                 else
                                 {

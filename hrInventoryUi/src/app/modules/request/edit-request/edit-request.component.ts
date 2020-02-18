@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
-import { fillrequestGirdData,  RequestViewModel, requestDetail, requestMaster, requestDetailonGrid } from 'src/app/shared/models/request';
+import { fillrequestGirdData,  RequestViewModel, requestDetail, requestMaster, requestDetailonGrid, showOnGridmaster } from 'src/app/shared/models/request';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { RequestService } from 'src/app/shared/services/request.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -25,20 +25,25 @@ export class EditRequestComponent implements OnInit {
   requestSaveList:any=[];
   userInfo: any;
   productName:string;
+  checkAlredy:boolean=false ;
   selectedValue:string;
   fetchData: Array<requestDetailonGrid> = [];
   checkEdit :boolean =false;
+  getAllData:Array<showOnGridmaster> =[];
   requestId:number;
   
   constructor(private productService:ProductService,private notificationService : NotificationService,public request:RequestService,public dialogRef: MatDialogRef<EditRequestComponent>,@Optional()  @Inject(MAT_DIALOG_DATA) data:any) {
-    
-    if(data){
+   
+    debugger;
+    if(data.length === 0 ){
       for(var i=0 ; i< data.RequestdetailModelongrid.length;i++){
         this.fetchData.push(data.RequestdetailModelongrid[i]);
       }
       this.checkEdit = true;
      } else {
        this.checkEdit =false;
+       this.getAllData.push(data);
+       
      }
     
    }
@@ -68,6 +73,7 @@ export class EditRequestComponent implements OnInit {
       }
     )
   }
+  
 
   changeProduct(id:any){
     
@@ -79,7 +85,7 @@ export class EditRequestComponent implements OnInit {
   }
 
   clickEditOrSave(){
-
+      this.checkAlredyExist(this.getAllData);
       var addrequestViewModel = new RequestViewModel();
       addrequestViewModel.Reqestmastermodel =new  requestMaster();
       addrequestViewModel.Reqestmastermodel.Employeeid = this.userInfo.id;
@@ -89,27 +95,31 @@ export class EditRequestComponent implements OnInit {
       addrequestViewModel.Reqestmastermodel.Userid = this.userInfo.id;
       addrequestViewModel.RequestdetailModel = new Array<requestDetail>();
       addrequestViewModel.RequestdetailModel = this.requestSaveList;
-      if(this.checkEdit === false ){
-        this.request.postRequest(addrequestViewModel).subscribe(
-          success => {
-            
-          },
-          error => {
-         }
-  
-        );
-      } else if (this.checkEdit == true) {
-        addrequestViewModel.Reqestmastermodel.Requestid = this.requestId;
-        this.request.patchRequest(addrequestViewModel,this.requestId).subscribe(
-          success => {
-            
-          },
-          error => {
-         }
-  
-        );
-      } 
-      
+      if(this.checkAlredy === true){
+        this.notificationService.error("Selected Produt is already  Added ");
+        this.dialogRef.close('error');
+      } else{
+        if(this.checkEdit === false ){
+          this.request.postRequest(addrequestViewModel).subscribe(
+            success => {
+              
+            },
+            error => {
+           }
+    
+          );
+        } else if (this.checkEdit == true) {
+          addrequestViewModel.Reqestmastermodel.Requestid = this.requestId;
+          this.request.patchRequest(addrequestViewModel,this.requestId).subscribe(
+            success => {
+              
+            },
+            error => {
+           }
+    
+          );
+        } 
+      }
   }
 
   fetchDataonGrid(){
@@ -168,6 +178,19 @@ export class EditRequestComponent implements OnInit {
       this.selectedValue="";
     }
     
+  }
+
+
+  checkAlredyExist(all:any){
+    
+      for (let index = 0; index < all[0].length; index++) {
+        for (let i = 0; i < all[0][index].RequestdetailModelongrid.length; i++) {
+          if (all[0][index].RequestdetailModelongrid[i].Productid === this.productId && (all[0][index].RequestdetailModelongrid[i].Status === "Out of Stock" || all[0][index].RequestdetailModelongrid[i].Status ==="Pending")){
+            this.checkAlredy = true;
+          } 
+         
+        }
+      }
   }
 
    

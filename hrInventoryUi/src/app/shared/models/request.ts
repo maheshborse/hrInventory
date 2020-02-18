@@ -36,7 +36,7 @@ export class requestMaster {
         public  Productid:number;
         public  Quantity:number;
         public  Status :string;
-        public  Userid :number;
+        public  Userid :string;
         public  Createddate :Date
         public  Isdeleted :string;
     }

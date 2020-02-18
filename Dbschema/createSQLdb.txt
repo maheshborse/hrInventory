@@ -1,0 +1,202 @@
+CREATE TABLE [dbo].[catagory](
+	[categoryid] [bigint] IDENTITY(1,1) NOT NULL,
+	[categoryname] [nvarchar](50) NULL,
+	[categorydescription] [nvarchar](max) NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_catagory] PRIMARY KEY CLUSTERED 
+(
+	[categoryid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[product](
+	[productid] [bigint] IDENTITY(1,1) NOT NULL,
+	[categoryid] [bigint] NULL,
+	[productname] [nvarchar](50) NULL,
+	[productdescription] [nvarchar](max) NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_product] PRIMARY KEY CLUSTERED 
+(
+	[productid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[product]  WITH CHECK ADD  CONSTRAINT [categoryid] FOREIGN KEY([productid])
+REFERENCES [dbo].[product] ([productid])
+GO
+
+ALTER TABLE [dbo].[product] CHECK CONSTRAINT [categoryid]
+GO
+
+ALTER TABLE [dbo].[product]  WITH CHECK ADD  CONSTRAINT [FK_product_product] FOREIGN KEY([productid])
+REFERENCES [dbo].[product] ([productid])
+GO
+
+ALTER TABLE [dbo].[product] CHECK CONSTRAINT [FK_product_product]
+GO
+
+CREATE TABLE [dbo].[pomaster](
+	[poid] [bigint] IDENTITY(1,1) NOT NULL,
+	[podate] [datetime] NULL,
+	[totalamount] [float] NULL,
+	[discount] [float] NULL,
+	[finalamount] [float] NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_pomaster] PRIMARY KEY CLUSTERED 
+(
+	[poid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[podetail](
+	[podetailid] [bigint] IDENTITY(1,1) NOT NULL,
+	[poid] [bigint] NULL,
+	[productid] [bigint] NULL,
+	[quantity] [bigint] NULL,
+	[porate] [float] NULL,
+	[discount] [float] NULL,
+	[amount] [float] NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_podetail] PRIMARY KEY CLUSTERED 
+(
+	[podetailid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[podetail]  WITH CHECK ADD  CONSTRAINT [FK_podetail_podetail] FOREIGN KEY([podetailid])
+REFERENCES [dbo].[podetail] ([podetailid])
+GO
+
+ALTER TABLE [dbo].[podetail] CHECK CONSTRAINT [FK_podetail_podetail]
+GO
+
+ALTER TABLE [dbo].[podetail]  WITH CHECK ADD  CONSTRAINT [poid] FOREIGN KEY([podetailid])
+REFERENCES [dbo].[podetail] ([podetailid])
+GO
+
+ALTER TABLE [dbo].[podetail] CHECK CONSTRAINT [poid]
+GO
+
+ALTER TABLE [dbo].[podetail]  WITH CHECK ADD  CONSTRAINT [productid] FOREIGN KEY([podetailid])
+REFERENCES [dbo].[podetail] ([podetailid])
+GO
+
+ALTER TABLE [dbo].[podetail] CHECK CONSTRAINT [productid]
+GO
+
+
+CREATE TABLE [dbo].[dispatchmaster](
+	[dispatchid] [bigint] IDENTITY(1,1) NOT NULL,
+	[dispatchdate] [datetime] NULL,
+	[employeeid] [bigint] NULL,
+	[employeename] [nvarchar](50) NULL,
+	[totalqty] [bigint] NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_dispatchmaster] PRIMARY KEY CLUSTERED 
+(
+	[dispatchid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[dispatchdetails](
+	[dispatchdetailid] [bigint] IDENTITY(1,1) NOT NULL,
+	[dispatchid] [bigint] NULL,
+	[productid] [bigint] NULL,
+	[quantity] [bigint] NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_dispatchdetails] PRIMARY KEY CLUSTERED 
+(
+	[dispatchdetailid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[dispatchdetails]  WITH CHECK ADD  CONSTRAINT [dispatchid] FOREIGN KEY([dispatchdetailid])
+REFERENCES [dbo].[dispatchdetails] ([dispatchdetailid])
+GO
+
+ALTER TABLE [dbo].[dispatchdetails] CHECK CONSTRAINT [dispatchid]
+GO
+
+ALTER TABLE [dbo].[dispatchdetails]  WITH CHECK ADD  CONSTRAINT [FK_dispatchdetails_dispatchdetails] FOREIGN KEY([dispatchdetailid])
+REFERENCES [dbo].[dispatchdetails] ([dispatchdetailid])
+GO
+
+ALTER TABLE [dbo].[dispatchdetails] CHECK CONSTRAINT [FK_dispatchdetails_dispatchdetails]
+GO
+
+ALTER TABLE [dbo].[dispatchdetails]  WITH CHECK ADD  CONSTRAINT [FK_dispatchdetails_dispatchdetails1] FOREIGN KEY([dispatchdetailid])
+REFERENCES [dbo].[dispatchdetails] ([dispatchdetailid])
+GO
+
+ALTER TABLE [dbo].[dispatchdetails] CHECK CONSTRAINT [FK_dispatchdetails_dispatchdetails1]
+GO
+
+ALTER TABLE [dbo].[dispatchdetails]  WITH CHECK ADD  CONSTRAINT [FK_dispatchdetails_dispatchdetails2] FOREIGN KEY([dispatchdetailid])
+REFERENCES [dbo].[dispatchdetails] ([dispatchdetailid])
+GO
+
+ALTER TABLE [dbo].[dispatchdetails] CHECK CONSTRAINT [FK_dispatchdetails_dispatchdetails2]
+GO
+
+
+CREATE TABLE [dbo].[reqestmaster](
+	[requestid] [bigint] IDENTITY(1,1) NOT NULL,
+	[employeeid] [nvarchar](50) NULL,
+	[isread] [bit] NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_reqestmaster] PRIMARY KEY CLUSTERED 
+(
+	[requestid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[requestdetail](
+	[requestdetailid] [bigint] IDENTITY(1,1) NOT NULL,
+	[requestid] [bigint] NULL,
+	[productid] [bigint] NULL,
+	[quantity] [bigint] NULL,
+	[status] [nvarchar](50) NULL,
+	[userid] [nvarchar](50) NULL,
+	[createddate] [datetime] NULL,
+	[isdeleted] [nvarchar](50) NULL,
+ CONSTRAINT [PK_requestdetail] PRIMARY KEY CLUSTERED 
+(
+	[requestdetailid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[requestdetail]  WITH CHECK ADD  CONSTRAINT [FK_requestdetail_requestdetail] FOREIGN KEY([requestdetailid])
+REFERENCES [dbo].[requestdetail] ([requestdetailid])
+GO
+
+ALTER TABLE [dbo].[requestdetail] CHECK CONSTRAINT [FK_requestdetail_requestdetail]
+GO
+
+ALTER TABLE [dbo].[requestdetail]  WITH CHECK ADD  CONSTRAINT [requestid] FOREIGN KEY([requestdetailid])
+REFERENCES [dbo].[requestdetail] ([requestdetailid])
+GO
+
+ALTER TABLE [dbo].[requestdetail] CHECK CONSTRAINT [requestid]
+GO

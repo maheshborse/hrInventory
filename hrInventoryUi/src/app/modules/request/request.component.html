@@ -4,8 +4,8 @@
     <div class="col-sm-8">
         <i class="material-icons search-icon searchIcon">search</i>
         <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.."></div>
-    <div class="col-sm-4">
-        <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog()">
+    <div class="col-sm-4" >
+        <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog(dataSource.data)">
         Add Request
      </button>
     </div>
@@ -47,13 +47,16 @@
             <td *ngIf="checkIsAdmin !== true" >
                {{tt.Status}}
             </td>
-            <td *ngIf="checkIsAdmin === true" >
+            <td *ngIf="checkIsAdmin === true && tt.Status !== 'delivered'"  >
               <mat-radio-group aria-label="Select an option" (change) ="radioChange($event.value,parcel,tt.Requestdetailid)" >
-                <mat-radio-button value="Pending" [checked]="tt.Status === 'Pending' ">Pending</mat-radio-button>&nbsp;
-                <mat-radio-button value="Approved" [checked]="tt.Status === 'Approved' ">Approved</mat-radio-button>&nbsp;
-                <mat-radio-button value="Out of Stock" [checked]="tt.Status === 'Out of Stock' " >Out of Stock</mat-radio-button>
+                <mat-radio-button value="Pending" [checked]="tt.Status === 'Pending'" [hidden]="tt.Status == 'Pending' || tt.Status == 'Approved' || tt.Status == 'Out of Stock' || tt.Status == 'delivered'">Pending</mat-radio-button>&nbsp;
+                <mat-radio-button value="Approved" [hidden]="tt.Status == 'delivered'" [checked]="tt.Status === 'Approved'">Approved</mat-radio-button>&nbsp;
+                <mat-radio-button value="Out of Stock" [hidden]="tt.Status=== 'Approved' || tt.Status == 'delivered'" [checked]="tt.Status === 'Out of Stock'" >Out of Stock</mat-radio-button>
               </mat-radio-group>
               {{chooseStatus}}
+           </td>
+           <td *ngIf= "tt.Status === 'delivered'" style="color: darkgreen;" >
+             Delivered
            </td>
         </tr>
          </tbody>

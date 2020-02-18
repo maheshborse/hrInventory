@@ -8,7 +8,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { RequestService } from 'src/app/shared/services/request.service';
-import { requestDetailonGrid } from 'src/app/shared/models/request';
+import { requestDetailonGrid, RequestViewModel, requestMaster, requestDetail, fillrequestGirdData } from 'src/app/shared/models/request';
 
 @Component({
   selector: 'app-dispatch-to-employee',
@@ -46,6 +46,8 @@ export class DispatchToEmployeeComponent implements OnInit {
   checkOOSStatus :any;
   fetchData: Array<requestDetailonGrid> = [];
   getallrequestData:any;
+  requetDetailsForGetProduct:any=[];
+  userInfo: any;
     
   constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService,public request:RequestService) { 
     this.dispatchList();
@@ -54,6 +56,7 @@ export class DispatchToEmployeeComponent implements OnInit {
   ngOnInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.userInfo = JSON.parse(localStorage.getItem("user"));
     this.dispatchList();
     this.getEmployee();
     this.dataSource.sort = this.sort;
@@ -80,6 +83,8 @@ export class DispatchToEmployeeComponent implements OnInit {
   }
 
   getDispatchDataEdit(dispatchData:any,checkLabel:any){
+    debugger;
+    console.log( this.selectedRequestDetails);
       this.dispatchFillGrid =[];
       this.dispatchSaveList =[];
       this.dispatchid= dispatchData.dispatchid;
@@ -91,12 +96,12 @@ export class DispatchToEmployeeComponent implements OnInit {
       for(var i=0 ; i< dispatchData.dispatchdetailsModels.length;i++){
         let customObj = new dispatchmaterialGrid();
         customObj.Productid=dispatchData.dispatchdetailsModels[i].productid;
-        let data = this.selectedProduct.filter(k=> k.productid == dispatchData.dispatchdetailsModels[i].productid );
+        let data = this.selectedRequestDetails.filter(k=> k.productid == dispatchData.dispatchdetailsModels[i].productid && k.status == "delivered");
         customObj.ProductName = data[0].productname;
         customObj.Quantity=dispatchData.dispatchdetailsModels[i].quantity;
         customObj.Dispatchdetailid =dispatchData.dispatchdetailsModels[i].dispatchdetailid;
         customObj.Dispatchid = dispatchData.dispatchdetailsModels[i].dispatchid;
-        customObj.Userid = "1";
+        customObj.Userid = this.userInfo.id;
         customObj.Createddate = new Date();
         customObj.Isdeleted ="false";
         this.dispatchFillGrid.push(customObj);
@@ -121,7 +126,7 @@ export class DispatchToEmployeeComponent implements OnInit {
     adddispatchEmployeeModel.DispatchmasterVmodel.Dispatchdate = this.dispatchDate;
     adddispatchEmployeeModel.DispatchmasterVmodel.Employeeid = this.employeeid;
     adddispatchEmployeeModel.DispatchmasterVmodel.EmployeeName =this.employeeName;
-    adddispatchEmployeeModel.DispatchmasterVmodel.Userid ='1';
+    adddispatchEmployeeModel.DispatchmasterVmodel.Userid =this.userInfo.id;
     adddispatchEmployeeModel.DispatchmasterVmodel.Createddate=new Date;
     adddispatchEmployeeModel.DispatchmasterVmodel.Isdeleted = 'false';
     adddispatchEmployeeModel.DispatchmasterVmodel.Totalqty =this.totalQuantity;
@@ -133,6 +138,7 @@ export class DispatchToEmployeeComponent implements OnInit {
       .subscribe(
         success => {
          this.openDispatchList();
+         this.deliveredStatus();
          this.notificationService.success("Successfully Saved");
       },
         error => {
@@ -152,11 +158,14 @@ export class DispatchToEmployeeComponent implements OnInit {
     }
 
   }
-  requetDetailsForGetProduct:any=[];
+  
   changeEmployee(event:any){
+    debugger;
     this.employeeid = event;
     // let data = this.fetchData.filter(k=> k.id === event);
     //this.employeeName =  data[0].displayName;
+    this.requetDetailsForGetProduct =[];
+    debugger;
     let  employeeSelected = this.getallrequestData.filter(k=>k.employeeid == event);
     for (let index = 0; index < employeeSelected.length; index++) {
       for (let j = 0; j < employeeSelected[index].requestDetailModels.length; j++) {
@@ -165,7 +174,47 @@ export class DispatchToEmployeeComponent implements OnInit {
         }
       }   
     }
+    
     this.detailsProduct(this.requetDetailsForGetProduct);
+  }
+
+  deliveredStatus(){
+    var addrequestViewModel = new RequestViewModel();
+    var  requestid;
+    debugger;
+    for (let index = 0; index < this.getallrequestData.length; index++) {
+      for (let i = 0; i < this.getallrequestData[index].requestDetailModels.length; i++) {
+        if(this.getallrequestData[index].requestDetailModels[i].status === "Approved" && this.getallrequestData[index].requestDetailModels[i].productid == this.productId ){
+          addrequestViewModel.Reqestmastermodel =new  requestMaster();
+          addrequestViewModel.Reqestmastermodel.Requestid = this.getallrequestData[index].requestid;
+          addrequestViewModel.Reqestmastermodel.Employeeid = this.getallrequestData[index].employeeid;
+          addrequestViewModel.Reqestmastermodel.Isread = this.getallrequestData[index].isread;
+          addrequestViewModel.Reqestmastermodel.Createddate = this.getallrequestData[index].createddate;
+          addrequestViewModel.Reqestmastermodel.Isdeleted = this.getallrequestData[index].isdeleted;
+          addrequestViewModel.Reqestmastermodel.Userid = this.getallrequestData[index].userid;
+          this.getallrequestData[index].requestDetailModels[i].status ="delivered";
+          requestid = this.getallrequestData[index].requestDetailModels[i].requestdetailid;
+          addrequestViewModel.RequestdetailModel = new Array<requestDetail>();
+          let customObj = new fillrequestGirdData();
+          customObj.Requestdetailid = this.getallrequestData[index].requestDetailModels[i].requestdetailid;
+          customObj.Requestid = this.getallrequestData[index].requestDetailModels[i].requestid;
+          customObj.Productid  = this.getallrequestData[index].requestDetailModels[i].productid; 
+          customObj.Quantity =this.getallrequestData[index].requestDetailModels[i].quantity;
+          customObj.Status = this.getallrequestData[index].requestDetailModels[i].status ;
+          customObj.Isdeleted= this.getallrequestData[index].requestDetailModels[i].isdeleted;
+          customObj.Userid = this.getallrequestData[index].requestDetailModels[i].userid;
+          customObj.Createddate = this.getallrequestData[index].requestDetailModels[i].createddate;
+          addrequestViewModel.RequestdetailModel.push(customObj);
+        }
+      }
+    }
+    this.request.patchRequest(addrequestViewModel,requestid).subscribe(
+        success => {
+          
+        },
+        error => {
+      }
+    );
   }
 
   getEmployee(){
@@ -188,9 +237,6 @@ export class DispatchToEmployeeComponent implements OnInit {
       }
     );
   }
-
-
-
   EmployeeNameForDropDown(employee:any){
     for (let index = 0; index < employee.length; index++) {
      this.fetchData.push(employee[index][0]);
@@ -218,6 +264,7 @@ export class DispatchToEmployeeComponent implements OnInit {
   }
 
   detailsProduct(product:any){
+      this.selectedProduct=[];
       for (let i = 0; i < product.length; i++) {
         this.selectedProduct.push(product[i].productModels);
       }
@@ -230,13 +277,14 @@ export class DispatchToEmployeeComponent implements OnInit {
         option.label = `${item.productname}`;
         return option;
       });
+     
   }
 
   changeProduct(id:any){
     //this.detailsProduct();
     this.productId = id;
     let data = this.selectedProduct.filter(k=> k.productid === id );
-    let getQuantiy = this.selectedRequestDetails.filter(t=>t.productid == id);
+    let getQuantiy = this.selectedRequestDetails.filter(t=>t.productid == id && t.status !== "delivered" && t.status !== "Out of Stock" && t.status !== "Pending");
     this.quantity = getQuantiy[0].quantity;
     this.checkOOSStatus = this.selectedRequestDetails.filter(j=>j.productid == id && j.status == "Out of Stock" );
     this.categoryName = data[0].category.categoryname;
@@ -261,7 +309,7 @@ export class DispatchToEmployeeComponent implements OnInit {
     customObj.ProductName = this.ProductName;
     customObj.Quantity=this.quantity;
     customObj.Dispatchid =this.dispatchid;
-    customObj.Userid = "1";
+    customObj.Userid = this.userInfo.id;
     customObj.Createddate = new Date();
     customObj.Isdeleted ="false";
     if(this.quantity > this.stock){
