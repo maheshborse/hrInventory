@@ -83,8 +83,9 @@ export class PurchaseComponent implements OnInit {
   }
 
   openPoDetails(){
+    debugger;
     if(this.dataSource.data.length === 0 ){
-      // this.poid = 0;
+      this.poid = 0;
       this.poid = this.poid + 1;
     } else {
       this.poid = Math.max.apply(Math, this.dataSource.data.map(function(o:any){return o.poid}))

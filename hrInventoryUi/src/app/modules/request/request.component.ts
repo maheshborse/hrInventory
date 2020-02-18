@@ -35,14 +35,16 @@ export class RequestComponent implements OnInit {
   }
 
 
-  openDialog(element:RequestViewModel){
+  openDialog(element:RequestViewModel,event:any){
    
     const dialogRef = this.dialog.open(EditRequestComponent,{
       width: '550px',
       panelClass: 'full-width-dialog',
       disableClose: true,
-      data: element
+      data: {element,event},
+      
     });
+    
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if(result === "error"){

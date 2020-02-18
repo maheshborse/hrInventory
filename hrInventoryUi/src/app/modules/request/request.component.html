@@ -5,7 +5,7 @@
         <i class="material-icons search-icon searchIcon">search</i>
         <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.."></div>
     <div class="col-sm-4" >
-        <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog(dataSource.data)">
+        <button mat-raised-button color="primary" class="buttonLeft" (click)="openDialog(dataSource.data,'add')">
         Add Request
      </button>
     </div>
@@ -21,7 +21,7 @@
     </mat-panel-title>
     <mat-panel-description >
       Employee ID : {{parcel.Employeeid}}
-      <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel)">mode_edit</i>
+      <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel,'edit')">mode_edit</i>
       <i *ngIf="checkIsAdmin !== true" class="material-icons" (click)="delete(parcel.Requestid)" style="cursor: pointer;">delete</i>
     </mat-panel-description>
   </mat-expansion-panel-header>

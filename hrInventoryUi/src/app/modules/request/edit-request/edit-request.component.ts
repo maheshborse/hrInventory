@@ -35,7 +35,7 @@ export class EditRequestComponent implements OnInit {
   constructor(private productService:ProductService,private notificationService : NotificationService,public request:RequestService,public dialogRef: MatDialogRef<EditRequestComponent>,@Optional()  @Inject(MAT_DIALOG_DATA) data:any) {
    
     debugger;
-    if(data.length === 0 ){
+    if(data.event === 'edit' ){
       for(var i=0 ; i< data.RequestdetailModelongrid.length;i++){
         this.fetchData.push(data.RequestdetailModelongrid[i]);
       }

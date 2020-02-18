@@ -44,7 +44,7 @@ export class DispatchToEmployeeComponent implements OnInit {
   selectedValue: string;
   selectedRequestDetails:any=[];
   checkOOSStatus :any;
-  fetchData: Array<requestDetailonGrid> = [];
+  fetchData: any = [];
   getallrequestData:any;
   requetDetailsForGetProduct:any=[];
   userInfo: any;
@@ -238,6 +238,7 @@ export class DispatchToEmployeeComponent implements OnInit {
     );
   }
   EmployeeNameForDropDown(employee:any){
+    
     for (let index = 0; index < employee.length; index++) {
      this.fetchData.push(employee[index][0]);
      this.fetchData =  this.fetchData.filter((obj:any, index, self) =>
