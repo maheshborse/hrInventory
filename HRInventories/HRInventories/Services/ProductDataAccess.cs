@@ -85,29 +85,26 @@ namespace HRInventories.Services
         }
         public Product UpdateProduct(Product item)
         {
-           
-                var dbCategory = new Product();
-                using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            var dbCategory = new Product();
+            using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
+            {
+                var isExist = context.Product.Where(k => k.Productname == item.Productname).Any();
+                if (!isExist)
                 {
-                    var flag = context.Product.Where(k => k.Productname == item.Productname).FirstOrDefaultAsync();
-                    if (flag == null)
-                    {
-                        dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();
-                        dbCategory.Productname = item.Productname;
-                        dbCategory.Productdescription = item.Productdescription;
-                        dbCategory.Userid = item.Userid;
-                        dbCategory.Createddate = item.Createddate;
-                        dbCategory.Isdeleted = item.Isdeleted;
-                        context.SaveChanges();
-                    }
-                
-                    else
-                    {
-                        throw new ArgumentException("Categpry name Already Exit");
-                    }
-                return dbCategory;
+                    dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();
+                    dbCategory.Productname = item.Productname;
+                    dbCategory.Productdescription = item.Productdescription;
+                    dbCategory.Userid = item.Userid;
+                    dbCategory.Createddate = item.Createddate;
+                    dbCategory.Isdeleted = item.Isdeleted;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentException("Product name Already Exit");
+                }
             }
-            
+                return dbCategory;
         }
         public void DeleteProduct(long id)
         {

@@ -69,6 +69,9 @@ namespace HRInventories.Services
             var dbCategory = new Catagory();
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
+                var isExist = context.Catagory.Where(k => k.Categoryname == item.Categoryname).Any();
+                if (!isExist)
+                {
                     dbCategory = context.Catagory.Where(k => k.Categoryid == item.Categoryid).FirstOrDefault();
                     dbCategory.Categoryname = item.Categoryname;
                     dbCategory.Categorydescription = item.Categorydescription;
@@ -76,7 +79,11 @@ namespace HRInventories.Services
                     dbCategory.Createddate = item.Createddate;
                     dbCategory.Isdeleted = item.Isdeleted;
                     context.SaveChanges();
-                
+                }
+                else
+                {
+                    throw new ArgumentException("Category name Already Exit");
+                }
             }
             return dbCategory;
         }
