@@ -88,7 +88,7 @@ namespace HRInventories.Services
             var dbCategory = new Product();
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                var isExist = context.Product.Where(k => k.Productname == item.Productname).Any();
+                var isExist = context.Product.Where(k => k.Productname == item.Productname && k.Productid == item.Productid).Any();
                 if (!isExist)
                 {
                     dbCategory = context.Product.Where(k => k.Productid == item.Productid).FirstOrDefault();
