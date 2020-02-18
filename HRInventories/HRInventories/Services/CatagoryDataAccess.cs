@@ -70,6 +70,7 @@ namespace HRInventories.Services
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
                 var isExist = context.Catagory.Where(k => k.Categoryname == item.Categoryname && k.Categoryid == item.Categoryid).Any();
+
                 if (!isExist)
                 {
                     dbCategory = context.Catagory.Where(k => k.Categoryid == item.Categoryid).FirstOrDefault();
