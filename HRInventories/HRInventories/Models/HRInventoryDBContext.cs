@@ -101,9 +101,7 @@ namespace HRInventories.Models
 
                 entity.ToTable("dispatchdetails");
 
-                entity.Property(e => e.Dispatchdetailid)
-                    .HasColumnName("dispatchdetailid")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Dispatchdetailid).HasColumnName("dispatchdetailid");
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
@@ -137,9 +135,7 @@ namespace HRInventories.Models
 
                 entity.ToTable("dispatchmaster");
 
-                entity.Property(e => e.Dispatchid)
-                    .HasColumnName("dispatchid")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Dispatchid).HasColumnName("dispatchid");
 
                 entity.Property(e => e.Createddate).HasColumnName("createddate");
 
@@ -169,9 +165,7 @@ namespace HRInventories.Models
             {
                 entity.ToTable("podetail");
 
-                entity.Property(e => e.Podetailid)
-                    .HasColumnName("podetailid")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Podetailid).HasColumnName("podetailid");
 
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
@@ -244,9 +238,7 @@ namespace HRInventories.Models
             {
                 entity.ToTable("product");
 
-                entity.Property(e => e.Productid)
-                    .HasColumnName("productid")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Productid).HasColumnName("productid");
 
                 entity.Property(e => e.Categoryid).HasColumnName("categoryid");
 
@@ -286,9 +278,7 @@ namespace HRInventories.Models
 
                 entity.ToTable("reqestmaster");
 
-                entity.Property(e => e.Requestid)
-                    .HasColumnName("requestid")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Requestid).HasColumnName("requestid");
 
                 entity.Property(e => e.Createddate)
                     .HasColumnName("createddate")
@@ -313,9 +303,7 @@ namespace HRInventories.Models
             {
                 entity.ToTable("requestdetail");
 
-                entity.Property(e => e.Requestdetailid)
-                    .HasColumnName("requestdetailid")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Requestdetailid).HasColumnName("requestdetailid");
 
                 entity.Property(e => e.Createddate)
                     .HasColumnName("createddate")
