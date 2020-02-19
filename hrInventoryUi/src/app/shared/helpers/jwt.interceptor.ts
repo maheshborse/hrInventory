@@ -21,7 +21,7 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private authService: AuthenticationService,private router: Router){}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const url = environment.baseUrl;
+        const url = environment.API_URL;
         // add authorization header with jwt token if available
         let token = '';
   
