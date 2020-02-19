@@ -83,8 +83,7 @@ export class DispatchToEmployeeComponent implements OnInit {
   }
 
   getDispatchDataEdit(dispatchData:any,checkLabel:any){
-    debugger;
-    console.log( this.selectedRequestDetails);
+      console.log( this.selectedRequestDetails);
       this.dispatchFillGrid =[];
       this.dispatchSaveList =[];
       this.dispatchid= dispatchData.dispatchid;
@@ -120,6 +119,7 @@ export class DispatchToEmployeeComponent implements OnInit {
   }
 
   addData(){
+    debugger;
     var adddispatchEmployeeModel = new DispatchToEmployeemodel();
     adddispatchEmployeeModel.DispatchmasterVmodel =new  dispatchToEmployeeMaster();
     adddispatchEmployeeModel.DispatchmasterVmodel.Dispatchid = this.dispatchid;
@@ -169,9 +169,11 @@ export class DispatchToEmployeeComponent implements OnInit {
     let  employeeSelected = this.getallrequestData.filter(k=>k.employeeid == event);
     for (let index = 0; index < employeeSelected.length; index++) {
       for (let j = 0; j < employeeSelected[index].requestDetailModels.length; j++) {
+        
         if(employeeSelected[index].requestDetailModels[j].status == "Approved"){
           this.requetDetailsForGetProduct.push(employeeSelected[index].requestDetailModels[j]);
         }
+        this.employeeName = employeeSelected[index].users[0].displayName;
       }   
     }
     

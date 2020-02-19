@@ -36,8 +36,8 @@ export class EditRequestComponent implements OnInit {
    
     debugger;
     if(data.event === 'edit' ){
-      for(var i=0 ; i< data.RequestdetailModelongrid.length;i++){
-        this.fetchData.push(data.RequestdetailModelongrid[i]);
+      for(var i=0 ; i< data.element.RequestdetailModelongrid.length;i++){
+        this.fetchData.push(data.element.RequestdetailModelongrid[i]);
       }
       this.checkEdit = true;
      } else {
@@ -182,13 +182,12 @@ export class EditRequestComponent implements OnInit {
 
 
   checkAlredyExist(all:any){
-    
-      for (let index = 0; index < all[0].length; index++) {
-        for (let i = 0; i < all[0][index].RequestdetailModelongrid.length; i++) {
-          if (all[0][index].RequestdetailModelongrid[i].Productid === this.productId && (all[0][index].RequestdetailModelongrid[i].Status === "Out of Stock" || all[0][index].RequestdetailModelongrid[i].Status ==="Pending")){
+   
+      for (let index = 0; index < all[0].element.length; index++) {
+        for (let i = 0; i < all[0].element[index].RequestdetailModelongrid.length; i++) {
+          if (all[0].element[index].RequestdetailModelongrid[i].Productid === this.productId && (all[0].element[index].RequestdetailModelongrid[i].Status === "Out of Stock" || all[0].element[index].RequestdetailModelongrid[i].Status ==="Pending" || all[0].element[index].RequestdetailModelongrid[i].Status =="Approved" )){
             this.checkAlredy = true;
           } 
-         
         }
       }
   }
