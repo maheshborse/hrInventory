@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Dispatch Details</h2>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Purchase Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dispatch of dispatchFillGrid ; let i = index">
+        <td>
+            {{dispatch.ProductName}}
+        </td>
+        <td>
+            {{dispatch.Quantity}}
+        </td>
+     </tr>
+     </tbody>
+  </table>
+  <hr>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close mat-raised-button color="warn" class="customButton" >Cancel</button>
+ </mat-dialog-actions>

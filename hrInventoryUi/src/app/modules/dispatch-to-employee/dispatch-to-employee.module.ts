@@ -6,6 +6,7 @@ import { MatTableModule, MatSortModule, MatButtonModule, MatPaginatorModule, Mat
 
 import { DispatchToEmployeeRoutingModule } from './dispatch-to-employee-routing.module';
 import { DispatchToEmployeeComponent } from './dispatch-to-employee.component';
+import { ShowDispatchInfoComponent } from './show-dispatch-info/show-dispatch-info.component';
 
 
 @NgModule({

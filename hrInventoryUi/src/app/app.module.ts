@@ -40,6 +40,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
 import { ProductService } from './shared/services/product.service';
 import { EditRequestComponent } from './modules/request/edit-request/edit-request.component';
 import { MatSlideToggleModule, MatRadioModule } from '@angular/material';
+import { ShowDispatchInfoComponent } from './modules/dispatch-to-employee/show-dispatch-info/show-dispatch-info.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,7 @@ import { MatSlideToggleModule, MatRadioModule } from '@angular/material';
     ChatMsgComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,
-    EditProductComponent,EditCategoryComponent, EditRequestComponent
+    EditProductComponent,EditCategoryComponent, EditRequestComponent, ShowDispatchInfoComponent
    
   ],
   imports: [
@@ -90,7 +91,7 @@ import { MatSlideToggleModule, MatRadioModule } from '@angular/material';
   ],
   
   bootstrap: [AppComponent],
-  entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent,EditRequestComponent]
+  entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent,EditRequestComponent, ShowDispatchInfoComponent]
   
 })
 export class AppModule { }

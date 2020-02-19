@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { ProductService } from 'src/app/shared/services/product.service';
 import * as _ from 'lodash';
 import { dispatchmaterialGrid, DispatchToEmployeemodel, dispatchToEmployeeMaster, dispatchDetails} from 'src/app/shared/models/dispatch-to-employee';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { RequestService } from 'src/app/shared/services/request.service';
 import { requestDetailonGrid, RequestViewModel, requestMaster, requestDetail, fillrequestGirdData } from 'src/app/shared/models/request';
+import { ShowDispatchInfoComponent } from './show-dispatch-info/show-dispatch-info.component';
 
 @Component({
   selector: 'app-dispatch-to-employee',
@@ -49,7 +50,7 @@ export class DispatchToEmployeeComponent implements OnInit {
   requetDetailsForGetProduct:any=[];
   userInfo: any;
     
-  constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService,public request:RequestService) { 
+  constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService,public request:RequestService,public dialog: MatDialog) { 
     this.dispatchList();
   }
 
@@ -372,6 +373,21 @@ export class DispatchToEmployeeComponent implements OnInit {
     this.employeeName = "";
     this.ProductName = "";
     this.selectedValue ="";
+  }
+
+  showDialogue(element:dispatchmaterialGrid){
+    var detailsProduct =this.selectedRequestDetails
+    const dialogRef = this.dialog.open(ShowDispatchInfoComponent,{
+      width: '550px',
+      panelClass: 'full-width-dialog',
+      disableClose: true,
+      data: {element,detailsProduct},
+      
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
   }
  
 }
