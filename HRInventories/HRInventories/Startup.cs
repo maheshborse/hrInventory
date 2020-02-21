@@ -71,11 +71,19 @@ namespace HRInventories
             else
             {
                 string connString1 = con1;
-                Connectionstrings connectionString1 = new Connectionstrings() { DatabaseConnection = connString1 };
+                Connectionstrings connectionString1 = new Connectionstrings() { DatabaseConnections = connString1, DatabaseName = qa, DatabaseConnection = connString1 };
                 services.AddDbContext<HRInventoryDBContext>(options => options.UseNpgsql(connString1));
                 services.AddSingleton(connectionString1);
 
             }
+            //else
+            //{
+            //    string connString1 = con1;
+            //    Connectionstrings connectionString1 = new Connectionstrings() { DatabaseConnection = connString1 };
+            //    services.AddDbContext<HRInventoryDBContext>(options => options.UseNpgsql(connString1));
+            //    services.AddSingleton(connectionString1);
+
+            //}
 
             //services.AddDbContext<HRInventoryDBContext>(options => options.UseSqlServer(connString));
 
