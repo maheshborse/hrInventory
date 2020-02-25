@@ -1,5 +1,4 @@
 ﻿using HRInventories.Models;
-//using HRInventories.SQLModels;
 using HRInventories.Services.Interface;
 using HRInventories.UIModels;
 using Microsoft.EntityFrameworkCore;
