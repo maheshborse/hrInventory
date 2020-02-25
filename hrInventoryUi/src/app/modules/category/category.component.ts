@@ -50,7 +50,6 @@ export class CategoryComponent implements OnInit {
   }
 
   openDialog(element:category){
-    
     const dialogRef = this.dialog.open(EditCategoryComponent,{
       width: '500px',
       panelClass: 'full-width-dialog',
@@ -58,7 +57,6 @@ export class CategoryComponent implements OnInit {
       data: element
     });
     dialogRef.afterClosed().subscribe(result => {
-      
       if(result !== "" ){
         this.categoryList();
         this.notificationService.success("Successfully saved.");
