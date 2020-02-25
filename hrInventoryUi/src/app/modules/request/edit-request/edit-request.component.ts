@@ -33,8 +33,6 @@ export class EditRequestComponent implements OnInit {
   requestId:number;
   
   constructor(private productService:ProductService,private notificationService : NotificationService,public request:RequestService,public dialogRef: MatDialogRef<EditRequestComponent>,@Optional()  @Inject(MAT_DIALOG_DATA) data:any) {
-   
-    debugger;
     if(data.event === 'edit' ){
       for(var i=0 ; i< data.element.RequestdetailModelongrid.length;i++){
         this.fetchData.push(data.element.RequestdetailModelongrid[i]);
@@ -43,8 +41,7 @@ export class EditRequestComponent implements OnInit {
      } else {
        this.checkEdit =false;
        this.getAllData.push(data);
-       
-     }
+    }
     
    }
 
@@ -86,7 +83,6 @@ export class EditRequestComponent implements OnInit {
 
   clickEditOrSave(){
     debugger;
-
       if(this.checkEdit === false){
         this.checkAlredyExist(this.getAllData);
       } 

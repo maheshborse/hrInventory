@@ -5,7 +5,7 @@
         <i class="material-icons search-icon searchIcon">search</i>
         <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.." [(ngModel)]="searchOption"></div>
     <div class="col-sm-4" >
-        <button *ngIf="checkIsAdmin !== true" mat-raised-button color="primary" class="buttonLeft" (click)="openDialog(dataSource.data,'add')">
+        <button *ngIf="checkIsAdmin !== true" mat-raised-button color="primary" class="buttonLeft" (click)="openDialog('','add')">
         Add Request
      </button>
     </div>
@@ -24,9 +24,9 @@
       Employee ID : {{parcel.Employeeid}}
       <ng-container  *ngFor="let details of parcel.RequestdetailModelongrid ; let i = index" >
         <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel,'edit')" [hidden]="(details.Status === 'Approved'|| details.Status ==='delivered')">mode_edit</i>
-        <ng-container *ngIf="(details.Status === 'Approved'|| details.Status ==='delivered')">
+        
           <i *ngIf="checkIsAdmin !== true"  class="material-icons" (click)="delete(parcel.Requestid)" style="cursor: pointer;" [hidden]="(details.Status !== 'Pending')">delete </i>
-        </ng-container>
+       
       </ng-container>
      
     </mat-panel-description>

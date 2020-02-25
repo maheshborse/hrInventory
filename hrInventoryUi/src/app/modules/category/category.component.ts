@@ -50,6 +50,7 @@ export class CategoryComponent implements OnInit {
   }
 
   openDialog(element:category){
+    
     const dialogRef = this.dialog.open(EditCategoryComponent,{
       width: '500px',
       panelClass: 'full-width-dialog',

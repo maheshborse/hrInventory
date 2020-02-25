@@ -136,7 +136,7 @@ export class RequestComponent implements OnInit {
             }
             if(alradyapproved == true){
               this.notificationService.error("Please dispatch already approved record for selected product");
-            } else  if(curruntStock === 0 ){
+            } else  if(curruntStock === 0 && event !== 'Out of Stock'){
               this.notificationService.error("You are not able to change status beacuse  is " + curruntStock );
             } else {
                 data.RequestdetailModelongrid[index].Status = event;
