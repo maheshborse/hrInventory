@@ -23,7 +23,11 @@ export class RequestComponent implements OnInit {
   userInfo:any;
   checkIsAdmin:boolean =false;
   chooseStatus :string;
+  searchOption:string="";
   requestDetails :Array<requestDetailonGrid> =[];
+  tempFilter = [];
+  checkStock:any=[];
+  
   constructor(public dialog: MatDialog,public request:RequestService,private notificationService : NotificationService,iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     
   }
@@ -36,7 +40,6 @@ export class RequestComponent implements OnInit {
 
 
   openDialog(element:RequestViewModel,event:any){
-   
     const dialogRef = this.dialog.open(EditRequestComponent,{
       width: '550px',
       panelClass: 'full-width-dialog',
@@ -48,7 +51,6 @@ export class RequestComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if(result === "error"){
-
       } else {
         if(result !== ""){
           this.productList();
@@ -57,13 +59,13 @@ export class RequestComponent implements OnInit {
       }
     });
   }
-checkStock:any=[];
+
   productList(){
-  
     this.request.getRequestdetail()
      .subscribe(
       data => {
         var showonGrid = new showongrid();
+        debugger;
         showonGrid.Reqestmastermodelongrid = new Array<showOnGridmaster>();
         for (let index = 0; index < data.length; index++) {
           if(data[index].employeeid ==  this.userInfo.id || this.userInfo.isAdmin == true ){
@@ -78,6 +80,7 @@ checkStock:any=[];
            customObj.RequestdetailModelongrid =[];
            showonGrid.Reqestmastermodelongrid.push(customObj);
           for (let i = 0; i < data[index].requestDetailModels.length; i++) {
+           
               let child = new requestDetailonGrid()
               child.Productid = data[index].requestDetailModels[i].productid;
               child.ProductName = data[index].requestDetailModels[i].productModels.productname;
@@ -90,16 +93,17 @@ checkStock:any=[];
               child.Requestdetailid = data[index].requestDetailModels[i].requestdetailid;
               this.checkStock.push(data[index].requestDetailModels[i].productModels)
               customObj.RequestdetailModelongrid.push(child);
-              
               this.requestDetails.push(child);
+              
             }
           }
-          }
+        }
+        
+          debugger;
           this.dataSource.data = showonGrid.Reqestmastermodelongrid;
-          this.dataSource.filterPredicate = function(data:any, filter: string): boolean {
-            return data.Employeeid.toLowerCase().includes(filter)
-          };
-         
+          this.tempFilter = this.dataSource.data;
+          
+          
       }
      );
   }
@@ -150,11 +154,11 @@ checkStock:any=[];
  
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-
-  }
+    const val = this.searchOption.toLowerCase().trim();
+    this.dataSource.data = this.tempFilter.filter(function (d:any) {
+        return d.EmployeeName.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+ }
   
 
   delete(i:any){

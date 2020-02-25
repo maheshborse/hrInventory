@@ -46,22 +46,33 @@ export class PurchaseComponent implements OnInit {
   Rate:number=null;
   QUantity: number=null;
   Productname: string="";
-  
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
-  displayedColumns: string[] = ['poNumber', 'poDate','totalAmount','discount','finalAmount','action'];
- 
-  
-  constructor(private productService:ProductService,private purchaseService :PurchaseService,private notificationService : NotificationService) {
+  private paginator;
+  private sort;
+
+  @ViewChild(MatSort,{static:false}) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
     
+  @ViewChild(MatPaginator,{static:false}) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  displayedColumns: string[] = ['poNumber', 'poDate','totalAmount','discount','finalAmount','action'];
+   constructor(private productService:ProductService,private purchaseService :PurchaseService,private notificationService : NotificationService) {
+  }
+
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit() {
     this.detailsProduct();
     this.PurchaseList();
-    this.dataSource.paginator = this.paginator;
   }
-
+  
   openPoList(){
     this.hidemainGrid = false;
     this.checkAddPoDetails = false;
@@ -83,7 +94,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   openPoDetails(){
-    debugger;
     if(this.dataSource.data.length === 0 ){
       this.poid = 0;
       this.poid = this.poid + 1;

@@ -73,10 +73,11 @@ export class ProductComponent implements OnInit {
         this.notificationService.success("Successfully Saved")
       }
     });
+    this.productList();
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.toLowerCase().trim();
   }
 
   delete(id:any,name:any){

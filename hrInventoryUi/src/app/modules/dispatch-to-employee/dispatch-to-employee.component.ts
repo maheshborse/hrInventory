@@ -20,7 +20,7 @@ import { ShowDispatchInfoComponent } from './show-dispatch-info/show-dispatch-in
 export class DispatchToEmployeeComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator,{static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['employeeName','dispatchdate','totalqty','action'];
   dataSource = new MatTableDataSource();
   dispatchDate :Date;
@@ -49,14 +49,25 @@ export class DispatchToEmployeeComponent implements OnInit {
   getallrequestData:any;
   requetDetailsForGetProduct:any=[];
   userInfo: any;
+  
+  @ViewChild(MatSort,{static:false}) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
     
+  @ViewChild(MatPaginator,{static:false}) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
   constructor(private route: ActivatedRoute,private productService:ProductService,private dispatchToEmployeeService :DispatchToEmployeeService,private notificationService : NotificationService,public request:RequestService,public dialog: MatDialog) { 
     this.dispatchList();
   }
-
-  ngOnInit() {
-    this.dataSource.sort = this.sort;
+  setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  ngOnInit() {
+    debugger;
     this.userInfo = JSON.parse(localStorage.getItem("user"));
     this.dispatchList();
     this.getEmployee();

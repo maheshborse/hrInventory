@@ -16,10 +16,3 @@
   margin-left: 8px;
 }
 
-
-:host /deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-  background-color: lightgreen !important;
-}
-:host /deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-  background-color: green !important;
-}

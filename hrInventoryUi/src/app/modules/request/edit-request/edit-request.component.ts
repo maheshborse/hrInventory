@@ -85,7 +85,11 @@ export class EditRequestComponent implements OnInit {
   }
 
   clickEditOrSave(){
-      this.checkAlredyExist(this.getAllData);
+    debugger;
+
+      if(this.checkEdit === false){
+        this.checkAlredyExist(this.getAllData);
+      } 
       var addrequestViewModel = new RequestViewModel();
       addrequestViewModel.Reqestmastermodel =new  requestMaster();
       addrequestViewModel.Reqestmastermodel.Employeeid = this.userInfo.id;
@@ -132,16 +136,16 @@ export class EditRequestComponent implements OnInit {
       customObj.Employeeid  = this.userInfo.id; 
       customObj.Isread = false;
       customObj.Quantity =this.fetchData[i].Quantity;
-      customObj.Status = "Pending";
-      customObj.Isdeleted= "false";
+      customObj.Status = this.fetchData[i].Status;
+      customObj.Isdeleted= this.fetchData[i].Isdeleted;
       customObj.Userid = this.userInfo.id;
-      customObj.Isdeleted = "false";
-      customObj.Createddate = new Date();
+      customObj.Createddate =this.fetchData[i].Createddate;
       customObj.Requestid = this.fetchData[i].Requestid;
       customObj.Requestdetailid = this.fetchData[i].Requestdetailid;
       this.requestFillGrid.push(customObj);
       this.requestSaveList.push(customObj);
       this.requestId =  this.fetchData[i].Requestid;
+
      }
       
   }
