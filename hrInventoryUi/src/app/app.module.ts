@@ -91,7 +91,7 @@ import { ShowDispatchInfoComponent } from './modules/dispatch-to-employee/show-d
   ],
   
   bootstrap: [AppComponent],
-  entryComponents:[SnackbarComponent,EditProductComponent,EditCategoryComponent,EditRequestComponent, ShowDispatchInfoComponent]
+  entryComponents:[EditProductComponent,EditCategoryComponent,EditRequestComponent, ShowDispatchInfoComponent]
   
 })
 export class AppModule { }
