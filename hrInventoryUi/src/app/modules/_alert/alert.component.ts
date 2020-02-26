@@ -60,14 +60,15 @@ export class AlertComponent implements OnInit, OnDestroy {
    
 }
 
-@Component({
-    selector: 'snack-bar-component-example-snack',
-    template: '<div *ngFor="let alert of alerts" class="{cssClass(alert)}}">{{alert.message}}</div>',
-    styles: [`
-      .example-pizza-party {
-        color: hotpink;
-      }
-    `],
-  })
-  export class SnackbarComponent {
-  }
+// @Component({
+//     selector: 'snack-bar-component-example-snack',
+//     template: '<div *ngFor="let alert of alerts" class="{cssClass(alert)}}">{{alert.message}}</div>',
+//     styles: [`
+//       .example-pizza-party {
+//         color: hotpink;
+//       }
+//     `],
+//   })
+//   export class SnackbarComponent {
+
+//   }

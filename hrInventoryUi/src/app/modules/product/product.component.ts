@@ -23,6 +23,7 @@ export class ProductComponent implements OnInit {
   categoryData : any;
   categoryName:any;
   showDataOnGrid: Array<showOnGrid> = [];
+  tempFilter =[];
  
   constructor(public dialog: MatDialog,private productService:ProductService,private productCategoryService: ProductCategoryService,private notificationService : NotificationService) {
     this.productList();
@@ -53,6 +54,7 @@ export class ProductComponent implements OnInit {
           this.showDataOnGrid.push(customObj);
         }
         this.dataSource.data =  this.showDataOnGrid;
+        this.tempFilter = this.dataSource.data;
       }
      
      );
@@ -70,7 +72,7 @@ export class ProductComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
       if(result !== ""){
         this.productList();
-        this.notificationService.success("Successfully Saved")
+        this.notificationService.success("Product "+`${result.productname}`+" Saved Successfully")
       }
     });
     this.productList();
@@ -87,14 +89,18 @@ export class ProductComponent implements OnInit {
       console.log(`Dialog result: ${result.productname}`);
       if(result !== ""){
         this.productList();
-        this.notificationService.success("Successfully Saved")
+        this.notificationService.success("Product "+`${result.productname}`+" Saved Successfully")
       }
     });
     this.productList();
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.toLowerCase().trim();
+    //this.dataSource.filter = filterValue.toLowerCase().trim();
+    const val = filterValue.toLowerCase().trim();
+    this.dataSource.data = this.tempFilter.filter(function (d:any) {
+      return d.productname.toLowerCase().indexOf(val) !== -1 || !val;
+  });
   }
 
   delete(id:any,name:any){

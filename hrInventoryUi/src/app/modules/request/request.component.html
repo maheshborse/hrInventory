@@ -3,7 +3,7 @@
   <div class="row tableheader">
     <div class="col-sm-8">
         <i class="material-icons search-icon searchIcon">search</i>
-        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.." [(ngModel)]="searchOption"></div>
+        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search on employee name" [(ngModel)]="searchOption"></div>
     <div class="col-sm-4" >
         <button *ngIf="checkIsAdmin !== true" mat-raised-button color="primary" class="buttonLeft" (click)="openDialog('','add')">
         Add Request
@@ -23,10 +23,8 @@
     <mat-panel-description >
       Employee ID : {{parcel.Employeeid}}
       <ng-container  *ngFor="let details of parcel.RequestdetailModelongrid ; let i = index" >
-        <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel,'edit')" [hidden]="(details.Status === 'Approved'|| details.Status ==='delivered')">mode_edit</i>
-        
-          <i *ngIf="checkIsAdmin !== true"  class="material-icons" (click)="delete(parcel.Requestid)" style="cursor: pointer;" [hidden]="(details.Status !== 'Pending')">delete </i>
-       
+        <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel,'edit')" [hidden]="details.Status !== 'Pending'">mode_edit</i>
+        <i *ngIf="checkIsAdmin !== true"  class="material-icons" (click)="delete(parcel.Requestid)" style="cursor: pointer;" [hidden]="details.Status !== 'Pending'">delete </i>
       </ng-container>
      
     </mat-panel-description>

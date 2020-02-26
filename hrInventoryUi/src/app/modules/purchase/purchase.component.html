@@ -2,7 +2,7 @@
 <div class="row tableheader">
     <div class="col-sm-8">
         <i class="material-icons search-icon searchIcon">search</i>
-        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.."></div>
+        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search on po number"></div>
     <div class="col-sm-4">
         <button mat-raised-button color="primary" class="buttonLeft" (click)="openPoDetails('add')">
         Add Po Details
@@ -11,15 +11,15 @@
 </div>
 </div>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-    <ng-container matColumnDef="poNumber">
+    <ng-container matColumnDef="poid">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Po Number </th>
         <td mat-cell *matCellDef="let element"> {{element.poid}} </td>
     </ng-container>
-    <ng-container matColumnDef="poDate">
+    <ng-container matColumnDef="podate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Po Date </th>
         <td mat-cell *matCellDef="let element"> {{element.podate | date :'dd/MM/yyyy'}} </td>
     </ng-container>
-    <ng-container matColumnDef="totalAmount">
+    <ng-container matColumnDef="totalamount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
         <td mat-cell *matCellDef="let element"> {{element.totalamount}} </td>
     </ng-container>
@@ -27,7 +27,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
         <td mat-cell *matCellDef="let element"> {{element.discount}} % </td>
     </ng-container>
-    <ng-container matColumnDef="finalAmount">
+    <ng-container matColumnDef="finalamount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Final Amount </th>
         <td mat-cell *matCellDef="let element"> {{element.finalamount}} </td>
     </ng-container>

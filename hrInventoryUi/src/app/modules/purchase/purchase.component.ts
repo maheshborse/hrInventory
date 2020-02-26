@@ -59,11 +59,13 @@ export class PurchaseComponent implements OnInit {
     this.setDataSourceAttributes();
   }
 
-  displayedColumns: string[] = ['poNumber', 'poDate','totalAmount','discount','finalAmount','action'];
+  displayedColumns: string[] = ['poid', 'podate','totalamount','discount','finalamount','action'];
    constructor(private productService:ProductService,private purchaseService :PurchaseService,private notificationService : NotificationService) {
+    this.PurchaseList();
   }
 
   setDataSourceAttributes() {
+    debugger;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -71,6 +73,8 @@ export class PurchaseComponent implements OnInit {
   ngOnInit() {
     this.detailsProduct();
     this.PurchaseList();
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
   
   openPoList(){
@@ -78,6 +82,7 @@ export class PurchaseComponent implements OnInit {
     this.checkAddPoDetails = false;
     this.PurchaseList();
     this.getdefault();
+   
   }
 
   getdefault(){
