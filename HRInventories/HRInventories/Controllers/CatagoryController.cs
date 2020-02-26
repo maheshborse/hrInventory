@@ -74,6 +74,7 @@ namespace HRInventories.Controllers
             try
             {
                 Catagory catagoryToUpdate =_iCatagoryDataAccess.UpdateCatagory(categories);
+               
                 return Ok();
             }
             catch (ArgumentException ex)

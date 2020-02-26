@@ -53,10 +53,10 @@ namespace HRInventories.UnitTests.Controller
         }
 
         [Test]
-        public void UpdateCatagoryValid()
+        public async Task UpdateCatagoryValid()
         {
            // var response = await _CatagoryController.UpdateCategory(2, new CatagoryModel() { Categoryname = "Bed2", Categorydescription = "Room2", Userid = "2", Isdeleted = "false" });
-            var response = _CatagoryController.UpdateCategory(2,  new CatagoryModel() { Categoryname = "Bed1", Categorydescription = "Room2", Userid = "2", Isdeleted = "false" });
+            var response = await _CatagoryController.UpdateCategory(2,  new CatagoryModel() { Categoryname = "Bed1", Categorydescription = "Room2", Userid = "2", Isdeleted = "false" });
             Assert.AreEqual(StatusCodes.Status200OK, ((StatusCodeResult)response).StatusCode);
         }
 

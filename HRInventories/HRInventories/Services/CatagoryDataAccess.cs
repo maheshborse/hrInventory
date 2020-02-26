@@ -36,7 +36,7 @@ namespace HRInventories.Services
                     }
                     else
                     {
-                        throw new ArgumentException("Categpry name Already Exit");
+                        throw new ArgumentException("Category name Already Exit");
                     }
             }
         }
@@ -68,7 +68,7 @@ namespace HRInventories.Services
             var dbCategory = new Catagory();
             using (HRInventoryDBContext context = new HRInventoryDBContext(_connectionstring))
             {
-                var isExist = context.Catagory.Where(k => k.Categoryname == item.Categoryname).Any();
+                var isExist = context.Catagory.Where(k => k.Categoryid != item.Categoryid && k.Categoryname.Equals(item.Categoryname, StringComparison.InvariantCultureIgnoreCase)).Any();
 
                 if (!isExist)
                 {
@@ -82,7 +82,7 @@ namespace HRInventories.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Category name Already Exit");
+                    throw new ArgumentException("category name Already Exit");
                 }
             }
             return dbCategory;
