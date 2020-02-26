@@ -123,7 +123,7 @@ export class RequestComponent implements OnInit {
       for (let index = 0; index < addrequestViewModel.RequestdetailModel.length; index++) {
         if(addrequestViewModel.RequestdetailModel[index].Requestdetailid === id ){
            debugger;
-            if(data.RequestdetailModelongrid[index].Status === "Approved" || data.RequestdetailModelongrid[index].Status=="Pending"){
+            if(data.RequestdetailModelongrid[index].Status === "Approved" || data.RequestdetailModelongrid[index].Status==="Pending" ||  data.RequestdetailModelongrid[index].Status === 'Out of Stock'){
             var  stock = this.checkStock.filter(k=> k.productid === addrequestViewModel.RequestdetailModel[index].Productid);
             var  curruntStock = stock[0].balance; 
             data.RequestdetailModelongrid[index].Status = "Pending";
@@ -138,6 +138,7 @@ export class RequestComponent implements OnInit {
               this.notificationService.error("Please dispatch already approved record for selected product");
             } else  if(curruntStock === 0 && event !== 'Out of Stock'){
               this.notificationService.error("You are not able to change status beacuse  is " + curruntStock );
+              data.RequestdetailModelongrid[index].Status = "Out of Stock";
             } else {
                 data.RequestdetailModelongrid[index].Status = event;
                 this.request.patchRequest(addrequestViewModel,id).subscribe(

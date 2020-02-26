@@ -60,7 +60,7 @@ export class CategoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== "" ){
         this.categoryList();
-        this.notificationService.success("Category"+" "+`${result.categoryname}`+" " +"Successfully saved.");
+        this.notificationService.success("Category"+" "+`${result.categoryname}`+"  " +"Successfully saved.");
       }
     });
     this.categoryList();
