@@ -29,7 +29,6 @@ import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from './modules/_alert/alert.module';
-import { SnackbarComponent } from './modules/_alert/alert.component';
 import { DemoMaterialModule } from './demo-material-module';
 import { EditProductComponent } from './modules/product/edit-product/edit-product/edit-product.component';
 import { EditCategoryComponent } from './modules/category/edit-category/edit-category.component';
