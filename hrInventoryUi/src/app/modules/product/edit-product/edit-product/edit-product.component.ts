@@ -108,7 +108,6 @@ export class EditProductComponent implements OnInit {
      .subscribe(
        success => {
         this.dialogRef.close(this.dummyProduct);
-        
       },
        error => {
         

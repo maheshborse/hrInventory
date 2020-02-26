@@ -14,10 +14,9 @@ export class ShowDispatchInfoComponent implements OnInit {
    debugger;
 
     for(var i=0 ; i< data.element.dispatchdetailsModels.length;i++){
-      
       let customObj = new dispatchmaterialGrid();
       customObj.Productid = data.element.dispatchdetailsModels[i].productid;
-      let ProductName = data.detailsProduct.filter(k=> k.productid == data.element.dispatchdetailsModels[i].productid && k.status == "delivered");
+      let ProductName = data.detailsProduct.filter(k=> k.productid == data.element.dispatchdetailsModels[i].productid);
       customObj.ProductName = ProductName[0].productModels.productname;
       customObj.Quantity=data.element.dispatchdetailsModels[i].quantity;
       customObj.Dispatchdetailid =data.element.dispatchdetailsModels[i].dispatchdetailid;

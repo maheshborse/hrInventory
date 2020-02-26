@@ -23,13 +23,17 @@ export class CategoryComponent implements OnInit {
   displayedColumns: string[] = ['categoryname', 'categorydescription','action'];
   dataSource = new MatTableDataSource();
   searchKey:string;
+  userInfo:any;
   durationInSeconds = 5;
+  
 
   constructor(public dialog: MatDialog,private productCategoryService:ProductCategoryService,private _snackBar: MatSnackBar,public notificationService:NotificationService) { 
      this.categoryList();
   }
   
   ngOnInit() {
+    debugger;
+    this.userInfo = JSON.parse(localStorage.getItem("user"));
     this.categoryList();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -45,7 +49,23 @@ export class CategoryComponent implements OnInit {
       );
   }
 
+  openDialogForAdd(){
+    const dialogRef = this.dialog.open(EditCategoryComponent,{
+      width: '500px',
+      panelClass: 'full-width-dialog',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== "" ){
+        this.categoryList();
+        this.notificationService.success("Successfully saved.");
+      }
+    });
+    this.categoryList();
+  }
+
   openDialog(element:category){
+   
     const dialogRef = this.dialog.open(EditCategoryComponent,{
       width: '500px',
       panelClass: 'full-width-dialog',
@@ -53,15 +73,16 @@ export class CategoryComponent implements OnInit {
       data: element
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result !== ""){
+      if(result !== "" ){
         this.categoryList();
-        this.notificationService.success("Successfully saved.")
+        this.notificationService.success("Successfully saved.");
       }
     });
+    this.categoryList();
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.toLowerCase().trim();
   }
 
   delete(id:any,name:any){

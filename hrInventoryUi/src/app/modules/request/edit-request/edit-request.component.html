@@ -28,7 +28,7 @@
         </form>
     </div>
     <br>
-    <button mat-raised-button color="primary" style="border-radius: 20px !important;"  [disabled]=" quantity =='' || ProductName == '' "  (click)="addDataOnGrid()"  >
+    <button mat-raised-button color="primary" style="border-radius: 20px !important;"  [disabled]=" quantity =='' || productName == '' "  (click)="addDataOnGrid()"  >
         Add 
     </button>
      <br>
@@ -52,9 +52,18 @@
                    {{fill.Quantity}}
                 </td>
                 
-                <td>
-                    <i class="material-icons" style="cursor: pointer;" (click)="deletematerialonGird(i)">delete</i>
-                </td>
+                <td >
+                    <i [hidden]="fill.Status === 'Approved' || fill.Status === 'delivered'" class="material-icons" style="cursor: pointer;" (click)="deletematerialonGird(i)" >delete</i>
+                    <span  *ngIf="fill.Status === 'Approved' || fill.Status === 'delivered'">
+                        {{fill.Status}}
+                    </span>
+                </td >
+                <!-- <td >
+                    <span>
+                        {{fill.Status}}
+                    </span>
+                </td  > -->
+              
              </tr>
              </tbody>
           </table>

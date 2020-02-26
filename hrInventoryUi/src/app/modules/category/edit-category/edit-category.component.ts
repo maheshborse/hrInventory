@@ -18,7 +18,7 @@ export class EditCategoryComponent implements OnInit {
     creadtedDate:new Date(),
     isdeleted:"false"
   }
-
+  userInfo:any;
 
   constructor( public dialogRef: MatDialogRef<EditCategoryComponent>,
     private productCategoryService:ProductCategoryService, @Optional()  @Inject(MAT_DIALOG_DATA) data:any) {
@@ -27,14 +27,15 @@ export class EditCategoryComponent implements OnInit {
       this.dummyCategory.categoryid = data.categoryid;
       this.dummyCategory.categoryname = data.categoryname;
       this.dummyCategory.categorydescription = data.categorydescription;
-      this.dummyCategory.Userid = 1;
-      this.dummyCategory.creadtedDate = new Date();
+      this.dummyCategory.Userid = data.userid;
+      this.dummyCategory.creadtedDate = data.creadteddate;
       this.dummyCategory.isdeleted=data.isdeleted;
     }
 
    }
 
   ngOnInit() {
+    this.userInfo = JSON.parse(localStorage.getItem("user"));
   }
 
   categoryNameValidator: FormControl =  new FormControl('', [Validators.required, this.noWhitespaceValidator]);
@@ -51,15 +52,17 @@ export class EditCategoryComponent implements OnInit {
 
 
   clickEditOrSave(){
+   
    if (this.dummyCategory.categoryid === 0) {
     this.dummyCategory.isdeleted="false";
+    this.dummyCategory.Userid =this.userInfo.id;
     this.productCategoryService.postRequest(this.dummyCategory)
     .subscribe(
       success => {
-       this.dialogRef.close(this.dummyCategory);
+        this.dialogRef.close(this.dummyCategory);
       },
       error => {
-       
+        
       }
     );
    } else{
