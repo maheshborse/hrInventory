@@ -76,6 +76,23 @@ export class ProductComponent implements OnInit {
     this.productList();
   }
 
+  openDialogForAdd(){
+    const dialogRef = this.dialog.open(EditProductComponent,{
+      width: '500px',
+      panelClass: 'full-width-dialog',
+      disableClose: true,
+      
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result.productname}`);
+      if(result !== ""){
+        this.productList();
+        this.notificationService.success("Successfully Saved")
+      }
+    });
+    this.productList();
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.toLowerCase().trim();
   }

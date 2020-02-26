@@ -49,8 +49,23 @@ export class CategoryComponent implements OnInit {
       );
   }
 
+  openDialogForAdd(){
+    const dialogRef = this.dialog.open(EditCategoryComponent,{
+      width: '500px',
+      panelClass: 'full-width-dialog',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== "" ){
+        this.categoryList();
+        this.notificationService.success("Successfully saved.");
+      }
+    });
+    this.categoryList();
+  }
+
   openDialog(element:category){
-    debugger;
+   
     const dialogRef = this.dialog.open(EditCategoryComponent,{
       width: '500px',
       panelClass: 'full-width-dialog',
