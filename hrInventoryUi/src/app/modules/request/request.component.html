@@ -3,7 +3,7 @@
   <div class="row tableheader">
     <div class="col-sm-8">
         <i class="material-icons search-icon searchIcon">search</i>
-        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search.." [(ngModel)]="searchOption"></div>
+        <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="Search on employee name" [(ngModel)]="searchOption"></div>
     <div class="col-sm-4" >
         <button *ngIf="checkIsAdmin !== true" mat-raised-button color="primary" class="buttonLeft" (click)="openDialog('','add')">
         Add Request

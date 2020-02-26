@@ -173,7 +173,7 @@ export class EditRequestComponent implements OnInit {
       this.requestFillGrid.push(customObj);
       this.requestSaveList.push(customObj);
       this.productName = "";
-      this.quantity =0;
+      this.quantity = 0;
       this.categoryName = "";
       this.selectedValue="";
     }

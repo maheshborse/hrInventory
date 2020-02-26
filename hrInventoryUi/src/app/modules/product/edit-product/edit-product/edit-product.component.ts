@@ -51,6 +51,7 @@ export class EditProductComponent implements OnInit {
 
   productForm: FormGroup = new FormGroup({
     productName: this.productNameValidator,
+    
   });
 
   sortDropdown(data:any){

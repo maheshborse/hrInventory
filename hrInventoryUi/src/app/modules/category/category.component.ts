@@ -25,6 +25,7 @@ export class CategoryComponent implements OnInit {
   searchKey:string;
   userInfo:any;
   durationInSeconds = 5;
+  tempFilter =[];
   
 
   constructor(public dialog: MatDialog,private productCategoryService:ProductCategoryService,private _snackBar: MatSnackBar,public notificationService:NotificationService) { 
@@ -44,7 +45,8 @@ export class CategoryComponent implements OnInit {
     this.productCategoryService.getCategory()
      .subscribe(
       data => {
-        this.dataSource.data = data;
+          this.dataSource.data = data;
+          this.tempFilter = this.dataSource.data;
         }
       );
   }
@@ -58,7 +60,7 @@ export class CategoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== "" ){
         this.categoryList();
-        this.notificationService.success("Successfully saved.");
+        this.notificationService.success("Category"+" "+`${result.categoryname}`+" " +"Successfully saved.");
       }
     });
     this.categoryList();
@@ -75,14 +77,17 @@ export class CategoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== "" ){
         this.categoryList();
-        this.notificationService.success("Successfully saved.");
+        this.notificationService.success("Category"+" "+`${result.categoryname}`+" "+"Successfully saved.");
       }
     });
     this.categoryList();
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.toLowerCase().trim();
+    const val = filterValue.toLowerCase().trim();
+    this.dataSource.data = this.tempFilter.filter(function (d:any) {
+        return d.categoryname.toLowerCase().indexOf(val) !== -1 || !val;
+    });
   }
 
   delete(id:any,name:any){
