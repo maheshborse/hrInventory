@@ -5,7 +5,7 @@
         <i class="material-icons search-icon searchIcon">search</i>
         <input matInput  (keyup)="applyFilter($event.target.value)"  type="text" name="search" placeholder="{{checkSearchLabel}}" [(ngModel)]="searchOption"></div>
     <div class="col-sm-4" >
-        <button *ngIf="checkIsAdmin === true" mat-raised-button color="primary" class="buttonLeft" (click)="openDialog('','add')">
+        <button *ngIf="checkIsAdmin !== true" mat-raised-button color="primary" class="buttonLeft" (click)="openDialog('','add')">
         Add Request
      </button>
     </div>

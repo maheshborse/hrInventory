@@ -54,7 +54,7 @@ const NavigationItems = [
         id: '',
         title: 'Manage Pages',
         type: 'collapse',
-        icon: 'feather icon-box',
+        icon: 'feather icon-file-text',
         children: [
           {
             id: 'category',
@@ -74,7 +74,7 @@ const NavigationItems = [
         id: '',
         title: 'Transaction Pages',
         type: 'collapse',
-        icon: 'feather icon-box',
+        icon: 'feather icon-file-text',
         children: [
           {
             id: 'purchase',
@@ -103,19 +103,16 @@ const NavigationItems = [
 const NavigationItemsForother = [
  
   {
-    
     id: '',
-    title: 'Transaction Pages',
+    title: 'Employee Pages',
     type: 'collapse',
-    icon: 'feather icon-box',
+    icon: 'feather icon-file-text',
     children: [
       {
         id: 'request',
         title: 'Request',
         type: 'item',
-        icon: 'feather icon-home',
         url: '/request',
-        
       },
     ],
   },

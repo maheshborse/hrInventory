@@ -21,7 +21,7 @@ export class AuthSigninComponent implements OnInit {
     private router: Router,
     private elem: ElementRef,
     private renderer: Renderer2,private notificationService : NotificationService) { }
-
+    userInfo:any;
   ngOnInit() {
   }
 
@@ -30,8 +30,15 @@ export class AuthSigninComponent implements OnInit {
     this.authService.login(this.loginObj).subscribe(
       data => {
         console.log(data);
+        debugger;
         localStorage.setItem("user", JSON.stringify(data));
-        this.router.navigate(["dashboard/analytics"]);
+        this.userInfo = JSON.parse(localStorage.getItem("user"));
+        if(this.userInfo.isAdmin === true){
+          this.router.navigate(["dashboard/analytics"]);
+        } else {
+          this.router.navigate(["/request"]);
+        }
+       
       },
       error => {
         this.notificationService.error("Invalid Credentials");
