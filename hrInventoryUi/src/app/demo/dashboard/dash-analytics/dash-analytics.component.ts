@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDB } from '../../../fack-db/chart-data';
 import {ApexChartService} from '../../../theme/shared/components/chart/apex-chart/apex-chart.service';
+import { PurchaseService } from 'src/app/shared/services/purchase';
+import { RequestService } from 'src/app/shared/services/request.service';
+import { DispatchToEmployeeService } from 'src/app/shared/services/dispatch-to-employee.service';
 
 @Component({
   selector: 'app-dash-analytics',
@@ -12,11 +15,21 @@ export class DashAnalyticsComponent implements OnInit {
   public dailyVisitorStatus: string;
   public dailyVisitorAxis: any;
   public deviceProgressBar: any;
-
-  constructor(public apexEvent: ApexChartService) {
+  checkTotalPurchaseCount:any;
+  tempData=[];
+  checkTotalRequestCount:any;
+  tempRequestData=[];
+  tempDisapatchToEmployeeData=[];
+  checkRequestCurruntMonthCount:any;
+  checkCurruntMonthCount:any;
+  checkRequestPendingCount:any;
+  checkRequestPendingCurruntMonth:any
+  checkDiapatchToEmployeeCurruntMonthCount:any;
+  checkTotalDispatchToEmployeeCount:any;
+  constructor(public apexEvent: ApexChartService,private purchaseService:PurchaseService,public request:RequestService,public dispatchToEmployeeService:DispatchToEmployeeService) {
     this.chartDB = ChartDB;
     this.dailyVisitorStatus = '1y';
-
+    
     this.deviceProgressBar = [
       {
         type: 'success',
@@ -69,8 +82,113 @@ export class DashAnalyticsComponent implements OnInit {
     setTimeout(() => {
       this.apexEvent.eventChangeTimeRange();
     });
+   
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.PurchaseList();
+    this.productList();
+    this.dispatchList();
+  }
+
+  PurchaseList(){
+    this.purchaseService.getPodetail()
+     .subscribe(
+      data => {
+        if(data.length !== 0){
+          this.checkTotalPurchaseCount = data.length;
+          this.tempData = data;
+          this.getPurchaseCurruntMonthFirstDate();
+        }
+      }
+    );
+  }
+
+  productList(){
+    this.request.getRequestdetail()
+    .subscribe(
+     data => {
+       if(data.length !== 0){
+        this.checkTotalRequestCount = data.length;
+        this.tempRequestData = data;
+        for (let index = 0; index < this.tempRequestData.length; index++) {
+            var tempCount = this.tempRequestData[index].requestDetailModels.filter(d => {
+              return d.status === 'Pending';
+           });
+          this.getPendingRequestCurruntMonth(tempCount)
+          this.checkRequestPendingCount = tempCount.length;
+        }
+        this.getRequestCurruntMonth();
+       }
+     });
+  }
+
+
+  dispatchList(){
+    this.dispatchToEmployeeService.getDispatchdetail()
+     .subscribe(
+      data => {
+        if(data.length !== 0){
+         this.checkTotalDispatchToEmployeeCount = data.length;
+         this.tempDisapatchToEmployeeData = data;
+         this.getDiapatchCurruntMonth();
+        }
+      }
+    );
+  }
+  
+  getDiapatchCurruntMonth(){
+
+    var date = new Date(); 
+    var firstDay =  new Date(date.getFullYear(), date.getMonth(), 1); 
+    var lastDay =   new Date(date.getFullYear(), date.getMonth() + 1, 0); 
+    let start = new Date(firstDay);
+    let end   = new Date(lastDay);
+    var count = this.tempDisapatchToEmployeeData.filter(item => {
+        let date = new Date(item.dispatchdate);
+        return date >= start && date <= end;
+    });
+    this.checkDiapatchToEmployeeCurruntMonthCount= count.length;
+  }
+
+  getPurchaseCurruntMonthFirstDate(){
+
+    var date = new Date(); 
+    var firstDay =  new Date(date.getFullYear(), date.getMonth(), 1); 
+    var lastDay =   new Date(date.getFullYear(), date.getMonth() + 1, 0); 
+    let start = new Date(firstDay);
+    let end   = new Date(lastDay);
+    var count = this.tempData.filter(item => {
+        let date = new Date(item.podate);
+        return date >= start && date <= end;
+    });
+    this.checkCurruntMonthCount = count.length;
+  }
+
+  getRequestCurruntMonth(){
+    var date = new Date(); 
+    var firstDay =  new Date(date.getFullYear(), date.getMonth(), 1); 
+    var lastDay =   new Date(date.getFullYear(), date.getMonth() + 1, 0); 
+    let start = new Date(firstDay);
+    let end   = new Date(lastDay);
+    var count = this.tempRequestData.filter(item => {
+        let date = new Date(item.createddate);
+        return date >= start && date <= end;
+    });
+    this.checkRequestCurruntMonthCount = count.length;
+  }
+
+  getPendingRequestCurruntMonth(detailsData:any){
+    var date = new Date(); 
+    var firstDay =  new Date(date.getFullYear(), date.getMonth(), 1); 
+    var lastDay =   new Date(date.getFullYear(), date.getMonth() + 1, 0); 
+    let start = new Date(firstDay);
+    let end   = new Date(lastDay);
+    var count = detailsData.filter(item => {
+        let date = new Date(item.createddate);
+        return date >= start && date <= end;
+    });
+    this.checkRequestPendingCurruntMonth = count.length;
+  }
 
 }

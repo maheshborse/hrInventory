@@ -154,9 +154,13 @@ export class EditRequestComponent implements OnInit {
   
 
   addDataOnGrid(){
+    debugger;
     let checkAlreadyExist = this.requestFillGrid.find(ob => ob.Productid === this.productId);
     if(checkAlreadyExist !== undefined){
       this.notificationService.error("Selected product"+'  ' + this.productName +' ' +"already Added.")
+    } 
+    else if(this.productName === "" || this.productName === undefined){
+      this.notificationService.error("Please select product name.")
     } else {
       let customObj = new fillrequestGirdData();
       customObj.Productid = this.productId;

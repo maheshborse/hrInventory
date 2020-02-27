@@ -27,6 +27,7 @@ export class RequestComponent implements OnInit {
   requestDetails :Array<requestDetailonGrid> =[];
   tempFilter = [];
   checkStock:any=[];
+  checkSearchLabel:string;
   
   constructor(public dialog: MatDialog,public request:RequestService,private notificationService : NotificationService,iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     
@@ -36,6 +37,11 @@ export class RequestComponent implements OnInit {
     this.userInfo = JSON.parse(localStorage.getItem("user"));
     this.productList();
     this.checkIsAdmin = this.userInfo.isAdmin;
+    if(this.userInfo.isAdmin === false){
+      this.checkSearchLabel = "Search on Product Name"
+    } else {
+      this.checkSearchLabel = "Search on Employee name"
+    }
   }
 
 
@@ -156,12 +162,21 @@ export class RequestComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     const val = this.searchOption.toLowerCase().trim();
-    this.dataSource.data = this.tempFilter.filter(function (d:any) {
+    if(this.userInfo.isAdmin === false){
+      this.dataSource.data = this.tempFilter.filter(function (d:any) {
+            return d.RequestdetailModelongrid.find(
+              t=>t.ProductName.toLowerCase().indexOf(val) !== -1 || !val
+            );
+          });
+          this.checkSearchLabel = "Search on Product Name"
+    } else {
+      this.dataSource.data = this.tempFilter.filter(function (d:any) {
         return d.EmployeeName.toLowerCase().indexOf(val) !== -1 || !val;
-    });
- }
+      });
+      this.checkSearchLabel = "Search on employee name"
+    }
+  }
   
-
   delete(i:any){
     Swal.fire({
       title: 'Are you sure?',

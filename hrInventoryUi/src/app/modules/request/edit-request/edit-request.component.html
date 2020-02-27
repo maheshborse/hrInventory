@@ -28,7 +28,7 @@
         </form>
     </div>
     <br>
-    <button mat-raised-button color="primary" style="border-radius: 20px !important;"  [disabled]="quantity === 0 || productName ===''"  (click)="addDataOnGrid()"  >
+    <button mat-raised-button color="primary" style="border-radius: 20px !important;"  [disabled]="quantity === 0 || productName ==='' || quantity < 0"  (click)="addDataOnGrid()"  >
         Add 
     </button>
      <br>
