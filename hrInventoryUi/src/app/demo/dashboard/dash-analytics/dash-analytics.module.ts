@@ -6,6 +6,7 @@ import { DashAnalyticsComponent } from './dash-analytics.component';
 import {SharedModule} from '../../../theme/shared/shared.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbPopoverModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import { MatProgressBarModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {NgbPopoverModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap
     FormsModule,
     ReactiveFormsModule,
     NgbProgressbarModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    MatProgressBarModule
   ],
   declarations: [
     DashAnalyticsComponent,

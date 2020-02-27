@@ -4,7 +4,7 @@ import {ApexChartService} from '../../../theme/shared/components/chart/apex-char
 import { PurchaseService } from 'src/app/shared/services/purchase';
 import { RequestService } from 'src/app/shared/services/request.service';
 import { DispatchToEmployeeService } from 'src/app/shared/services/dispatch-to-employee.service';
-
+import * as _ from 'lodash';   
 @Component({
   selector: 'app-dash-analytics',
   templateUrl: './dash-analytics.component.html',
@@ -25,6 +25,7 @@ export class DashAnalyticsComponent implements OnInit {
   checkRequestPendingCount:any;
   checkRequestPendingCurruntMonth:any
   checkDiapatchToEmployeeCurruntMonthCount:any;
+  stockMonitoringData=[];
   checkTotalDispatchToEmployeeCount:any;
   constructor(public apexEvent: ApexChartService,private purchaseService:PurchaseService,public request:RequestService,public dispatchToEmployeeService:DispatchToEmployeeService) {
     this.chartDB = ChartDB;
@@ -111,11 +112,18 @@ export class DashAnalyticsComponent implements OnInit {
        if(data.length !== 0){
         this.checkTotalRequestCount = data.length;
         this.tempRequestData = data;
+        this.stockMonitoringData=[];
         for (let index = 0; index < this.tempRequestData.length; index++) {
-            var tempCount = this.tempRequestData[index].requestDetailModels.filter(d => {
+             var tempCount = this.tempRequestData[index].requestDetailModels.filter(d => {
               return d.status === 'Pending';
            });
-          this.getPendingRequestCurruntMonth(tempCount)
+            for (let i = 0; i < this.tempRequestData[index].requestDetailModels.length; i++) {
+             this.stockMonitoringData.push(this.tempRequestData[index].requestDetailModels[i].productModels);
+             this.stockMonitoringData = this.stockMonitoringData.filter(
+              (thing, i, arr) => arr.findIndex(t => t.productid === thing.productid) === i
+            );
+            }
+          this.getPendingRequestCurruntMonth(tempCount);
           this.checkRequestPendingCount = tempCount.length;
         }
         this.getRequestCurruntMonth();

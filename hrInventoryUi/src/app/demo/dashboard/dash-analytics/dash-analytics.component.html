@@ -29,5 +29,44 @@
       <p class="m-b-0">This Month<span class="float-right">{{checkRequestPendingCurruntMonth}}</span></p>
     </app-card>
   </div>
+  <div class="col-md-12">
+    <app-card cardTitle="Product Stock Monitor" [hidHeader]="false" cardClass="table-card" blockClass="p-0">
+      <perfect-scrollbar [style.max-height]="'362px'">
+        <table class="table table-hover m-b-0">
+          <thead>
+            <tr>
+              <th><span>Product Name</span></th>
+              <th>
+                <span>Currunt Stock
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let details of stockMonitoringData ; let i = index">
+              <td>{{details.productname}}</td>
+              <td>  {{details.balance}}
+                <div class="mt-1">
+                  <section class="example-section">
+                    <mat-progress-bar
+                        class="example-margin"
+                        [color]="details.balance >= 200 ? 'primary' : 'warn'"
+                        [mode]="determinate"                     
+                        [value]="details.balance"
+                       
+                       >
+                    </mat-progress-bar>
+                  </section>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </perfect-scrollbar>
+    </app-card>
+  </div>
 </div>
+
+ <!-- customer overview start -->
+ 
   <!-- order-card end -->
