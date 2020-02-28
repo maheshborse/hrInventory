@@ -57,13 +57,13 @@ export class CategoryComponent implements OnInit {
       panelClass: 'full-width-dialog',
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result :any) => {
+      this.categoryList();
       if(result !== "" ){
-        this.categoryList();
-        this.notificationService.success("Category"+" "+`${result.categoryname}`+"  " +"Successfully saved.");
+        this.notificationService.success("Category"+" "+`${dialogRef.componentInstance.dummyCategory.categoryname}`+"  " +"Successfully saved.");
       }
     });
-    this.categoryList();
+    
   }
 
   openDialog(element:category){
@@ -75,12 +75,12 @@ export class CategoryComponent implements OnInit {
       data: element
     });
     dialogRef.afterClosed().subscribe(result => {
+      this.categoryList();
       if(result !== "" ){
-        this.categoryList();
-        this.notificationService.success("Category"+" "+`${result.categoryname}`+" "+"Successfully saved.");
+        this.notificationService.success("Category"+" "+`${dialogRef.componentInstance.dummyCategory.categoryname}`+" "+"Successfully saved.");
       }
     });
-    this.categoryList();
+    
   }
 
   applyFilter(filterValue: string) {

@@ -45,7 +45,7 @@
     <hr>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close mat-raised-button color="warn" class="customButton" >Cancel</button>
-        <button mat-button [mat-dialog-close]="true"  mat-raised-button color="primary" (click)="clickEditOrSave()" class="customButton" cdkFocusInitial [disabled]="productForm.status !== 'VALID'">Save</button>
+        <button mat-button [mat-dialog-close]="true"  mat-raised-button color="primary" (click)="clickEditOrSave()" class="customButton" cdkFocusInitial [disabled]="dummyProduct.productname === '' || dummyProduct.categoryid === '' ">Save</button>
       </mat-dialog-actions>
     
   </div>

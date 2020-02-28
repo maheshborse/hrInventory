@@ -306,33 +306,39 @@ export class PurchaseComponent implements OnInit {
   }
 
   addDataOnGrid(){
-    let customObj = new materialGrid();
-    customObj.Productid=this.productId;
-    customObj.ProductName = this.ProductName ;
-    customObj.Quantity=this.quantity;
-    customObj.PoRate=this.rate;
-    customObj.Discount= this.discount;
-    customObj.Amount=this.amount;
-    customObj.Userid = "1";
-    customObj.Createddate = new Date();
-    customObj.Isdeleted ="false";
-    customObj.poId =this.poid;
-    this.totalAmountText = this.totalAmountText === undefined ? 0 : this.totalAmountText;
-    this.totalAmountText +=  customObj.Amount;
-    if(this.discountMaster === 0){
-      this.finalAmount = this.totalAmountText;
-    } else if (this.discountMaster > 0){
-      this.finalAmount = this.totalAmountText;
-      this.finalAmount = this.totalAmountText - (this.totalAmountText * this.discountMaster / 100);
+    let checkAlreadyExist = this.materialFillGrid.find(ob => ob.Productid === this.productId);
+    if(checkAlreadyExist !== undefined){
+      this.notificationService.error("Selected product" +" "+ this.ProductName+ " "+ "already added");
+    } else {
+      let customObj = new materialGrid();
+      customObj.Productid=this.productId;
+      customObj.ProductName = this.ProductName ;
+      customObj.Quantity=this.quantity;
+      customObj.PoRate=this.rate;
+      customObj.Discount= this.discount;
+      customObj.Amount=this.amount;
+      customObj.Userid = "1";
+      customObj.Createddate = new Date();
+      customObj.Isdeleted ="false";
+      customObj.poId =this.poid;
+      this.totalAmountText = this.totalAmountText === undefined ? 0 : this.totalAmountText;
+      this.totalAmountText +=  customObj.Amount;
+      if(this.discountMaster === 0){
+        this.finalAmount = this.totalAmountText;
+      } else if (this.discountMaster > 0){
+        this.finalAmount = this.totalAmountText;
+        this.finalAmount = this.totalAmountText - (this.totalAmountText * this.discountMaster / 100);
+      }
+      this.materialFillGrid.push(customObj);
+      this.materialSaveList.push(customObj);
+      this.Discount=null;
+      this.Rate=null;
+      this.quantity=null;
+      this.categoryName='';
+      this.Productname='';
+      this.amount=null;
     }
-    this.materialFillGrid.push(customObj);
-    this.materialSaveList.push(customObj);
-    this.Discount=null;
-    this.Rate=null;
-    this.QUantity=null;
-    this.categoryName='';
-    this.Productname='';
-    this.amount=null;
+    
   }
 
 

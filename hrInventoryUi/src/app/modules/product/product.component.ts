@@ -72,7 +72,7 @@ export class ProductComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
       if(result !== ""){
         this.productList();
-        this.notificationService.success("Product "+`${result.productname}`+" Saved Successfully")
+        this.notificationService.success("Product "+`${dialogRef.componentInstance.dummyProduct.productname}`+" Saved Successfully")
       }
     });
     this.productList();
@@ -89,7 +89,7 @@ export class ProductComponent implements OnInit {
       console.log(`Dialog result: ${result.productname}`);
       if(result !== ""){
         this.productList();
-        this.notificationService.success("Product "+`${result.productname}`+" Saved Successfully")
+        this.notificationService.success("Product "+`${dialogRef.componentInstance.dummyProduct.productname}`+" Saved Successfully")
       }
     });
     this.productList();

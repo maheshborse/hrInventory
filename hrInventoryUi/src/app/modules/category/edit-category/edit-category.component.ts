@@ -59,7 +59,7 @@ export class EditCategoryComponent implements OnInit {
     this.productCategoryService.postRequest(this.dummyCategory)
     .subscribe(
       success => {
-        this.dialogRef.close(this.dummyCategory);
+        this.dialogRef.close();
       },
       error => {
         
@@ -69,7 +69,7 @@ export class EditCategoryComponent implements OnInit {
       this.productCategoryService.patchRequest(this.dummyCategory)
       .subscribe(
         success => {
-         this.dialogRef.close(this.dummyCategory);
+          this.dialogRef.close();
         },
         error => {
          
@@ -77,4 +77,5 @@ export class EditCategoryComponent implements OnInit {
       );
     }
   }
+  
 }

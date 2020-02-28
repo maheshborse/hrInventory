@@ -23,7 +23,7 @@
     <mat-panel-description >
       Employee ID : {{parcel.Employeeid}}
       <ng-container  *ngFor="let details of parcel.RequestdetailModelongrid ; let i = index" >
-        <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 70%;" (click)="openDialog(parcel,'edit')" [hidden]="details.Status !== 'Pending'">mode_edit</i>
+        <i *ngIf="checkIsAdmin !== true"  class="material-icons" style="cursor: pointer;margin-left: 82%;" (click)="openDialog(parcel,'edit')" [hidden]="details.Status !== 'Pending'">mode_edit</i>
         <i *ngIf="checkIsAdmin !== true"  class="material-icons" (click)="delete(parcel.Requestid)" style="cursor: pointer;" [hidden]="details.Status !== 'Pending'">delete </i>
       </ng-container>
      

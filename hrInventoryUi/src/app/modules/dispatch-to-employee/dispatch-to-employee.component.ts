@@ -151,6 +151,7 @@ export class DispatchToEmployeeComponent implements OnInit {
         success => {
          this.openDispatchList();
          this.deliveredStatus();
+         this.dispatchList();
          this.notificationService.success("Successfully Saved");
       },
         error => {
@@ -161,6 +162,7 @@ export class DispatchToEmployeeComponent implements OnInit {
       .subscribe(
         success => {
          this.openDispatchList();
+         this.dispatchList();
          this.notificationService.success("Successfully Saved");
       },
         error => {
